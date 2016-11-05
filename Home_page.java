@@ -1,33 +1,27 @@
 package fms_project;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Random;
+import java.awt.event.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
-
 public class Home_page implements ActionListener{
-	private JPanel p,p1,p0,p2,p3;
-	private JLabel label2;
-	private JButton btnstart,btnexit,btnch1,btnch2,btnch3,btnch4,btnexit2;
-	private JFrame frame,frame2,frame3;
-	private String u1,u2;
-	private int oddeven=1;
-	public static char val='O';
+	private JPanel panel3,panel2,panel1,panel4;
+	private JButton btnregister,btnlogin;
+	private JFrame frame1;
 	Home_page()
 	{
-		frame=new JFrame("FMS HOME");
-		frame.setLayout(new GridLayout(3,1));
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		p0=new JPanel(new FlowLayout());
-		p=new JPanel(new FlowLayout());
-		p1=new JPanel(new FlowLayout());
-		btnstart=new JButton("Register");
-		btnstart.addActionListener(new ActionListener()
+		frame1=new JFrame("FMS HOME");
+		frame1.setLayout(new GridLayout(5,1));
+		
+		frame1.setVisible(true);
+		frame1.setSize(1650,1080);
+		frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		panel1=new JPanel(new FlowLayout());
+		panel3=new JPanel(new FlowLayout());
+		panel2=new JPanel(new FlowLayout());
+		panel4=new JPanel(new FlowLayout());
+		btnregister=new JButton("Register");
+		btnregister.addActionListener(new ActionListener()
 				{
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -35,52 +29,66 @@ public class Home_page implements ActionListener{
 						register();
 					}
 				});
-		btnexit=new JButton("Login");
-		btnexit.addActionListener(new ActionListener()
+		btnlogin=new JButton("Login");
+		btnlogin.addActionListener(new ActionListener()
 				{
-
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
 						login();
 					}					
 				});
-		btnstart.setBackground(Color.ORANGE);
-		btnexit.setBackground(Color.ORANGE);
-		p.add(btnstart);
-		p1.add(btnexit);
-		JLabel label = new JLabel();
-		label.setText("FMS");
-		label.setFont (label.getFont ().deriveFont (30.0f));
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		p0.add(label);
-		frame.add(p0);
-		frame.add(p);
-		frame.add(p1);
-		frame.setSize(400, 300);
-	}
-	
-     
+		btnregister.setBackground(Color.GREEN);
+		btnlogin.setBackground(Color.GREEN);
+		btnregister.setPreferredSize(new Dimension(200, 60));
+		btnlogin.setPreferredSize(new Dimension(200, 60));
+		btnregister.setFont(new Font("Arial", Font.PLAIN, 30));
+		btnlogin.setFont(new Font("Arial", Font.PLAIN, 30));
+		panel3.add(btnregister);
+		panel2.add(btnlogin);
+		ImageIcon imageIcon = new ImageIcon("C:/Users/Harshit/workspace/fms_project/src/fms_project/logonew.png"); // load the image to a imageIcon
+		Image image = imageIcon.getImage(); // transform it 
+		Image newimg = image.getScaledInstance(250, 120,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+		imageIcon = new ImageIcon(newimg);  // transform it back
+		frame1.add(new JLabel(imageIcon));
+		JLabel label1 = new JLabel();
+		label1.setText("FACULTY MANAGEMENT SERVICES");
+		label1.setFont (label1.getFont ().deriveFont (40.0f));
+		label1.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel label2 = new JLabel();
+		label2.setText("The system maintains all tasks of Electricity, HVAC, AV, Security and Housekeeping department.");
+		label2.setFont (label2.getFont ().deriveFont (25.0f));
+		label2.setHorizontalAlignment(SwingConstants.CENTER);
+		panel4.add(label2);
+		panel1.add(label1);
+		frame1.add(panel1);
+		frame1.add(panel4);
+		frame1.add(panel3);
+		frame1.add(panel2);
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		int xSize = ((int) tk.getScreenSize().getWidth());
+		int ySize = ((int) tk.getScreenSize().getHeight());
+		frame1.setSize(xSize,ySize);
+		frame1.setLocationRelativeTo(null);
+		//frame1.setSize(600, 400);
+	}     
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new Home_page();
-		
+		new Home_page();		
 	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		String arg=e.getActionCommand();
-		if(arg=="Start Game")
+		if(arg=="Register")
 		{
 			
 			this.register();
 		}
-		else if(arg=="Exit");
+		else if(arg=="Login");
 		{
 			this.login();
-		}
-		
+		}	
 	}
 	public void register()
 	{
