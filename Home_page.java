@@ -106,7 +106,34 @@ public class Home_page implements ActionListener{
 		JLabel type=new JLabel("Enter type[staffer/supervisor] :");
 		JLabel pwd=new JLabel("Enter password: ");
 		JLabel DOB=new JLabel("Enter date of birth");
-		JLabel Address=new JLabel("Enter your address: ");
+		JLabel address=new JLabel("Enter your address: ");
+		ok = new JButton("OK");
+        cancel = new JButton("Cancel");
+        fpane.setLayout(new BoxLayout(fpane, BoxLayout.PAGE_AXIS));
+        bpane.setLayout(new FlowLayout());
+        JTextField usname,pswd,names,types,dobs,addr;
+        usname=new JTextField("");
+        pswd=new JTextField("");
+        names=new JTextField("");
+        types=new JTextField("");
+        dobs=new JTextField("");
+        addr=new JTextField("");
+        fpane.add(uname);
+        fpane.add(usname);
+        fpane.add(pwd);
+        fpane.add(pswd);
+        fpane.add(name);
+        fpane.add(names);
+        fpane.add(type);
+        fpane.add(types);
+        fpane.add(DOB);
+        fpane.add(dobs);
+        fpane.add(address);
+        fpane.add(addr);
+        bpane.add(ok);
+        bpane.add(cancel);
+        frame2.add(fpane, BorderLayout.PAGE_START);
+        frame2.add(bpane, BorderLayout.PAGE_END);
 	}
 	public void login()
 	{
