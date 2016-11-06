@@ -5,9 +5,9 @@ import java.awt.event.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 public class Home_page implements ActionListener{
-	private JPanel panel3,panel2,panel1,panel4;
-	private JButton btnregister,btnlogin;
-	private JFrame frame1;
+	private JPanel panel3,panel2,panel1,panel4,bpane,fpane;
+	private JButton btnregister,btnlogin,ok,cancel;
+	private JFrame frame1,frame2;
 	Home_page()
 	{
 		frame1=new JFrame("FMS HOME");
@@ -92,7 +92,21 @@ public class Home_page implements ActionListener{
 	}
 	public void register()
 	{
-		
+		frame1.setVisible(false);
+		frame2=new JFrame("FMS REGISTER");
+		frame2.setLayout(new GridLayout(5,1));
+		frame2.setVisible(true);
+		frame2.setSize(600,400);
+		frame2.setLocationRelativeTo(null);
+		frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		bpane=new JPanel();
+		fpane=new JPanel();
+		JLabel name=new JLabel("Enter your name: ");
+		JLabel uname=new JLabel("Enter username: ");
+		JLabel type=new JLabel("Enter type[staffer/supervisor] :");
+		JLabel pwd=new JLabel("Enter password: ");
+		JLabel DOB=new JLabel("Enter date of birth");
+		JLabel Address=new JLabel("Enter your address: ");
 	}
 	public void login()
 	{
