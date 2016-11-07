@@ -94,26 +94,36 @@ public class Home_page implements ActionListener{
 	{
 		frame1.setVisible(false);
 		frame2=new JFrame("FMS REGISTER");
-		frame2.setLayout(new GridLayout(5,1));
+		//frame2.setLayout(new GridLayout(6,1));
 		frame2.setVisible(true);
-		frame2.setSize(600,400);
+		frame2.setSize(450,200);
 		frame2.setLocationRelativeTo(null);
 		frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		bpane=new JPanel();
 		fpane=new JPanel();
 		JLabel name=new JLabel("Enter your name: ");
+		name.setFont (name.getFont ().deriveFont (15.0f));
 		JLabel uname=new JLabel("Enter username: ");
-		JLabel type=new JLabel("Enter type[staffer/supervisor] :");
+		uname.setFont (uname.getFont ().deriveFont (15.0f));
+		JLabel type=new JLabel("Enter type[staffer/supervisor]:");
+		type.setFont (type.getFont ().deriveFont (15.0f));
 		JLabel pwd=new JLabel("Enter password: ");
+		pwd.setFont (name.getFont ().deriveFont (15.0f));
 		JLabel DOB=new JLabel("Enter date of birth");
+		DOB.setFont (DOB.getFont ().deriveFont (15.0f));
 		JLabel address=new JLabel("Enter your address: ");
+		address.setFont (address.getFont ().deriveFont (15.0f));
 		ok = new JButton("OK");
         cancel = new JButton("Cancel");
-        fpane.setLayout(new BoxLayout(fpane, BoxLayout.PAGE_AXIS));
+        fpane.setLayout(new GridLayout(6,1));
         bpane.setLayout(new FlowLayout());
         JTextField usname,pswd,names,types,dobs,addr;
         usname=new JTextField("");
-        pswd=new JTextField("");
+       // Font bigFont = usname.getFont().deriveFont(Font.PLAIN, 500f);
+        //usname.setFont(bigFont);
+        usname.setPreferredSize( new Dimension( 200, 24 ) );
+        pswd=new JPasswordField();
+        //pswd=new JTextField("");
         names=new JTextField("");
         types=new JTextField("");
         dobs=new JTextField("");
@@ -132,7 +142,7 @@ public class Home_page implements ActionListener{
         fpane.add(addr);
         bpane.add(ok);
         bpane.add(cancel);
-        frame2.add(fpane, BorderLayout.PAGE_START);
+        frame2.getContentPane().add(fpane);
         frame2.add(bpane, BorderLayout.PAGE_END);
 	}
 	public void login()
