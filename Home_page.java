@@ -92,7 +92,7 @@ public class Home_page implements ActionListener{
 	}
 	public void register()
 	{
-		frame1.setVisible(false);
+		//frame1.setVisible(false);
 		frame2=new JFrame("FMS REGISTER");
 		//frame2.setLayout(new GridLayout(6,1));
 		frame2.setVisible(true);
@@ -101,11 +101,14 @@ public class Home_page implements ActionListener{
 		frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		bpane=new JPanel();
 		fpane=new JPanel();
+		JComboBox<String> deptypes = new JComboBox<String>();
+		deptypes.addItem("Staffer");
+		deptypes.addItem("Supervisor");
 		JLabel name=new JLabel("Enter your name: ");
 		name.setFont (name.getFont ().deriveFont (15.0f));
 		JLabel uname=new JLabel("Enter username: ");
 		uname.setFont (uname.getFont ().deriveFont (15.0f));
-		JLabel type=new JLabel("Enter type[staffer/supervisor]:");
+		JLabel type=new JLabel("Enter department:");
 		type.setFont (type.getFont ().deriveFont (15.0f));
 		JLabel pwd=new JLabel("Enter password: ");
 		pwd.setFont (name.getFont ().deriveFont (15.0f));
@@ -114,10 +117,32 @@ public class Home_page implements ActionListener{
 		JLabel address=new JLabel("Enter your address: ");
 		address.setFont (address.getFont ().deriveFont (15.0f));
 		ok = new JButton("OK");
+		ok.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				frame2.setVisible(false);
+			
+			}
+			
+		});
+		
         cancel = new JButton("Cancel");
+        cancel.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				frame2.dispose();
+			
+			}
+			
+		});
         fpane.setLayout(new GridLayout(6,1));
         bpane.setLayout(new FlowLayout());
-        JTextField usname,pswd,names,types,dobs,addr;
+        JTextField usname,names,types,dobs,addr;
+        JPasswordField pswd;
         usname=new JTextField("");
        // Font bigFont = usname.getFont().deriveFont(Font.PLAIN, 500f);
         //usname.setFont(bigFont);
@@ -135,7 +160,8 @@ public class Home_page implements ActionListener{
         fpane.add(name);
         fpane.add(names);
         fpane.add(type);
-        fpane.add(types);
+        fpane.add(deptypes);
+        //fpane.add(types);
         fpane.add(DOB);
         fpane.add(dobs);
         fpane.add(address);
