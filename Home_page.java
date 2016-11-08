@@ -5,9 +5,9 @@ import java.awt.event.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 public class Home_page implements ActionListener{
-	private JPanel panel3,panel2,panel1,panel4,bpane,fpane;
-	private JButton btnregister,btnlogin,ok,cancel;
-	private JFrame frame1,frame2;
+	private JPanel panel3,panel2,panel1,panel4,bpane,fpane,bpane2,fpane2;
+	private JButton btnregister,btnlogin,ok,ok2,cancel,cancel2;
+	private JFrame frame1,frame2,frame3;
 	Home_page()
 	{
 		frame1=new JFrame("FMS HOME");
@@ -102,6 +102,7 @@ public class Home_page implements ActionListener{
 		bpane=new JPanel();
 		fpane=new JPanel();
 		JComboBox<String> deptypes = new JComboBox<String>();
+		deptypes.addItem("Select option");
 		deptypes.addItem("Staffer");
 		deptypes.addItem("Supervisor");
 		JLabel name=new JLabel("Enter your name: ");
@@ -111,7 +112,7 @@ public class Home_page implements ActionListener{
 		JLabel type=new JLabel("Enter department:");
 		type.setFont (type.getFont ().deriveFont (15.0f));
 		JLabel pwd=new JLabel("Enter password: ");
-		pwd.setFont (name.getFont ().deriveFont (15.0f));
+		pwd.setFont (pwd.getFont ().deriveFont (15.0f));
 		JLabel DOB=new JLabel("Enter date of birth");
 		DOB.setFont (DOB.getFont ().deriveFont (15.0f));
 		JLabel address=new JLabel("Enter your address: ");
@@ -141,7 +142,7 @@ public class Home_page implements ActionListener{
 		});
         fpane.setLayout(new GridLayout(6,1));
         bpane.setLayout(new FlowLayout());
-        JTextField usname,names,types,dobs,addr;
+        JTextField usname,names,dobs,addr;
         JPasswordField pswd;
         usname=new JTextField("");
        // Font bigFont = usname.getFont().deriveFont(Font.PLAIN, 500f);
@@ -150,7 +151,7 @@ public class Home_page implements ActionListener{
         pswd=new JPasswordField();
         //pswd=new JTextField("");
         names=new JTextField("");
-        types=new JTextField("");
+        //types=new JTextField("");
         dobs=new JTextField("");
         addr=new JTextField("");
         fpane.add(uname);
@@ -173,7 +174,54 @@ public class Home_page implements ActionListener{
 	}
 	public void login()
 	{
+		frame3=new JFrame("FMS LOGIN");
+		frame3.setVisible(true);
+		frame3.setSize(350,120);
+		frame3.setLocationRelativeTo(null);
+		frame3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		fpane2=new JPanel();
+		bpane2=new JPanel();
+		JLabel uname=new JLabel("Enter username: ");
+		uname.setFont (uname.getFont ().deriveFont (15.0f));
+		JLabel pwd=new JLabel("Enter password: ");
+		pwd.setFont (pwd.getFont ().deriveFont (15.0f));
+		ok2 = new JButton("OK");
+		ok2.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				frame3.setVisible(false);
+			
+			}
+			
+		});
 		
+        cancel2 = new JButton("Cancel");
+        cancel2.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				frame3.dispose();
+			
+			}
+			
+		});
+        fpane2.setLayout(new GridLayout(2,1));
+        bpane2.setLayout(new FlowLayout());
+        JTextField usname;
+        JPasswordField pswd;
+        usname=new JTextField("");
+        pswd=new JPasswordField();
+        fpane2.add(uname);
+        fpane2.add(usname);
+        fpane2.add(pwd);
+        fpane2.add(pswd);
+        bpane2.add(ok2);
+        bpane2.add(cancel2);
+        frame3.getContentPane().add(fpane2);
+        frame3.add(bpane2, BorderLayout.PAGE_END);
 	}
 	
 	
