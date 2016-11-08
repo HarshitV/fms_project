@@ -10,6 +10,7 @@ public class Home_page implements ActionListener{
 	private JFrame frame1,frame2,frame3;
 	Home_page()
 	{
+		Login lgn=new Login();
 		frame1=new JFrame("FMS HOME");
 		frame1.setLayout(new GridLayout(5,1));
 		
@@ -35,7 +36,7 @@ public class Home_page implements ActionListener{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
-						login();
+						lgn.createGUI();
 					}					
 				});
 		btnregister.setBackground(Color.GREEN);
@@ -87,7 +88,9 @@ public class Home_page implements ActionListener{
 		}
 		else if(arg=="Login");
 		{
-			this.login();
+			Login lgn=new Login();
+			lgn.createGUI();
+			//this.login();
 		}	
 	}
 	public void register()
@@ -172,57 +175,7 @@ public class Home_page implements ActionListener{
         frame2.getContentPane().add(fpane);
         frame2.add(bpane, BorderLayout.PAGE_END);
 	}
-	public void login()
-	{
-		frame3=new JFrame("FMS LOGIN");
-		frame3.setVisible(true);
-		frame3.setSize(350,120);
-		frame3.setLocationRelativeTo(null);
-		frame3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		fpane2=new JPanel();
-		bpane2=new JPanel();
-		JLabel uname=new JLabel("Enter username: ");
-		uname.setFont (uname.getFont ().deriveFont (15.0f));
-		JLabel pwd=new JLabel("Enter password: ");
-		pwd.setFont (pwd.getFont ().deriveFont (15.0f));
-		ok2 = new JButton("OK");
-		ok2.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				frame3.setVisible(false);
-			
-			}
-			
-		});
-		
-        cancel2 = new JButton("Cancel");
-        cancel2.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				frame3.dispose();
-			
-			}
-			
-		});
-        fpane2.setLayout(new GridLayout(2,1));
-        bpane2.setLayout(new FlowLayout());
-        JTextField usname;
-        JPasswordField pswd;
-        usname=new JTextField("");
-        pswd=new JPasswordField();
-        fpane2.add(uname);
-        fpane2.add(usname);
-        fpane2.add(pwd);
-        fpane2.add(pswd);
-        bpane2.add(ok2);
-        bpane2.add(cancel2);
-        frame3.getContentPane().add(fpane2);
-        frame3.add(bpane2, BorderLayout.PAGE_END);
-	}
+	
 	
 	
 }
