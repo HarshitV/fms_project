@@ -7,7 +7,8 @@ import javax.swing.*;
 public class Home_page implements ActionListener{
 	private JPanel panel3,panel2,panel1,panel4,bpane,fpane,bpane2,fpane2;
 	private JButton btnregister,btnlogin,ok,ok2,cancel,cancel2;
-	private JFrame frame1,frame2,frame3;
+	private JFrame frame2,frame3;
+	public static JFrame frame1;
 	Login lgn=new Login();
 	Register rgr=new Register();
 	Home_page()
@@ -16,7 +17,6 @@ public class Home_page implements ActionListener{
 		frame1.setLayout(new GridLayout(5,1));
 		
 		frame1.setVisible(true);
-		frame1.setSize(1650,1080);
 		frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		panel1=new JPanel(new FlowLayout());
 		panel3=new JPanel(new FlowLayout());
@@ -40,8 +40,8 @@ public class Home_page implements ActionListener{
 						lgn.createGUI();
 					}					
 				});
-		btnregister.setBackground(Color.GREEN);
-		btnlogin.setBackground(Color.GREEN);
+		btnregister.setBackground(Color.gray);
+		btnlogin.setBackground(Color.gray);
 		btnregister.setPreferredSize(new Dimension(200, 60));
 		btnlogin.setPreferredSize(new Dimension(200, 60));
 		btnregister.setFont(new Font("Arial", Font.PLAIN, 30));
