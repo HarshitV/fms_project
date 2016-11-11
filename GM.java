@@ -22,7 +22,7 @@ public class GM extends User{
 	private static JFrame frame4;
 	private static JPanel fpane2,bpane2;
 	private static JButton btn1,btn2,btn3,btn4,btn5;
-	private static JLabel date;
+	private static JLabel date,welcome;
 	
 	//ArrayList<logistic_req> req_list=new ArrayList<logistic_req>();
 	//ArrayList<leave> leave_list=new ArrayList<leave>();
@@ -35,6 +35,8 @@ public class GM extends User{
 		Calendar cal = Calendar.getInstance();
 		date=new JLabel("Logged in at: " + dateFormat.format(cal.getTime()));		
 		date.setFont (date.getFont ().deriveFont (15.0f));
+		welcome=new JLabel("Welcome " + Login.username + " !");
+		welcome.setFont (welcome.getFont ().deriveFont (30.0f));
 		JLabel loggeduser=new JLabel("Logged in as ADMIN");
 		loggeduser.setFont (loggeduser.getFont ().deriveFont (15.0f));
 		String[] columns = new String[] { "Home", "Staff", "Logistics", "Reports","Requests" };
@@ -51,6 +53,43 @@ public class GM extends User{
 		Image newimg = image.getScaledInstance(150, 80,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
 		imageIcon = new ImageIcon(newimg);
 		JLabel logo = new JLabel(imageIcon);
+		
+		ImageIcon staff = new ImageIcon("staff2.png");
+		Image image2 = staff.getImage(); // transform it 
+		Image newimg2 = image2.getScaledInstance(170, 170,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+		staff = new ImageIcon(newimg2);
+	    JButton staffbtn = new JButton(staff);
+	    staffbtn.setPreferredSize(new Dimension(160, 170));
+	    staffbtn.setOpaque(false);
+	    staffbtn.setContentAreaFilled(false);
+	    staffbtn.setBorderPainted(false);
+	    
+	    ImageIcon logs = new ImageIcon("logistics.png");
+		Image image3 = logs.getImage(); // transform it 
+		Image newimg3 = image3.getScaledInstance(230, 160,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+		logs = new ImageIcon(newimg3);
+	    JButton logsbtn = new JButton(logs);
+	    logsbtn.setPreferredSize(new Dimension(160, 170));
+	    logsbtn.setOpaque(false);
+	    logsbtn.setContentAreaFilled(false);
+	    logsbtn.setBorderPainted(false);
+	    logsbtn.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		fpane2.removeAll();
+		
+		fpane2.revalidate();
+		fpane2.repaint();
+		
+		/*frame4.getContentPane().removeAll();
+		frame4.add(btn1);
+		frame4.revalidate();
+		frame4.repaint();*/
+		}
+});
+	    
 		btn1=new JButton("Home");
 		btn2=new JButton("Staff");
 		btn3=new JButton("Logistics");
@@ -216,7 +255,6 @@ public class GM extends User{
 	});
 		
 		
-		
 		GridBagLayout gridbag = new GridBagLayout();
 		
 		frame4=new JFrame("Admin Home");
@@ -270,88 +308,49 @@ public class GM extends User{
                 0, // ipadx
                 0));
 		
+		fpane2.add(welcome,new GridBagConstraints(0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTH, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(100, // inset top
+                0, // inset left
+                0, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0));
+		fpane2.add(staffbtn,new GridBagConstraints(0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.WEST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                75, // inset left
+                130, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0));
+		fpane2.add(logsbtn,new GridBagConstraints(0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.CENTER, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                0, // inset left
+                130, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0));
 		
-		
-		fpane2.add(btn1,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.NORTHWEST, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(125, // inset top
-                20, // inset left
-                0, // inset bottom
-                0), // inset right
-                0, // ipadx
-                0)
-				);
-		fpane2.add(btn2,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.NORTHWEST, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(190, // inset top
-                20, // inset left
-                0, // inset bottom
-                0), // inset right
-                0, // ipadx
-                0)
-				);
-		fpane2.add(btn3,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.NORTHWEST, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(255, // inset top
-                20, // inset left
-                0, // inset bottom
-                0), // inset right
-                0, // ipadx
-                0)
-				);
-		fpane2.add(btn4,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.NORTHWEST, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(320, // inset top
-                20, // inset left
-                0, // inset bottom
-                0), // inset right
-                0, // ipadx
-                0)
-				);	
-		fpane2.add(btn5,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.NORTHWEST, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(385, // inset top
-                20, // inset left
-                0, // inset bottom
-                0), // inset right
-                0, // ipadx
-                0)
-				);
 		//logo.setVerticalAlignment(JLabel.TOP);
 		JScrollPane jsp = new JScrollPane(fpane2);
 		frame4.add(jsp);
