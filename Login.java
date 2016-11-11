@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
 import java.io.*;
 
 public class Login{
-	private String username;
+	static String username;
 	private String password;
 	//private Logout logo;
 	private JFrame frame3;
@@ -37,13 +37,25 @@ public class Login{
 		JLabel pwd=new JLabel("Enter password: ");
 		pwd.setFont (pwd.getFont ().deriveFont (15.0f));
 		ok2 = new JButton("OK");
-		ok2.addActionListener(new ActionListener(){
+		
+        fpane2.setLayout(new GridLayout(2,1));
+        bpane2.setLayout(new FlowLayout());
+        JTextField usname;
+        JPasswordField pswd;
+        usname=new JTextField("");
+        pswd=new JPasswordField();
+        ok2.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				frame3.setVisible(false);
-			
+				username=usname.getText();
+				//System.out.println(username);
+				password=pswd.getText();
+				//System.out.println(password);
+				Home_page.frame1.setVisible(false);
+				GM.createGUI();
 			}
 			
 		});
@@ -59,12 +71,7 @@ public class Login{
 			}
 			
 		});
-        fpane2.setLayout(new GridLayout(2,1));
-        bpane2.setLayout(new FlowLayout());
-        JTextField usname;
-        JPasswordField pswd;
-        usname=new JTextField("");
-        pswd=new JPasswordField();
+        
         fpane2.add(uname);
         fpane2.add(usname);
         fpane2.add(pwd);
@@ -73,6 +80,11 @@ public class Login{
         bpane2.add(cancel2);
         frame3.getContentPane().add(fpane2);
         frame3.add(bpane2, BorderLayout.PAGE_END);
+	}
+	
+	public void assign_id()
+	{
+		
 	}
 	
 	public void get_info(){

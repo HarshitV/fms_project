@@ -1,6 +1,7 @@
 package fms_project;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -35,8 +36,14 @@ public class GM extends User{
 		Calendar cal = Calendar.getInstance();
 		date=new JLabel("Logged in at: " + dateFormat.format(cal.getTime()));		
 		date.setFont (date.getFont ().deriveFont (15.0f));
+		
+		JLabel fms=new JLabel("FACULTY MANAGEMENT SERVICES SYSTEM");
+		fms.setFont(fms.getFont ().deriveFont (30.0f));
+		fms.setForeground(Color.red);
+		
 		welcome=new JLabel("Welcome " + Login.username + " !");
-		welcome.setFont (welcome.getFont ().deriveFont (30.0f));
+		welcome.setFont (welcome.getFont ().deriveFont (20.0f));
+		
 		JLabel loggeduser=new JLabel("Logged in as ADMIN");
 		loggeduser.setFont (loggeduser.getFont ().deriveFont (15.0f));
 		String[] columns = new String[] { "Home", "Staff", "Logistics", "Reports","Requests" };
@@ -63,6 +70,7 @@ public class GM extends User{
 	    staffbtn.setOpaque(false);
 	    staffbtn.setContentAreaFilled(false);
 	    staffbtn.setBorderPainted(false);
+	    staffbtn.setToolTipText("Staff");
 	    
 	    ImageIcon logs = new ImageIcon("logistics.png");
 		Image image3 = logs.getImage(); // transform it 
@@ -73,6 +81,52 @@ public class GM extends User{
 	    logsbtn.setOpaque(false);
 	    logsbtn.setContentAreaFilled(false);
 	    logsbtn.setBorderPainted(false);
+	    logsbtn.setToolTipText("Logistics");
+	    
+	    ImageIcon reps = new ImageIcon("report.png");
+		Image image4 = reps.getImage(); // transform it 
+		Image newimg4 = image4.getScaledInstance(170, 150,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+		reps = new ImageIcon(newimg4);
+	    JButton repsbtn = new JButton(reps);
+	    repsbtn.setPreferredSize(new Dimension(160, 170));
+	    repsbtn.setOpaque(false);
+	    repsbtn.setContentAreaFilled(false);
+	    repsbtn.setBorderPainted(false);
+	    repsbtn.setToolTipText("Reports");
+	    
+	    ImageIcon reqs = new ImageIcon("request.png");
+		Image image5 = reqs.getImage(); // transform it 
+		Image newimg5 = image5.getScaledInstance(180, 170,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+		reqs = new ImageIcon(newimg5);
+	    JButton reqsbtn = new JButton(reqs);
+	    reqsbtn.setPreferredSize(new Dimension(160, 170));
+	    reqsbtn.setOpaque(false);
+	    reqsbtn.setContentAreaFilled(false);
+	    reqsbtn.setBorderPainted(false);
+	    reqsbtn.setToolTipText("Requests");
+	    
+	    ImageIcon task = new ImageIcon("task.png");
+		Image image6 = task.getImage(); // transform it 
+		Image newimg6 = image6.getScaledInstance(160, 150,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+		task = new ImageIcon(newimg6);
+	    JButton taskbtn = new JButton(task);
+	    taskbtn.setPreferredSize(new Dimension(160, 170));
+	    taskbtn.setOpaque(false);
+	    taskbtn.setContentAreaFilled(false);
+	    taskbtn.setBorderPainted(false);
+	    taskbtn.setToolTipText("Assign Tasks");
+	    
+	    ImageIcon lout = new ImageIcon("logout.png");
+		Image image7 = lout.getImage(); // transform it 
+		Image newimg7 = image7.getScaledInstance(150, 130,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+		lout = new ImageIcon(newimg7);
+	    JButton loutbtn = new JButton(lout);
+	    loutbtn.setPreferredSize(new Dimension(160, 170));
+	    loutbtn.setOpaque(false);
+	    loutbtn.setContentAreaFilled(false);
+	    loutbtn.setBorderPainted(false);
+	    loutbtn.setToolTipText("Logout");
+	    
 	    logsbtn.addActionListener(new ActionListener()
 		{
 	@Override
@@ -308,6 +362,20 @@ public class GM extends User{
                 0, // ipadx
                 0));
 		
+		fpane2.add(fms,new GridBagConstraints(0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTH, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(90, // inset top
+                0, // inset left
+                0, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0));
 		fpane2.add(welcome,new GridBagConstraints(0, // gridx
                 0, // gridy
                 1, // gridwidth
@@ -316,7 +384,7 @@ public class GM extends User{
                 1, // weighty
                 GridBagConstraints.NORTH, // anchor <------------
                 GridBagConstraints.NONE, // fill
-                new Insets(100, // inset top
+                new Insets(130, // inset top
                 0, // inset left
                 0, // inset bottom
                 0), // inset right
@@ -348,6 +416,62 @@ public class GM extends User{
                 0, // inset left
                 130, // inset bottom
                 0), // inset right
+                0, // ipadx
+                0));
+		fpane2.add(repsbtn,new GridBagConstraints(0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.EAST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                0, // inset left
+                130, // inset bottom
+                85), // inset right
+                0, // ipadx
+                0));
+		fpane2.add(reqsbtn,new GridBagConstraints(0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTHWEST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                75, // inset left
+                75, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0));
+		fpane2.add(taskbtn,new GridBagConstraints(0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTH, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                0, // inset left
+                75, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0));
+		fpane2.add(loutbtn,new GridBagConstraints(0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTHEAST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                0, // inset left
+                75, // inset bottom
+                75), // inset right
                 0, // ipadx
                 0));
 		
