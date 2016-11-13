@@ -21,9 +21,9 @@ import javax.swing.*;
 public class GM extends User{
 
 	private static JFrame frame4;
-	private static JPanel fpane2,bpane2;
+	private static JPanel fpane2;
 	private static JButton btn1,btn2,btn3,btn4,btn5;
-	private static JLabel date,welcome;
+	private static JLabel date,welcome,l1,l2,l3,l4,l5,l6,disphome;
 	
 	//ArrayList<logistic_req> req_list=new ArrayList<logistic_req>();
 	//ArrayList<leave> leave_list=new ArrayList<leave>();
@@ -31,7 +31,6 @@ public class GM extends User{
 	public static void createGUI()
 	{
 		fpane2=new JPanel();
-		bpane2=new JPanel();
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss, dd MMM yyyy ");
 		Calendar cal = Calendar.getInstance();
 		date=new JLabel("Logged in at: " + dateFormat.format(cal.getTime()));		
@@ -114,7 +113,7 @@ public class GM extends User{
 	    taskbtn.setOpaque(false);
 	    taskbtn.setContentAreaFilled(false);
 	    taskbtn.setBorderPainted(false);
-	    taskbtn.setToolTipText("Assign Tasks");
+	    taskbtn.setToolTipText("Assign Task");
 	    
 	    ImageIcon lout = new ImageIcon("logout.png");
 		Image image7 = lout.getImage(); // transform it 
@@ -126,6 +125,19 @@ public class GM extends User{
 	    loutbtn.setContentAreaFilled(false);
 	    loutbtn.setBorderPainted(false);
 	    loutbtn.setToolTipText("Logout");
+	    
+	    l1=new JLabel("STAFF");
+	    l2=new JLabel("LOGISTICS");
+	    l3=new JLabel("REPORTS");
+	    l4=new JLabel("REQUESTS");
+	    l5=new JLabel("ASSIGN TASK");
+	    l6=new JLabel("LOGOUT");
+	    l1.setFont (l1.getFont ().deriveFont (20.0f));
+	    l2.setFont (l2.getFont ().deriveFont (20.0f));
+	    l3.setFont (l3.getFont ().deriveFont (20.0f));
+	    l4.setFont (l4.getFont ().deriveFont (20.0f));
+	    l5.setFont (l5.getFont ().deriveFont (20.0f));
+	    l6.setFont (l6.getFont ().deriveFont (20.0f));
 	    
 	    logsbtn.addActionListener(new ActionListener()
 		{
@@ -404,6 +416,7 @@ public class GM extends User{
                 0), // inset right
                 0, // ipadx
                 0));
+		
 		fpane2.add(logsbtn,new GridBagConstraints(0, // gridx
                 0, // gridy
                 1, // gridwidth
@@ -413,7 +426,7 @@ public class GM extends User{
                 GridBagConstraints.CENTER, // anchor <------------
                 GridBagConstraints.NONE, // fill
                 new Insets(0, // inset top
-                0, // inset left
+                10, // inset left
                 130, // inset bottom
                 0), // inset right
                 0, // ipadx
@@ -472,6 +485,91 @@ public class GM extends User{
                 0, // inset left
                 75, // inset bottom
                 75), // inset right
+                0, // ipadx
+                0));
+		
+		fpane2.add(l1,new GridBagConstraints(0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.WEST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(60, // inset top
+                122, // inset left
+                0, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0));
+		fpane2.add(l4,new GridBagConstraints(0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTHWEST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                94, // inset left
+                65, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0));
+		fpane2.add(l2,new GridBagConstraints(0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.CENTER, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(60, // inset top
+                0, // inset left
+                0, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0));
+		fpane2.add(l3,new GridBagConstraints(0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.EAST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(60, // inset top
+                0, // inset left
+                0, // inset bottom
+                112), // inset right
+                0, // ipadx
+                0));
+		fpane2.add(l6,new GridBagConstraints(0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTHEAST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                0, // inset left
+                65, // inset bottom
+                115), // inset right
+                0, // ipadx
+                0));
+		fpane2.add(l5,new GridBagConstraints(0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTH, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                0, // inset left
+                65, // inset bottom
+                0), // inset right
                 0, // ipadx
                 0));
 		
