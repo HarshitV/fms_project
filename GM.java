@@ -22,7 +22,7 @@ public class GM extends User{
 
 	private static JFrame frame4;
 	private static JPanel fpane2;
-	private static JButton btn1,btn2,btn3,btn4,btn5;
+	private static JButton btn1,btn2,btn3,btn4,btn5,btn6,btn7;
 	private static JLabel date,welcome,l1,l2,l3,l4,l5,l6,disphome;
 	
 	//ArrayList<logistic_req> req_list=new ArrayList<logistic_req>();
@@ -45,8 +45,8 @@ public class GM extends User{
 		
 		JLabel loggeduser=new JLabel("Logged in as ADMIN");
 		loggeduser.setFont (loggeduser.getFont ().deriveFont (15.0f));
-		String[] columns = new String[] { "Home", "Staff", "Logistics", "Reports","Requests" };
-		Object[][] data = new Object[][] { {1, "John", 40.0, false,"yyo" },};
+		String[] columns = new String[] { "Name", "View Details of member", "Remove member from staff"};
+		Object[][] data = new Object[][] { {"John", 40.0, false}};
 		JTable table = new JTable(data, columns);
 		//table.setSize(200, 300);
 		//table.setBounds(30,40,200,300);
@@ -144,13 +144,182 @@ public class GM extends User{
 	    disphome.setForeground(Color.DARK_GRAY);
 	    disphome.setBackground(Color.RED);
 	    //disphome.setOpaque(true);
-	    logsbtn.addActionListener(new ActionListener()
+	    staffbtn.addActionListener(new ActionListener()
 		{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		fpane2.removeAll();
-		
+		fpane2.add(sp,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.CENTER, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(125, // inset top
+                200, // inset left
+                100, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(btn1,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTHWEST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(125, // inset top
+                20, // inset left
+                0, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(btn2,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTHWEST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(190, // inset top
+                20, // inset left
+                0, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(btn3,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTHWEST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(255, // inset top
+                20, // inset left
+                0, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(btn4,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTHWEST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(320, // inset top
+                20, // inset left
+                0, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);	
+		fpane2.add(btn5,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTHWEST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(385, // inset top
+                20, // inset left
+                0, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(btn6,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTHWEST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(450, // inset top
+                20, // inset left
+                0, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(btn7,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTHWEST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(515, // inset top
+                20, // inset left
+                0, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(loggeduser,new GridBagConstraints(0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTHWEST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                0, // inset left
+                0, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0));
+		fpane2.add(date,new GridBagConstraints(0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTHEAST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                0, // inset left
+                0, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0));
+		fpane2.add(logo,new GridBagConstraints(0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTH, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(10, // inset top
+                0, // inset left
+                0, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0));
 		fpane2.revalidate();
 		fpane2.repaint();
 		
@@ -166,113 +335,21 @@ public class GM extends User{
 		btn3=new JButton("Logistics");
 		btn4=new JButton("Reports");
 		btn5=new JButton("Requests");
+		btn6=new JButton("Assign Task");
+		btn7=new JButton("Logout");
 		btn1.setPreferredSize(new Dimension(200, 60));
 		btn2.setPreferredSize(new Dimension(200, 60));
 		btn3.setPreferredSize(new Dimension(200, 60));
 		btn4.setPreferredSize(new Dimension(200, 60));
 		btn5.setPreferredSize(new Dimension(200, 60));
+		btn6.setPreferredSize(new Dimension(200, 60));
+		btn7.setPreferredSize(new Dimension(200, 60));
 		btn1.addActionListener(new ActionListener()
 				{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				fpane2.removeAll();
-				fpane2.add(sp,new GridBagConstraints(
-						0, // gridx
-		                0, // gridy
-		                1, // gridwidth
-		                1, // gridheight
-		                1, // weightx
-		                1, // weighty
-		                GridBagConstraints.CENTER, // anchor <------------
-		                GridBagConstraints.NONE, // fill
-		                new Insets(125, // inset top
-		                200, // inset left
-		                100, // inset bottom
-		                0), // inset right
-		                0, // ipadx
-		                0)
-						);
-				fpane2.add(btn1,new GridBagConstraints(
-						0, // gridx
-		                0, // gridy
-		                1, // gridwidth
-		                1, // gridheight
-		                1, // weightx
-		                1, // weighty
-		                GridBagConstraints.NORTHWEST, // anchor <------------
-		                GridBagConstraints.NONE, // fill
-		                new Insets(125, // inset top
-		                20, // inset left
-		                0, // inset bottom
-		                0), // inset right
-		                0, // ipadx
-		                0)
-						);
-				fpane2.add(btn2,new GridBagConstraints(
-						0, // gridx
-		                0, // gridy
-		                1, // gridwidth
-		                1, // gridheight
-		                1, // weightx
-		                1, // weighty
-		                GridBagConstraints.NORTHWEST, // anchor <------------
-		                GridBagConstraints.NONE, // fill
-		                new Insets(190, // inset top
-		                20, // inset left
-		                0, // inset bottom
-		                0), // inset right
-		                0, // ipadx
-		                0)
-						);
-				fpane2.add(btn3,new GridBagConstraints(
-						0, // gridx
-		                0, // gridy
-		                1, // gridwidth
-		                1, // gridheight
-		                1, // weightx
-		                1, // weighty
-		                GridBagConstraints.NORTHWEST, // anchor <------------
-		                GridBagConstraints.NONE, // fill
-		                new Insets(255, // inset top
-		                20, // inset left
-		                0, // inset bottom
-		                0), // inset right
-		                0, // ipadx
-		                0)
-						);
-				fpane2.add(btn4,new GridBagConstraints(
-						0, // gridx
-		                0, // gridy
-		                1, // gridwidth
-		                1, // gridheight
-		                1, // weightx
-		                1, // weighty
-		                GridBagConstraints.NORTHWEST, // anchor <------------
-		                GridBagConstraints.NONE, // fill
-		                new Insets(320, // inset top
-		                20, // inset left
-		                0, // inset bottom
-		                0), // inset right
-		                0, // ipadx
-		                0)
-						);	
-				fpane2.add(btn5,new GridBagConstraints(
-						0, // gridx
-		                0, // gridy
-		                1, // gridwidth
-		                1, // gridheight
-		                1, // weightx
-		                1, // weighty
-		                GridBagConstraints.NORTHWEST, // anchor <------------
-		                GridBagConstraints.NONE, // fill
-		                new Insets(385, // inset top
-		                20, // inset left
-		                0, // inset bottom
-		                0), // inset right
-		                0, // ipadx
-		                0)
-						);
 				fpane2.add(loggeduser,new GridBagConstraints(0, // gridx
 		                0, // gridy
 		                1, // gridwidth
@@ -315,6 +392,219 @@ public class GM extends User{
 		                0), // inset right
 		                0, // ipadx
 		                0));
+				
+				fpane2.add(fms,new GridBagConstraints(0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.NORTH, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(90, // inset top
+		                0, // inset left
+		                0, // inset bottom
+		                0), // inset right
+		                0, // ipadx
+		                0));
+				fpane2.add(welcome,new GridBagConstraints(0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.NORTH, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(130, // inset top
+		                0, // inset left
+		                0, // inset bottom
+		                0), // inset right
+		                0, // ipadx
+		                0));
+				fpane2.add(staffbtn,new GridBagConstraints(0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.WEST, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(0, // inset top
+		                75, // inset left
+		                130, // inset bottom
+		                0), // inset right
+		                0, // ipadx
+		                0));
+				
+				fpane2.add(logsbtn,new GridBagConstraints(0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.CENTER, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(0, // inset top
+		                10, // inset left
+		                130, // inset bottom
+		                0), // inset right
+		                0, // ipadx
+		                0));
+				fpane2.add(repsbtn,new GridBagConstraints(0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.EAST, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(0, // inset top
+		                0, // inset left
+		                130, // inset bottom
+		                85), // inset right
+		                0, // ipadx
+		                0));
+				fpane2.add(reqsbtn,new GridBagConstraints(0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.SOUTHWEST, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(0, // inset top
+		                75, // inset left
+		                75, // inset bottom
+		                0), // inset right
+		                0, // ipadx
+		                0));
+				fpane2.add(taskbtn,new GridBagConstraints(0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.SOUTH, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(0, // inset top
+		                0, // inset left
+		                75, // inset bottom
+		                0), // inset right
+		                0, // ipadx
+		                0));
+				fpane2.add(loutbtn,new GridBagConstraints(0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.SOUTHEAST, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(0, // inset top
+		                0, // inset left
+		                75, // inset bottom
+		                75), // inset right
+		                0, // ipadx
+		                0));
+				
+				fpane2.add(l1,new GridBagConstraints(0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.WEST, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(60, // inset top
+		                122, // inset left
+		                0, // inset bottom
+		                0), // inset right
+		                0, // ipadx
+		                0));
+				fpane2.add(l4,new GridBagConstraints(0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.SOUTHWEST, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(0, // inset top
+		                94, // inset left
+		                65, // inset bottom
+		                0), // inset right
+		                0, // ipadx
+		                0));
+				fpane2.add(l2,new GridBagConstraints(0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.CENTER, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(60, // inset top
+		                0, // inset left
+		                0, // inset bottom
+		                0), // inset right
+		                0, // ipadx
+		                0));
+				fpane2.add(l3,new GridBagConstraints(0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.EAST, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(60, // inset top
+		                0, // inset left
+		                0, // inset bottom
+		                112), // inset right
+		                0, // ipadx
+		                0));
+				fpane2.add(l6,new GridBagConstraints(0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.SOUTHEAST, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(0, // inset top
+		                0, // inset left
+		                65, // inset bottom
+		                115), // inset right
+		                0, // ipadx
+		                0));
+				fpane2.add(l5,new GridBagConstraints(0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.SOUTH, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(0, // inset top
+		                0, // inset left
+		                65, // inset bottom
+		                0), // inset right
+		                0, // ipadx
+		                0));
+				fpane2.add(disphome,new GridBagConstraints(0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.SOUTHEAST, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(0, // inset top
+		                0, // inset left
+		                0, // inset bottom
+		                0), // inset right
+		                0, // ipadx
+		                0));
 				fpane2.revalidate();
 				fpane2.repaint();
 				
@@ -325,7 +615,26 @@ public class GM extends User{
 				}
 	});
 		
+		loutbtn.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		frame4.dispose();
+		Home_page.frame1.setVisible(true);
 		
+		}
+});
+		btn7.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		frame4.dispose();
+		Home_page.frame1.setVisible(true);
+		
+		}
+});
 		GridBagLayout gridbag = new GridBagLayout();
 		
 		frame4=new JFrame("Admin Home");
