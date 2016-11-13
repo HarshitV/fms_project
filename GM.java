@@ -132,13 +132,18 @@ public class GM extends User{
 	    l4=new JLabel("REQUESTS");
 	    l5=new JLabel("ASSIGN TASK");
 	    l6=new JLabel("LOGOUT");
+	    disphome=new JLabel("HOME PAGE");
 	    l1.setFont (l1.getFont ().deriveFont (20.0f));
 	    l2.setFont (l2.getFont ().deriveFont (20.0f));
 	    l3.setFont (l3.getFont ().deriveFont (20.0f));
 	    l4.setFont (l4.getFont ().deriveFont (20.0f));
 	    l5.setFont (l5.getFont ().deriveFont (20.0f));
 	    l6.setFont (l6.getFont ().deriveFont (20.0f));
-	    
+	    disphome.setFont (disphome.getFont ().deriveFont (30.0f));
+	    //disphome.setText("<HTML>H<br>O<br>M<br>E</HTML>");
+	    disphome.setForeground(Color.DARK_GRAY);
+	    disphome.setBackground(Color.RED);
+	    //disphome.setOpaque(true);
 	    logsbtn.addActionListener(new ActionListener()
 		{
 	@Override
@@ -569,6 +574,20 @@ public class GM extends User{
                 new Insets(0, // inset top
                 0, // inset left
                 65, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0));
+		fpane2.add(disphome,new GridBagConstraints(0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTHEAST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                0, // inset left
+                0, // inset bottom
                 0), // inset right
                 0, // ipadx
                 0));
