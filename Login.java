@@ -55,7 +55,8 @@ public class Login{
 				password=pswd.getText();
 				//System.out.println(password);
 				Home_page.frame1.setVisible(false);
-				GM.createGUI();
+				//GM.createGUI();
+				Supervisor.createGUI();
 			}
 			
 		});
