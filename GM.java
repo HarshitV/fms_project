@@ -18,12 +18,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class GM extends User{
 
+ 
+	private static JScrollPane sp;
 	private static JFrame frame4,frame6;
 	private static JPanel fpane2,pane1,pane2;
-	private static JButton btn1,btn2,btn3,btn4,btn5,btn6,btn7,ok,cancel,repsbtn,reqsbtn,taskbtn,loutbtn,logsbtn,staffbtn;
+	private static JButton btnGetRowSelected ,btn1,btn2,btn3,btn4,btn5,btn6,btn7,ok,cancel,repsbtn,reqsbtn,taskbtn,loutbtn,logsbtn,staffbtn;
 	private static JLabel fms,logo,date,welcome,l1,l2,l3,l4,l5,l6,disphome,loggeduser;
 	private static ImageIcon imageIcon;
 	//ArrayList<logistic_req> req_list=new ArrayList<logistic_req>();
@@ -70,12 +73,75 @@ public class GM extends User{
 		loggeduser.setFont (loggeduser.getFont ().deriveFont (15.0f));
 		String[] columns = new String[] { "Name", "View Details of member", "Remove member from staff"};
 		Object[][] data = new Object[][] { {"John", 40.0, false}};
-		JTable table = new JTable(data, columns);
+		JTable table = new JTable();
+		
 		//table.setSize(200, 300);
 		//table.setBounds(30,40,200,300);
 		//table.setRowHeight(1, 5);
-		table.setEnabled(false);
-		JScrollPane sp=new JScrollPane(table);  
+		//table.setEnabled(false);
+		sp=new JScrollPane();  
+		sp.setBounds(33, 41, 494, 90);
+		sp.setViewportView(table);
+		DefaultTableModel model = new DefaultTableModel() {
+
+			public Class<?> getColumnClass(int column) {
+				switch (column) {
+				case 0:
+					return Boolean.class;
+				case 1:
+					return String.class;
+				case 2:
+					return String.class;
+				case 3:
+					return String.class;
+				case 4:
+					return String.class;
+				case 5:
+					return String.class;
+				case 6:
+					return String.class;
+				default:
+					return String.class;
+				}
+			}
+		};
+		table.setModel(model);
+		model.addColumn("Select");
+		model.addColumn("CustomerID");
+		model.addColumn("Name");
+		model.addColumn("Email");
+		model.addColumn("CountryCode");
+		model.addColumn("Budget");
+		model.addColumn("Used");
+
+		// Data Row
+		for (int i = 0; i <= 10; i++) {
+			model.addRow(new Object[0]);
+			model.setValueAt(false, i, 0);
+			model.setValueAt("Row"+ (i+1), i, 1);
+			model.setValueAt("Data Col 2", i, 2);
+			model.setValueAt("Data Col 3", i, 3);
+			model.setValueAt("Data Col 4", i, 4);
+			model.setValueAt("Data Col 5", i, 5);
+			model.setValueAt("Data Col 6", i, 6);
+		}
+		btnGetRowSelected = new JButton("Get Row Selected");
+		btnGetRowSelected.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				for (int i = 0; i < table.getRowCount(); i++) {
+					Boolean chked = Boolean.valueOf(table.getValueAt(i, 0)
+							.toString());
+					String dataCol1 = table.getValueAt(i, 1).toString();
+					if (chked) {
+						JOptionPane.showMessageDialog(null, dataCol1);
+					}
+				}
+			}
+
+		});
+		btnGetRowSelected.setBounds(224, 149, 131, 23);
+		
 		
 		imageIcon = new ImageIcon("C:/Users/Harshit/workspace/fms_project/src/fms_project/logonew.png"); // load the image to a imageIcon
 		Image image = imageIcon.getImage(); // transform it 
@@ -172,7 +238,7 @@ public class GM extends User{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		fpane2.removeAll();
+		otherhome();
 		fpane2.add(sp,new GridBagConstraints(
 				0, // gridx
                 0, // gridy
@@ -189,6 +255,107 @@ public class GM extends User{
                 0, // ipadx
                 0)
 				);
+		}
+});
+	  
+	    ok.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+				frame6.setVisible(false);
+				fpane2.removeAll();
+				fpane2.revalidate();
+				fpane2.repaint();
+			}
+		});
+	    
+	    reqsbtn.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+				frame6.setVisible(true);
+			}
+		});
+	    
+	    //frame6.add(ok);
+		btn1=new JButton("Home");
+		btn2=new JButton("Staff");
+		btn3=new JButton("Logistics");
+		btn4=new JButton("Reports");
+		btn5=new JButton("Requests");
+		btn6=new JButton("Assign Task");
+		btn7=new JButton("Logout");
+		btn1.setPreferredSize(new Dimension(200, 60));
+		btn2.setPreferredSize(new Dimension(200, 60));
+		btn3.setPreferredSize(new Dimension(200, 60));
+		btn4.setPreferredSize(new Dimension(200, 60));
+		btn5.setPreferredSize(new Dimension(200, 60));
+		btn6.setPreferredSize(new Dimension(200, 60));
+		btn7.setPreferredSize(new Dimension(200, 60));
+		btn1.addActionListener(new ActionListener()
+				{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				createGMhome();
+				
+				/*frame4.getContentPane().removeAll();
+				frame4.add(btn1);
+				frame4.revalidate();
+				frame4.repaint();*/
+				}
+	});
+		
+		loutbtn.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		frame4.dispose();
+		Home_page.frame1.setVisible(true);
+		
+		}
+});
+		btn7.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		frame4.dispose();
+		Home_page.frame1.setVisible(true);
+		
+		}
+});
+		GridBagLayout gridbag = new GridBagLayout();
+		
+		frame4=new JFrame("Admin Home");
+		frame4.setVisible(true);
+		frame4.setSize(350,120);
+		frame4.setLocationRelativeTo(null);
+		frame4.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		fpane2.setLayout(gridbag);
+		createGMhome();
+		
+		//logo.setVerticalAlignment(JLabel.TOP);
+		JScrollPane jsp = new JScrollPane(fpane2);
+		frame4.add(jsp);
+		//frame4.add(date,BorderLayout.NORTH);
+		//Toolkit tk = Toolkit.getDefaultToolkit();
+		//int xSize = ((int) tk.getScreenSize().getWidth());
+		//int ySize = ((int) tk.getScreenSize().getHeight());
+		frame4.setSize(800,690);
+		frame4.setLocationRelativeTo(null);
+	}
+	
+	public static void otherhome()
+	{
+		fpane2.removeAll();
+		
 		fpane2.add(btn1,new GridBagConstraints(
 				0, // gridx
                 0, // gridy
@@ -343,104 +510,25 @@ public class GM extends User{
                 0), // inset right
                 0, // ipadx
                 0));
+		fpane2.add(btnGetRowSelected,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTHEAST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(125, // inset top
+                00, // inset left
+                00, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
 		fpane2.revalidate();
 		fpane2.repaint();
 		
-		}
-});
-	  
-	    ok.addActionListener(new ActionListener()
-		{
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-				frame6.setVisible(false);
-				fpane2.removeAll();
-				fpane2.revalidate();
-				fpane2.repaint();
-			}
-		});
-	    
-	    reqsbtn.addActionListener(new ActionListener()
-		{
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-				frame6.setVisible(true);
-			}
-		});
-	    
-	    //frame6.add(ok);
-		btn1=new JButton("Home");
-		btn2=new JButton("Staff");
-		btn3=new JButton("Logistics");
-		btn4=new JButton("Reports");
-		btn5=new JButton("Requests");
-		btn6=new JButton("Assign Task");
-		btn7=new JButton("Logout");
-		btn1.setPreferredSize(new Dimension(200, 60));
-		btn2.setPreferredSize(new Dimension(200, 60));
-		btn3.setPreferredSize(new Dimension(200, 60));
-		btn4.setPreferredSize(new Dimension(200, 60));
-		btn5.setPreferredSize(new Dimension(200, 60));
-		btn6.setPreferredSize(new Dimension(200, 60));
-		btn7.setPreferredSize(new Dimension(200, 60));
-		btn1.addActionListener(new ActionListener()
-				{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				createGMhome();
-				
-				/*frame4.getContentPane().removeAll();
-				frame4.add(btn1);
-				frame4.revalidate();
-				frame4.repaint();*/
-				}
-	});
-		
-		loutbtn.addActionListener(new ActionListener()
-		{
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		frame4.dispose();
-		Home_page.frame1.setVisible(true);
-		
-		}
-});
-		btn7.addActionListener(new ActionListener()
-		{
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		frame4.dispose();
-		Home_page.frame1.setVisible(true);
-		
-		}
-});
-		GridBagLayout gridbag = new GridBagLayout();
-		
-		frame4=new JFrame("Admin Home");
-		frame4.setVisible(true);
-		frame4.setSize(350,120);
-		frame4.setLocationRelativeTo(null);
-		frame4.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		fpane2.setLayout(gridbag);
-		createGMhome();
-		
-		//logo.setVerticalAlignment(JLabel.TOP);
-		JScrollPane jsp = new JScrollPane(fpane2);
-		frame4.add(jsp);
-		//frame4.add(date,BorderLayout.NORTH);
-		//Toolkit tk = Toolkit.getDefaultToolkit();
-		//int xSize = ((int) tk.getScreenSize().getWidth());
-		//int ySize = ((int) tk.getScreenSize().getHeight());
-		frame4.setSize(800,690);
-		frame4.setLocationRelativeTo(null);
 	}
 	
 	public static void createGMhome()
@@ -701,6 +789,7 @@ public class GM extends User{
                 0), // inset right
                 0, // ipadx
                 0));
+				
 		fpane2.revalidate();
 		fpane2.repaint();
 	}
