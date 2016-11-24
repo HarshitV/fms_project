@@ -26,7 +26,7 @@ public class GM extends User{
 	private static JScrollPane sp;
 	private static JFrame frame4,frame6;
 	private static JPanel fpane2,pane1,pane2;
-	private static JButton deletebtn ,btn1,btn2,btn3,btn4,btn5,btn6,btn7,ok,cancel,repsbtn,reqsbtn,taskbtn,loutbtn,logsbtn,staffbtn;
+	private static JButton viewbtn,deletebtn ,btn1,btn2,btn3,btn4,btn5,btn6,btn7,ok,cancel,repsbtn,reqsbtn,taskbtn,loutbtn,logsbtn,staffbtn;
 	private static JLabel fms,logo,date,welcome,l1,l2,l3,l4,l5,l6,disphome,loggeduser;
 	private static ImageIcon imageIcon;
 	//ArrayList<logistic_req> req_list=new ArrayList<logistic_req>();
@@ -120,16 +120,31 @@ public class GM extends User{
 			model.setValueAt("Row"+ (i+1), i, 2);
 			model.setValueAt("Row"+ (i+1), i, 3);
 		}
+		
+		
+		
+		ImageIcon vb = new ImageIcon("view.png");
+		Image image11 = vb.getImage(); // transform it 
+		Image newimg11 = image11.getScaledInstance(155, 90,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+		vb = new ImageIcon(newimg11);
+	    viewbtn = new JButton(vb);
+	    //deletebtn.setPreferredSize(new Dimension(100, 680));
+	    viewbtn.setOpaque(false);
+	    viewbtn.setContentAreaFilled(false);
+	   viewbtn.setBorderPainted(false);
+	    viewbtn.setToolTipText("View user");
+		viewbtn.setPreferredSize(new Dimension(200, 200));
+		
 		 ImageIcon db = new ImageIcon("delete.png");
 			Image image10 = db.getImage(); // transform it 
-			Image newimg10 = image10.getScaledInstance(230, 160,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+			Image newimg10 = image10.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
 			db = new ImageIcon(newimg10);
 		    deletebtn = new JButton(db);
-		    deletebtn.setPreferredSize(new Dimension(160, 170));
+		    //deletebtn.setPreferredSize(new Dimension(100, 680));
 		    deletebtn.setOpaque(false);
 		    deletebtn.setContentAreaFilled(false);
 		   deletebtn.setBorderPainted(false);
-		    deletebtn.setToolTipText("Logistics");
+		    deletebtn.setToolTipText("Delete user");
 		deletebtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -151,7 +166,7 @@ public class GM extends User{
 			}
 
 		});
-		deletebtn.setPreferredSize(new Dimension(200, 60));
+		deletebtn.setPreferredSize(new Dimension(200, 200));
 		
 		
 		imageIcon = new ImageIcon("C:/Users/Harshit/workspace/fms_project/src/fms_project/logonew.png"); // load the image to a imageIcon
@@ -279,10 +294,26 @@ public class GM extends User{
                 1, // weighty
                 GridBagConstraints.SOUTHEAST, // anchor <------------
                 GridBagConstraints.NONE, // fill
-                new Insets(125, // inset top
+                new Insets(0, // inset top
                 00, // inset left
-                00, // inset bottom
-                0), // inset right
+                20, // inset bottom
+                100), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(viewbtn,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTHEAST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                00, // inset left
+                15, // inset bottom
+                300), // inset right
                 0, // ipadx
                 0)
 				);
@@ -298,6 +329,7 @@ public class GM extends User{
 		
 				frame6.setVisible(false);
 				fpane2.removeAll();
+				otherhome();
 				fpane2.revalidate();
 				fpane2.repaint();
 			}
@@ -310,6 +342,8 @@ public class GM extends User{
 		// TODO Auto-generated method stub
 		
 				frame6.setVisible(true);
+				
+				
 			}
 		});
 	    
@@ -341,7 +375,60 @@ public class GM extends User{
 				frame4.repaint();*/
 				}
 	});
+		btn2.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		otherhome();
+		}
+});
+		btn3.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		otherhome();
+		}
+});
+		btn4.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		otherhome();
+		}
+});
+		btn5.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		otherhome();
+		}
+});
+		btn6.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		otherhome();
+		}
+});
 		
+		
+		
+		
+		
+		
+		btn5.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		otherhome();
+		}
+});
 		loutbtn.addActionListener(new ActionListener()
 		{
 	@Override
