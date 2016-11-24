@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.*;
 
 public class GM extends User{
 
@@ -26,7 +26,7 @@ public class GM extends User{
 	private static JScrollPane sp;
 	private static JFrame frame4,frame6;
 	private static JPanel fpane2,pane1,pane2;
-	private static JButton btnGetRowSelected ,btn1,btn2,btn3,btn4,btn5,btn6,btn7,ok,cancel,repsbtn,reqsbtn,taskbtn,loutbtn,logsbtn,staffbtn;
+	private static JButton deletebtn ,btn1,btn2,btn3,btn4,btn5,btn6,btn7,ok,cancel,repsbtn,reqsbtn,taskbtn,loutbtn,logsbtn,staffbtn;
 	private static JLabel fms,logo,date,welcome,l1,l2,l3,l4,l5,l6,disphome,loggeduser;
 	private static ImageIcon imageIcon;
 	//ArrayList<logistic_req> req_list=new ArrayList<logistic_req>();
@@ -71,17 +71,13 @@ public class GM extends User{
 		
 		loggeduser=new JLabel("Logged in as ADMIN");
 		loggeduser.setFont (loggeduser.getFont ().deriveFont (15.0f));
-		String[] columns = new String[] { "Name", "View Details of member", "Remove member from staff"};
-		Object[][] data = new Object[][] { {"John", 40.0, false}};
-		JTable table = new JTable();
+		
 		
 		//table.setSize(200, 300);
 		//table.setBounds(30,40,200,300);
 		//table.setRowHeight(1, 5);
 		//table.setEnabled(false);
-		sp=new JScrollPane();  
-		sp.setBounds(33, 41, 494, 90);
-		sp.setViewportView(table);
+		
 		DefaultTableModel model = new DefaultTableModel() {
 
 			public Class<?> getColumnClass(int column) {
@@ -90,57 +86,72 @@ public class GM extends User{
 					return Boolean.class;
 				case 1:
 					return String.class;
+					
 				case 2:
 					return String.class;
 				case 3:
 					return String.class;
-				case 4:
-					return String.class;
-				case 5:
-					return String.class;
-				case 6:
-					return String.class;
-				default:
+				default: 
 					return String.class;
 				}
 			}
 		};
+		sp=new JScrollPane();  
+		sp.setPreferredSize(new Dimension(500, 320));
+
+		sp.setBounds(300, 400, 490, 90);
+		JTable table = new JTable();
+		
+		table.setRowHeight(30);
+		//table.setColumnWidth(20);
+		//sp.setViewportView(table);
 		table.setModel(model);
 		model.addColumn("Select");
-		model.addColumn("CustomerID");
-		model.addColumn("Name");
-		model.addColumn("Email");
-		model.addColumn("CountryCode");
-		model.addColumn("Budget");
-		model.addColumn("Used");
+		model.addColumn("User Name");
+		model.addColumn("Department");
+		model.addColumn("Type");
+		
 
 		// Data Row
 		for (int i = 0; i <= 10; i++) {
 			model.addRow(new Object[0]);
 			model.setValueAt(false, i, 0);
 			model.setValueAt("Row"+ (i+1), i, 1);
-			model.setValueAt("Data Col 2", i, 2);
-			model.setValueAt("Data Col 3", i, 3);
-			model.setValueAt("Data Col 4", i, 4);
-			model.setValueAt("Data Col 5", i, 5);
-			model.setValueAt("Data Col 6", i, 6);
+			model.setValueAt("Row"+ (i+1), i, 2);
+			model.setValueAt("Row"+ (i+1), i, 3);
 		}
-		btnGetRowSelected = new JButton("Get Row Selected");
-		btnGetRowSelected.addActionListener(new ActionListener() {
+		 ImageIcon db = new ImageIcon("delete.png");
+			Image image10 = db.getImage(); // transform it 
+			Image newimg10 = image10.getScaledInstance(230, 160,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+			db = new ImageIcon(newimg10);
+		    deletebtn = new JButton(db);
+		    deletebtn.setPreferredSize(new Dimension(160, 170));
+		    deletebtn.setOpaque(false);
+		    deletebtn.setContentAreaFilled(false);
+		   deletebtn.setBorderPainted(false);
+		    deletebtn.setToolTipText("Logistics");
+		deletebtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 
 				for (int i = 0; i < table.getRowCount(); i++) {
 					Boolean chked = Boolean.valueOf(table.getValueAt(i, 0)
 							.toString());
-					String dataCol1 = table.getValueAt(i, 1).toString();
+					
+					//String dataCol1 = table.getValueAt(i, 1).toString();
 					if (chked) {
-						JOptionPane.showMessageDialog(null, dataCol1);
+						model.removeRow(i);
+						int l=table.getRowCount();
+						l--;
+						i=0;
+						
+	
 					}
 				}
 			}
 
 		});
-		btnGetRowSelected.setBounds(224, 149, 131, 23);
+		deletebtn.setPreferredSize(new Dimension(200, 60));
 		
 		
 		imageIcon = new ImageIcon("C:/Users/Harshit/workspace/fms_project/src/fms_project/logonew.png"); // load the image to a imageIcon
@@ -239,6 +250,8 @@ public class GM extends User{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		otherhome();
+		sp.setBorder(BorderFactory.createEmptyBorder());
+
 		fpane2.add(sp,new GridBagConstraints(
 				0, // gridx
                 0, // gridy
@@ -248,13 +261,32 @@ public class GM extends User{
                 1, // weighty
                 GridBagConstraints.CENTER, // anchor <------------
                 GridBagConstraints.NONE, // fill
-                new Insets(125, // inset top
+                new Insets(22, // inset top
                 200, // inset left
                 100, // inset bottom
                 0), // inset right
                 0, // ipadx
                 0)
 				);
+		sp.setViewportView(table);
+		
+		fpane2.add(deletebtn,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTHEAST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(125, // inset top
+                00, // inset left
+                00, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		
 		}
 });
 	  
@@ -510,22 +542,7 @@ public class GM extends User{
                 0), // inset right
                 0, // ipadx
                 0));
-		fpane2.add(btnGetRowSelected,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.SOUTHEAST, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(125, // inset top
-                00, // inset left
-                00, // inset bottom
-                0), // inset right
-                0, // ipadx
-                0)
-				);
+		
 		fpane2.revalidate();
 		fpane2.repaint();
 		
