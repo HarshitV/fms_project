@@ -117,6 +117,10 @@ public class GM extends User{
 					return Boolean.class;
 				case 1:
 					return String.class;
+				case 2:
+					return String.class;
+				case 3:
+					return String.class;
 				default: 
 					return String.class;
 				}
@@ -142,7 +146,8 @@ public class GM extends User{
 		model.addColumn("Type");
 		model2.addColumn("Select");
 		model2.addColumn("User Name");
-		
+		model2.addColumn("Department");
+		model2.addColumn("Type");
 
 		// Data Row
 		for (int i = 0; i <= 10; i++) {
@@ -156,6 +161,8 @@ public class GM extends User{
 			model2.addRow(new Object[0]);
 			model2.setValueAt(false, i, 0);
 			model2.setValueAt("Row"+ (i+1), i, 1);
+			model2.setValueAt("Row"+ (i+1), i, 2);
+			model2.setValueAt("Row"+ (i+1), i, 3);
 		}
 		
 		
@@ -402,8 +409,14 @@ public class GM extends User{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+		if(request.getSelectedIndex()==0)
+		{
+			JOptionPane.showMessageDialog(null, "Department field is empty");
+			//req.setBorder(border);
+		}
+		else
 				frame7.dispose();
+				
 		
 			}
 		});
@@ -534,6 +547,8 @@ public class GM extends User{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		otherhome();
+		frame6.setVisible(true);
+		
 		}
 });
 		btn6.addActionListener(new ActionListener()
