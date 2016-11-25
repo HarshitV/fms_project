@@ -20,13 +20,17 @@ import java.util.Calendar;
 import javax.swing.*;
 import javax.swing.table.*;
 
+// table and sp are staff lists to view or delete
+// table 2 and sp2 are user request lists
+// table 3 and sp3 are leave requests
+
 public class GM extends User{
 
-	private static JTable table,table2;
-	private static JScrollPane sp,sp2;
+	private static JTable table,table2,table3;
+	private static JScrollPane sp,sp2,sp3;
 	private static JFrame frame4,frame6,frame7;
 	private static JPanel fpane2,pane1,pane2,fpane3;
-	private static JButton viewbtn,viewbtn2,deletebtn ,btn1,btn2,btn3,btn4,btn5,btn6,btn7,ok2,cancel2,ok,cancel,repsbtn,reqsbtn,taskbtn,loutbtn,logsbtn,staffbtn;
+	private static JButton aclvbtn,rjlvbtn,acusrbtn,rjusrbtn,viewbtn,viewbtn2,deletebtn ,btn1,btn2,btn3,btn4,btn5,btn6,btn7,ok2,cancel2,ok,cancel,repsbtn,reqsbtn,taskbtn,loutbtn,logsbtn,staffbtn;
 	private static JLabel fms,logo,date,welcome,l1,l2,l3,l4,l5,l6,disphome,loggeduser;
 	private static ImageIcon imageIcon;
 	//ArrayList<logistic_req> req_list=new ArrayList<logistic_req>();
@@ -126,20 +130,48 @@ public class GM extends User{
 				}
 			}
 		};
+		DefaultTableModel model3 = new DefaultTableModel() {
+
+			public Class<?> getColumnClass(int column) {
+				switch (column) {
+				case 0:
+					return Boolean.class;
+				case 1:
+					return String.class;
+				case 2:
+					return String.class;
+				case 3:
+					return String.class;
+				case 4:
+					return String.class;
+				case 5:
+					return String.class;
+				default: 
+					return String.class;
+				}
+			}
+		};
 		
 		sp=new JScrollPane(); 
 		sp2=new JScrollPane();
+		sp3=new JScrollPane();
 		sp.setPreferredSize(new Dimension(500, 320));
 		sp2.setPreferredSize(new Dimension(500,320));
+		sp3.setPreferredSize(new Dimension(500,320));
 		table2 =new JTable();
 		table = new JTable();
-		
+		table3=new JTable();
 		table.setRowHeight(30);
 		table2.setRowHeight(30);
+		table3.setRowHeight(30);
 		//table.setColumnWidth(20);
 		//sp.setViewportView(table);
 		table.setModel(model);
 		table2.setModel(model2);
+		table3.setModel(model3);
+		/*table.setEnabled(false);
+		table2.setEnabled(false);
+		table3.setEnabled(false);*/
 		model.addColumn("Select");
 		model.addColumn("User Name");
 		model.addColumn("Department");
@@ -148,23 +180,38 @@ public class GM extends User{
 		model2.addColumn("User Name");
 		model2.addColumn("Department");
 		model2.addColumn("Type");
-
+		model3.addColumn("Select");
+		model3.addColumn("User Name");
+		model3.addColumn("Department");
+		model3.addColumn("Type");
+		model3.addColumn("Department");
+		model3.addColumn("Type");
+		model3.addColumn("Start Date");
+		model3.addColumn("End Date");
 		// Data Row
 		for (int i = 0; i <= 10; i++) {
 			model.addRow(new Object[0]);
 			model.setValueAt(false, i, 0);
-			model.setValueAt("Row"+ (i+1), i, 1);
-			model.setValueAt("Row"+ (i+1), i, 2);
-			model.setValueAt("Row"+ (i+1), i, 3);
+			model.setValueAt("User"+ (i+1), i, 1);
+			model.setValueAt("User"+ (i+1), i, 2);
+			model.setValueAt("User"+ (i+1), i, 3);
 		}
 		for (int i = 0; i <= 10; i++) {
 			model2.addRow(new Object[0]);
 			model2.setValueAt(false, i, 0);
-			model2.setValueAt("Row"+ (i+1), i, 1);
-			model2.setValueAt("Row"+ (i+1), i, 2);
-			model2.setValueAt("Row"+ (i+1), i, 3);
+			model2.setValueAt("User req"+ (i+1), i, 1);
+			model2.setValueAt("User req"+ (i+1), i, 2);
+			model2.setValueAt("User req"+ (i+1), i, 3);
 		}
-		
+		for (int i = 0; i <= 10; i++) {
+			model3.addRow(new Object[0]);
+			model3.setValueAt(false, i, 0);
+			model3.setValueAt("Leave req"+ (i+1), i, 1);
+			model3.setValueAt("Leave req"+ (i+1), i, 2);
+			model3.setValueAt("Leave req"+ (i+1), i, 3);
+			model3.setValueAt("Leave req"+ (i+1), i, 4);
+			model3.setValueAt("Leave req"+ (i+1), i, 5);
+		}
 		
 		ImageIcon vb = new ImageIcon("view.png");
 		Image image11 = vb.getImage(); // transform it 
@@ -179,10 +226,8 @@ public class GM extends User{
 		viewbtn.setPreferredSize(new Dimension(200, 200));
 		viewbtn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame7.setVisible(true);
-				
+				frame7.setVisible(true);	
 			}
-
 		});
 		
 		
@@ -372,12 +417,29 @@ public class GM extends User{
 		}
 });
 	  
+	    cancel.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+				frame6.setVisible(false);
+				
+			}
+		});
 	    ok.addActionListener(new ActionListener()
 		{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
+		if(request.getSelectedIndex()==0)
+		{
+			JOptionPane.showMessageDialog(null, "Select option first");
+			//req.setBorder(border);
+		}
+		else if(request.getSelectedIndex()==1)
+		{
 				frame6.setVisible(false);
 				fpane2.removeAll();
 				otherhome();
@@ -399,22 +461,114 @@ public class GM extends User{
 		                0, // ipadx
 		                0)
 						);
+				fpane2.add(rjusrbtn,new GridBagConstraints(
+						0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.SOUTHEAST, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(0, // inset top
+		                00, // inset left
+		                80, // inset bottom
+		                100), // inset right
+		                0, // ipadx
+		                0)
+						);
+				fpane2.add(acusrbtn,new GridBagConstraints(
+						0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.SOUTHEAST, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(0, // inset top
+		                00, // inset left
+		                80, // inset bottom
+		                300), // inset right
+		                0, // ipadx
+		                0)
+						);
 				sp2.setViewportView(table2);
 				fpane2.revalidate();
 				fpane2.repaint();
 			}
+		else if(request.getSelectedIndex()==2)
+		{
+				frame6.setVisible(false);
+				fpane2.removeAll();
+				otherhome();
+				sp3.setBorder(BorderFactory.createEmptyBorder());
+
+				fpane2.add(sp3,new GridBagConstraints(
+						0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.CENTER, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(22, // inset top
+		                200, // inset left
+		                100, // inset bottom
+		                0), // inset right
+		                0, // ipadx
+		                0)
+						);
+				fpane2.add(rjlvbtn,new GridBagConstraints(
+						0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.SOUTHEAST, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(0, // inset top
+		                00, // inset left
+		                80, // inset bottom
+		                100), // inset right
+		                0, // ipadx
+		                0)
+						);
+				fpane2.add(aclvbtn,new GridBagConstraints(
+						0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.SOUTHEAST, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(0, // inset top
+		                00, // inset left
+		                80, // inset bottom
+		                300), // inset right
+		                0, // ipadx
+		                0)
+						);
+				sp3.setViewportView(table3);
+				fpane2.revalidate();
+				fpane2.repaint();
+			}
+	
+	
+	}
 		});
+	    
+		
+		
 	    ok2.addActionListener(new ActionListener()
 		{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(request.getSelectedIndex()==0)
-		{
-			JOptionPane.showMessageDialog(null, "Department field is empty");
-			//req.setBorder(border);
-		}
-		else
+		
 				frame7.dispose();
 				
 		
@@ -444,6 +598,10 @@ public class GM extends User{
 		btn5=new JButton("Requests");
 		btn6=new JButton("Assign Task");
 		btn7=new JButton("Logout");
+		acusrbtn=new JButton("Accept");
+		rjusrbtn=new JButton("Reject");
+		aclvbtn=new JButton("Accept");
+		rjlvbtn=new JButton("Reject");
 		btn1.setPreferredSize(new Dimension(200, 60));
 		btn2.setPreferredSize(new Dimension(200, 60));
 		btn3.setPreferredSize(new Dimension(200, 60));
@@ -451,6 +609,10 @@ public class GM extends User{
 		btn5.setPreferredSize(new Dimension(200, 60));
 		btn6.setPreferredSize(new Dimension(200, 60));
 		btn7.setPreferredSize(new Dimension(200, 60));
+		acusrbtn.setPreferredSize(new Dimension(200, 60));
+		rjusrbtn.setPreferredSize(new Dimension(200, 60));
+		aclvbtn.setPreferredSize(new Dimension(200, 60));
+		rjlvbtn.setPreferredSize(new Dimension(200, 60));
 		btn1.addActionListener(new ActionListener()
 				{
 			@Override
@@ -546,7 +708,6 @@ public class GM extends User{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		otherhome();
 		frame6.setVisible(true);
 		
 		}
@@ -593,6 +754,88 @@ public class GM extends User{
 		
 		}
 });
+		
+		acusrbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+
+				for (int i = 0; i < table2.getRowCount(); i++) {
+					Boolean chked = Boolean.valueOf(table2.getValueAt(i, 0)
+							.toString());
+					
+					//String dataCol1 = table.getValueAt(i, 1).toString();
+					if (chked) {
+						model2.removeRow(i);
+						int l=table2.getRowCount();
+						l--;
+						i=0;
+					
+					}
+				}
+			}
+
+		});
+		rjusrbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+
+				for (int i = 0; i < table2.getRowCount(); i++) {
+					Boolean chked = Boolean.valueOf(table2.getValueAt(i, 0)
+							.toString());
+					
+					//String dataCol1 = table.getValueAt(i, 1).toString();
+					if (chked) {
+						model2.removeRow(i);
+						int l=table2.getRowCount();
+						l--;
+						i=0;
+					
+					}
+				}
+			}
+			
+		});
+		aclvbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+
+				for (int i = 0; i < table3.getRowCount(); i++) {
+					Boolean chked = Boolean.valueOf(table3.getValueAt(i, 0)
+							.toString());
+					
+					//String dataCol1 = table.getValueAt(i, 1).toString();
+					if (chked) {
+						model3.removeRow(i);
+						int l=table3.getRowCount();
+						l--;
+						i=0;
+					
+					}
+				}
+			}
+
+		});
+		rjlvbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+
+				for (int i = 0; i < table3.getRowCount(); i++) {
+					Boolean chked = Boolean.valueOf(table3.getValueAt(i, 0)
+							.toString());
+					
+					//String dataCol1 = table.getValueAt(i, 1).toString();
+					if (chked) {
+						model3.removeRow(i);
+						int l=table3.getRowCount();
+						l--;
+						i=0;
+					
+					}
+				}
+			}
+			
+		});
+		
 		GridBagLayout gridbag = new GridBagLayout();
 		
 		frame4=new JFrame("Admin Home");
@@ -1075,8 +1318,5 @@ public class GM extends User{
 	public void reject()
 	{
 		
-	}
-	
-	
-	
+	}	
 }
