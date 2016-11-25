@@ -22,18 +22,22 @@ import javax.swing.table.*;
 
 public class GM extends User{
 
- 
-	private static JScrollPane sp;
-	private static JFrame frame4,frame6;
-	private static JPanel fpane2,pane1,pane2;
-	private static JButton viewbtn,deletebtn ,btn1,btn2,btn3,btn4,btn5,btn6,btn7,ok,cancel,repsbtn,reqsbtn,taskbtn,loutbtn,logsbtn,staffbtn;
+	private static JTable table,table2;
+	private static JScrollPane sp,sp2;
+	private static JFrame frame4,frame6,frame7;
+	private static JPanel fpane2,pane1,pane2,fpane3;
+	private static JButton viewbtn,viewbtn2,deletebtn ,btn1,btn2,btn3,btn4,btn5,btn6,btn7,ok2,cancel2,ok,cancel,repsbtn,reqsbtn,taskbtn,loutbtn,logsbtn,staffbtn;
 	private static JLabel fms,logo,date,welcome,l1,l2,l3,l4,l5,l6,disphome,loggeduser;
 	private static ImageIcon imageIcon;
 	//ArrayList<logistic_req> req_list=new ArrayList<logistic_req>();
 	//ArrayList<leave> leave_list=new ArrayList<leave>();
 	
+	
 	public static void createGUI()
 	{
+		viewbtn2=new JButton("View");
+	    viewbtn2.setPreferredSize(new Dimension(150,60));
+		GridBagConstraints gbc = new GridBagConstraints();
 		JComboBox<String> request=new JComboBox<String>();
 		request.addItem("Select option");
 		request.addItem("New Users");
@@ -51,10 +55,19 @@ public class GM extends User{
 		pane1.add(pane2);
 		ok=new JButton("OK");
 		cancel=new JButton("Cancel");
+		ok2=new JButton("OK");
 		pane2.add(ok);
 		pane2.add(cancel);
 		frame6.add(pane1);
 		//frame6.add(pane2);
+		frame7=new JFrame("");
+		//frame6.setVisible(false);
+		frame7.setSize(300,200);
+		frame7.setLocationRelativeTo(null);
+		frame7.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		fpane3=new JPanel();
+		fpane3.add(ok2,gbc);
+		frame7.add(fpane3);
 		
 		fpane2=new JPanel();
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss, dd MMM yyyy ");
@@ -96,20 +109,39 @@ public class GM extends User{
 				}
 			}
 		};
-		sp=new JScrollPane();  
-		sp.setPreferredSize(new Dimension(500, 320));
+		DefaultTableModel model2 = new DefaultTableModel() {
 
-		sp.setBounds(300, 400, 490, 90);
-		JTable table = new JTable();
+			public Class<?> getColumnClass(int column) {
+				switch (column) {
+				case 0:
+					return Boolean.class;
+				case 1:
+					return String.class;
+				default: 
+					return String.class;
+				}
+			}
+		};
+		
+		sp=new JScrollPane(); 
+		sp2=new JScrollPane();
+		sp.setPreferredSize(new Dimension(500, 320));
+		sp2.setPreferredSize(new Dimension(500,320));
+		table2 =new JTable();
+		table = new JTable();
 		
 		table.setRowHeight(30);
+		table2.setRowHeight(30);
 		//table.setColumnWidth(20);
 		//sp.setViewportView(table);
 		table.setModel(model);
+		table2.setModel(model2);
 		model.addColumn("Select");
 		model.addColumn("User Name");
 		model.addColumn("Department");
 		model.addColumn("Type");
+		model2.addColumn("Select");
+		model2.addColumn("User Name");
 		
 
 		// Data Row
@@ -120,7 +152,11 @@ public class GM extends User{
 			model.setValueAt("Row"+ (i+1), i, 2);
 			model.setValueAt("Row"+ (i+1), i, 3);
 		}
-		
+		for (int i = 0; i <= 10; i++) {
+			model2.addRow(new Object[0]);
+			model2.setValueAt(false, i, 0);
+			model2.setValueAt("Row"+ (i+1), i, 1);
+		}
 		
 		
 		ImageIcon vb = new ImageIcon("view.png");
@@ -134,6 +170,14 @@ public class GM extends User{
 	   viewbtn.setBorderPainted(false);
 	    viewbtn.setToolTipText("View user");
 		viewbtn.setPreferredSize(new Dimension(200, 200));
+		viewbtn2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame7.setVisible(true);
+				
+			}
+
+		});
+		
 		
 		 ImageIcon db = new ImageIcon("delete.png");
 			Image image10 = db.getImage(); // transform it 
@@ -301,7 +345,7 @@ public class GM extends User{
                 0, // ipadx
                 0)
 				);
-		fpane2.add(viewbtn,new GridBagConstraints(
+		fpane2.add(viewbtn2,new GridBagConstraints(
 				0, // gridx
                 0, // gridy
                 1, // gridwidth
@@ -312,8 +356,8 @@ public class GM extends User{
                 GridBagConstraints.NONE, // fill
                 new Insets(0, // inset top
                 00, // inset left
-                15, // inset bottom
-                300), // inset right
+                80, // inset bottom
+                269), // inset right
                 0, // ipadx
                 0)
 				);
@@ -330,10 +374,40 @@ public class GM extends User{
 				frame6.setVisible(false);
 				fpane2.removeAll();
 				otherhome();
+				sp2.setBorder(BorderFactory.createEmptyBorder());
+
+				fpane2.add(sp2,new GridBagConstraints(
+						0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.CENTER, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(22, // inset top
+		                200, // inset left
+		                100, // inset bottom
+		                0), // inset right
+		                0, // ipadx
+		                0)
+						);
+				sp2.setViewportView(table2);
 				fpane2.revalidate();
 				fpane2.repaint();
 			}
 		});
+	    ok2.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+				frame7.dispose();
+		
+			}
+		});
+	    
 	    
 	    reqsbtn.addActionListener(new ActionListener()
 		{
@@ -348,6 +422,8 @@ public class GM extends User{
 		});
 	    
 	    //frame6.add(ok);
+	    
+	    
 		btn1=new JButton("Home");
 		btn2=new JButton("Staff");
 		btn3=new JButton("Logistics");
@@ -377,12 +453,65 @@ public class GM extends User{
 	});
 		btn2.addActionListener(new ActionListener()
 		{
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		otherhome();
-		}
-});
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				otherhome();
+				sp.setBorder(BorderFactory.createEmptyBorder());
+
+				fpane2.add(sp,new GridBagConstraints(
+						0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.CENTER, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(22, // inset top
+		                200, // inset left
+		                100, // inset bottom
+		                0), // inset right
+		                0, // ipadx
+		                0)
+						);
+				sp.setViewportView(table);
+				
+				fpane2.add(deletebtn,new GridBagConstraints(
+						0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.SOUTHEAST, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(0, // inset top
+		                00, // inset left
+		                20, // inset bottom
+		                100), // inset right
+		                0, // ipadx
+		                0)
+						);
+				fpane2.add(viewbtn2,new GridBagConstraints(
+						0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.SOUTHEAST, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(0, // inset top
+		                00, // inset left
+		                80, // inset bottom
+		                269), // inset right
+		                0, // ipadx
+		                0)
+						);
+				
+				}
+		});
 		btn3.addActionListener(new ActionListener()
 		{
 	@Override
