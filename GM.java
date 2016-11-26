@@ -23,19 +23,18 @@ import javax.swing.table.*;
 // table and sp are staff lists to view or delete
 // table 2 and sp2 are user request lists
 // table 3 and sp3 are leave requests
-
+// table 4 and sp4 are logistic requests
 public class GM extends User{
 
-	private static JTable table,table2,table3;
-	private static JScrollPane sp,sp2,sp3;
+	private static JTable table,table2,table3,table4;
+	private static JScrollPane sp,sp2,sp3,sp4;
 	private static JFrame frame4,frame6,frame7;
 	private static JPanel fpane2,pane1,pane2,fpane3;
-	private static JButton aclvbtn,rjlvbtn,acusrbtn,rjusrbtn,viewbtn,viewbtn2,deletebtn ,btn1,btn2,btn3,btn4,btn5,btn6,btn7,ok2,cancel2,ok,cancel,repsbtn,reqsbtn,taskbtn,loutbtn,logsbtn,staffbtn;
+	private static JButton aclgbtn,rjlgbtn,aclvbtn,rjlvbtn,acusrbtn,rjusrbtn,viewbtn,viewbtn2,deletebtn ,btn1,btn2,btn3,btn4,btn5,btn6,btn7,ok2,cancel2,ok,cancel,repsbtn,reqsbtn,taskbtn,loutbtn,logsbtn,staffbtn;
 	private static JLabel fms,logo,date,welcome,l1,l2,l3,l4,l5,l6,disphome,loggeduser;
 	private static ImageIcon imageIcon;
 	//ArrayList<logistic_req> req_list=new ArrayList<logistic_req>();
 	//ArrayList<leave> leave_list=new ArrayList<leave>();
-	
 	
 	public static void createGUI()
 	{
@@ -151,24 +150,50 @@ public class GM extends User{
 				}
 			}
 		};
+		DefaultTableModel model4 = new DefaultTableModel() {
+
+			public Class<?> getColumnClass(int column) {
+				switch (column) {
+				case 0:
+					return Boolean.class;
+				case 1:
+					return String.class;
+				case 2:
+					return String.class;
+				case 3:
+					return String.class;
+				case 4:
+					return String.class;
+				case 5:
+					return String.class;
+				default: 
+					return String.class;
+				}
+			}
+		};
 		
 		sp=new JScrollPane(); 
 		sp2=new JScrollPane();
 		sp3=new JScrollPane();
+		sp4=new JScrollPane();
 		sp.setPreferredSize(new Dimension(500, 320));
 		sp2.setPreferredSize(new Dimension(500,320));
 		sp3.setPreferredSize(new Dimension(500,320));
+		sp4.setPreferredSize(new Dimension(500,320));
 		table2 =new JTable();
 		table = new JTable();
 		table3=new JTable();
+		table4=new JTable();
 		table.setRowHeight(30);
 		table2.setRowHeight(30);
 		table3.setRowHeight(30);
+		table4.setRowHeight(30);
 		//table.setColumnWidth(20);
 		//sp.setViewportView(table);
 		table.setModel(model);
 		table2.setModel(model2);
 		table3.setModel(model3);
+		table4.setModel(model4);
 		/*table.setEnabled(false);
 		table2.setEnabled(false);
 		table3.setEnabled(false);*/
@@ -180,6 +205,7 @@ public class GM extends User{
 		model2.addColumn("User Name");
 		model2.addColumn("Department");
 		model2.addColumn("Type");
+		
 		model3.addColumn("Select");
 		model3.addColumn("User Name");
 		model3.addColumn("Department");
@@ -188,6 +214,14 @@ public class GM extends User{
 		model3.addColumn("Type");
 		model3.addColumn("Start Date");
 		model3.addColumn("End Date");
+		
+		model4.addColumn("Select");
+		model4.addColumn("ID");
+		model4.addColumn("Equipment list");
+		model4.addColumn("Task");
+		model4.addColumn("Department");
+		model4.addColumn("Requester");
+		
 		// Data Row
 		for (int i = 0; i <= 10; i++) {
 			model.addRow(new Object[0]);
@@ -211,7 +245,20 @@ public class GM extends User{
 			model3.setValueAt("Leave req"+ (i+1), i, 3);
 			model3.setValueAt("Leave req"+ (i+1), i, 4);
 			model3.setValueAt("Leave req"+ (i+1), i, 5);
+			model3.setValueAt("Leave req"+ (i+1), i, 5);
+			model3.setValueAt("Leave req"+ (i+1), i, 6);
 		}
+		
+	for (int i = 0; i <= 10; i++) {
+		model4.addRow(new Object[0]);
+		model4.setValueAt(false, i, 0);
+		model4.setValueAt("Logistic"+ (i+1), i, 1);
+		model4.setValueAt("Logistic"+ (i+1), i, 2);
+		model4.setValueAt("Logistic"+ (i+1), i, 3);
+		model4.setValueAt("Logistic"+ (i+1), i, 4);
+		model4.setValueAt("Logistic"+ (i+1), i, 5);
+	
+	}
 		
 		ImageIcon vb = new ImageIcon("view.png");
 		Image image11 = vb.getImage(); // transform it 
@@ -587,9 +634,71 @@ public class GM extends User{
 				
 			}
 		});
+	    logsbtn.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+	    frame6.setVisible(false);
+		fpane2.removeAll();
+		otherhome();
+		sp4.setBorder(BorderFactory.createEmptyBorder());
+
+		fpane2.add(sp4,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.CENTER, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(22, // inset top
+                200, // inset left
+                100, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(rjlgbtn,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTHEAST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                00, // inset left
+                80, // inset bottom
+                100), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(aclgbtn,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTHEAST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                00, // inset left
+                80, // inset bottom
+                300), // inset right
+                0, // ipadx
+                0)
+				);
+		sp4.setViewportView(table4);
+		fpane2.revalidate();
+		fpane2.repaint();
 	    
 	    //frame6.add(ok);
-	    
+	}
+		});
 	    
 		btn1=new JButton("Home");
 		btn2=new JButton("Staff");
@@ -602,6 +711,8 @@ public class GM extends User{
 		rjusrbtn=new JButton("Reject");
 		aclvbtn=new JButton("Accept");
 		rjlvbtn=new JButton("Reject");
+		aclgbtn=new JButton("Approve");
+		rjlgbtn=new JButton("Reject");
 		btn1.setPreferredSize(new Dimension(200, 60));
 		btn2.setPreferredSize(new Dimension(200, 60));
 		btn3.setPreferredSize(new Dimension(200, 60));
@@ -613,6 +724,8 @@ public class GM extends User{
 		rjusrbtn.setPreferredSize(new Dimension(200, 60));
 		aclvbtn.setPreferredSize(new Dimension(200, 60));
 		rjlvbtn.setPreferredSize(new Dimension(200, 60));
+		aclgbtn.setPreferredSize(new Dimension(200, 60));
+		rjlgbtn.setPreferredSize(new Dimension(200, 60));
 		btn1.addActionListener(new ActionListener()
 				{
 			@Override
@@ -689,12 +802,69 @@ public class GM extends User{
 		});
 		btn3.addActionListener(new ActionListener()
 		{
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		otherhome();
-		}
-});
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+			    frame6.setVisible(false);
+				fpane2.removeAll();
+				otherhome();
+				sp4.setBorder(BorderFactory.createEmptyBorder());
+
+				fpane2.add(sp4,new GridBagConstraints(
+						0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.CENTER, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(22, // inset top
+		                200, // inset left
+		                100, // inset bottom
+		                0), // inset right
+		                0, // ipadx
+		                0)
+						);
+				fpane2.add(rjlgbtn,new GridBagConstraints(
+						0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.SOUTHEAST, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(0, // inset top
+		                00, // inset left
+		                80, // inset bottom
+		                100), // inset right
+		                0, // ipadx
+		                0)
+						);
+				fpane2.add(aclgbtn,new GridBagConstraints(
+						0, // gridx
+		                0, // gridy
+		                1, // gridwidth
+		                1, // gridheight
+		                1, // weightx
+		                1, // weighty
+		                GridBagConstraints.SOUTHEAST, // anchor <------------
+		                GridBagConstraints.NONE, // fill
+		                new Insets(0, // inset top
+		                00, // inset left
+		                80, // inset bottom
+		                300), // inset right
+		                0, // ipadx
+		                0)
+						);
+				sp4.setViewportView(table4);
+				fpane2.revalidate();
+				fpane2.repaint();
+			    
+			    //frame6.add(ok);
+			}
+				});
 		btn4.addActionListener(new ActionListener()
 		{
 	@Override
@@ -713,20 +883,6 @@ public class GM extends User{
 		}
 });
 		btn6.addActionListener(new ActionListener()
-		{
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		otherhome();
-		}
-});
-		
-		
-		
-		
-		
-		
-		btn5.addActionListener(new ActionListener()
 		{
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -827,6 +983,46 @@ public class GM extends User{
 					if (chked) {
 						model3.removeRow(i);
 						int l=table3.getRowCount();
+						l--;
+						i=0;
+					
+					}
+				}
+			}
+			
+		});
+		aclgbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+
+				for (int i = 0; i < table4.getRowCount(); i++) {
+					Boolean chked = Boolean.valueOf(table4.getValueAt(i, 0)
+							.toString());
+					
+					//String dataCol1 = table.getValueAt(i, 1).toString();
+					if (chked) {
+						model4.removeRow(i);
+						int l=table4.getRowCount();
+						l--;
+						i=0;
+					
+					}
+				}
+			}
+
+		});
+		rjlgbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+
+				for (int i = 0; i < table4.getRowCount(); i++) {
+					Boolean chked = Boolean.valueOf(table4.getValueAt(i, 0)
+							.toString());
+					
+					//String dataCol1 = table.getValueAt(i, 1).toString();
+					if (chked) {
+						model4.removeRow(i);
+						int l=table4.getRowCount();
 						l--;
 						i=0;
 					
