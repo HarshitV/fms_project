@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -25,21 +26,38 @@ import javax.swing.table.*;
 // table 3 and sp3 are leave requests
 // table 4 and sp4 are logistic requests
 public class GM extends User{
-
-	private static JTable table,table2,table3,table4;
-	private static JScrollPane sp,sp2,sp3,sp4;
-	private static JFrame frame4,frame6,frame7;
-	private static JPanel fpane2,pane1,pane2,fpane3;
-	private static JButton aclgbtn,rjlgbtn,aclvbtn,rjlvbtn,acusrbtn,rjusrbtn,viewbtn,viewbtn2,deletebtn ,btn1,btn2,btn3,btn4,btn5,btn6,btn7,ok2,cancel2,ok,cancel,repsbtn,reqsbtn,taskbtn,loutbtn,logsbtn,staffbtn;
-	private static JLabel fms,logo,date,welcome,l1,l2,l3,l4,l5,l6,disphome,loggeduser;
+	
+	private static int taskcount=0;
+	private static JTable table,table2,table3,table4,table5;
+	private static JScrollPane sp,sp2,sp3,sp4,sp5;
+	private static JFrame frame4,frame6,frame7,frame8;
+	private static JPanel fpane2,pane1,pane2,fpane3,fpane4;
+	private static JButton ok3,viewrep,aclgbtn,rjlgbtn,aclvbtn,rjlvbtn,acusrbtn,rjusrbtn,viewbtn,viewbtn2,deletebtn ,btn1,btn2,btn3,btn4,btn5,btn6,btn7,ok2,cancel2,ok,cancel,repsbtn,reqsbtn,taskbtn,loutbtn,logsbtn,staffbtn;
+	private static JLabel task1,task2,task3,task4,fms,logo,date,welcome,l1,l2,l3,l4,l5,l6,disphome,loggeduser;
 	private static ImageIcon imageIcon;
+	private static JTextField t1,t2,t3,t4;
 	//ArrayList<logistic_req> req_list=new ArrayList<logistic_req>();
 	//ArrayList<leave> leave_list=new ArrayList<leave>();
 	
+	
 	public static void createGUI()
 	{
+		
+		task1=new JLabel("Task id: " + taskcount);
+		task2=new JLabel("Task Name: ");
+		task1.setFont(new Font("Serif", Font.PLAIN, 34));
+		task2.setFont(new Font("Serif", Font.PLAIN, 34));
+		task1.setHorizontalAlignment(SwingConstants.LEFT);
+		task2.setHorizontalAlignment(SwingConstants.LEFT);
+
+		t2=new JTextField("");
+        t2.setPreferredSize( new Dimension( 330, 35 ) );
+
+		//List<String> =
 		viewbtn2=new JButton("View");
 	    viewbtn2.setPreferredSize(new Dimension(150,60));
+	    viewrep=new JButton("View");
+	    viewrep.setPreferredSize(new Dimension(150,60));
 		GridBagConstraints gbc = new GridBagConstraints();
 		JComboBox<String> request=new JComboBox<String>();
 		request.addItem("Select option");
@@ -59,18 +77,26 @@ public class GM extends User{
 		ok=new JButton("OK");
 		cancel=new JButton("Cancel");
 		ok2=new JButton("OK");
+		ok3=new JButton("OK");
 		pane2.add(ok);
 		pane2.add(cancel);
 		frame6.add(pane1);
 		//frame6.add(pane2);
 		frame7=new JFrame("");
+		frame8=new JFrame("TASK REPORTS");
 		//frame6.setVisible(false);
 		frame7.setSize(300,200);
 		frame7.setLocationRelativeTo(null);
 		frame7.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame8.setSize(300,200);
+		frame8.setLocationRelativeTo(null);
+		frame8.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fpane3=new JPanel();
 		fpane3.add(ok2,gbc);
 		frame7.add(fpane3);
+		fpane4=new JPanel();
+		fpane4.add(ok3,gbc);
+		frame8.add(fpane4);
 		
 		fpane2=new JPanel();
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss, dd MMM yyyy ");
@@ -78,7 +104,7 @@ public class GM extends User{
 		date=new JLabel("Logged in at: " + dateFormat.format(cal.getTime()));		
 		date.setFont (date.getFont ().deriveFont (15.0f));
 		
-		fms=new JLabel("FACULTY MANAGEMENT SERVICES SYSTEM");
+		fms=new JLabel("FACILITY MANAGEMENT SERVICES SYSTEM");
 		fms.setFont(fms.getFont ().deriveFont (30.0f));
 		fms.setForeground(Color.red);
 		
@@ -171,29 +197,55 @@ public class GM extends User{
 				}
 			}
 		};
+		DefaultTableModel model5 = new DefaultTableModel() {
+
+			public Class<?> getColumnClass(int column) {
+				switch (column) {
+				case 0:
+					return Boolean.class;
+				case 1:
+					return String.class;
+				case 2:
+					return String.class;
+				case 3:
+					return String.class;
+				case 4:
+					return String.class;
+				
+				default: 
+					return String.class;
+				}
+			}
+		};
+		
 		
 		sp=new JScrollPane(); 
 		sp2=new JScrollPane();
 		sp3=new JScrollPane();
 		sp4=new JScrollPane();
+		sp5=new JScrollPane();
 		sp.setPreferredSize(new Dimension(500, 320));
 		sp2.setPreferredSize(new Dimension(500,320));
 		sp3.setPreferredSize(new Dimension(500,320));
 		sp4.setPreferredSize(new Dimension(500,320));
+		sp5.setPreferredSize(new Dimension(500,320));
 		table2 =new JTable();
 		table = new JTable();
 		table3=new JTable();
 		table4=new JTable();
+		table5=new JTable();
 		table.setRowHeight(30);
 		table2.setRowHeight(30);
 		table3.setRowHeight(30);
 		table4.setRowHeight(30);
+		table5.setRowHeight(30);
 		//table.setColumnWidth(20);
 		//sp.setViewportView(table);
 		table.setModel(model);
 		table2.setModel(model2);
 		table3.setModel(model3);
 		table4.setModel(model4);
+		table5.setModel(model5);
 		/*table.setEnabled(false);
 		table2.setEnabled(false);
 		table3.setEnabled(false);*/
@@ -221,6 +273,12 @@ public class GM extends User{
 		model4.addColumn("Task");
 		model4.addColumn("Department");
 		model4.addColumn("Requester");
+		
+		model5.addColumn("Select");
+		model5.addColumn("Task ID");
+		model5.addColumn("Task Name");
+		model5.addColumn("Department");
+		model5.addColumn("Status");
 		
 		// Data Row
 		for (int i = 0; i <= 10; i++) {
@@ -259,6 +317,17 @@ public class GM extends User{
 		model4.setValueAt("Logistic"+ (i+1), i, 5);
 	
 	}
+	
+	for (int i = 0; i <= 10; i++) {
+		model5.addRow(new Object[0]);
+		model5.setValueAt(false, i, 0);
+		model5.setValueAt("Task"+ (i+1), i, 1);
+		model5.setValueAt("Task"+ (i+1), i, 2);
+		model5.setValueAt("Task"+ (i+1), i, 3);
+		model5.setValueAt("Task"+ (i+1), i, 4);
+		
+	
+	}
 		
 		ImageIcon vb = new ImageIcon("view.png");
 		Image image11 = vb.getImage(); // transform it 
@@ -276,7 +345,13 @@ public class GM extends User{
 				frame7.setVisible(true);	
 			}
 		});
-		
+		viewrep.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				frame8.setVisible(true);
+				
+			}
+		}
+				);
 		
 		 ImageIcon db = new ImageIcon("delete.png");
 			Image image10 = db.getImage(); // transform it 
@@ -621,7 +696,17 @@ public class GM extends User{
 		
 			}
 		});
-	    
+	    ok3.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+				frame8.dispose();
+				
+		
+			}
+		});
 	    
 	    reqsbtn.addActionListener(new ActionListener()
 		{
@@ -634,6 +719,65 @@ public class GM extends User{
 				
 			}
 		});
+	    taskbtn.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+			otherhome();
+			fpane2.add(task1,new GridBagConstraints(
+					0, // gridx
+	                0, // gridy
+	                1, // gridwidth
+	                1, // gridheight
+	                1, // weightx
+	                1, // weighty
+	                GridBagConstraints.NORTHWEST, // anchor <------------
+	                GridBagConstraints.NONE, // fill
+	                new Insets(130, // inset top
+	                240, // inset left
+	                000, // inset bottom
+	                0), // inset right
+	                0, // ipadx
+	                0)
+					);
+			fpane2.add(task2,new GridBagConstraints(
+					0, // gridx
+	                0, // gridy
+	                1, // gridwidth
+	                1, // gridheight
+	                1, // weightx
+	                1, // weighty
+	                GridBagConstraints.NORTHWEST, // anchor <------------
+	                GridBagConstraints.NONE, // fill
+	                new Insets(200, // inset top
+	                240, // inset left
+	                00, // inset bottom
+	                0), // inset right
+	                0, // ipadx
+	                0)
+					);
+			fpane2.add(t2,new GridBagConstraints(
+					0, // gridx
+	                0, // gridy
+	                1, // gridwidth
+	                1, // gridheight
+	                1, // weightx
+	                1, // weighty
+	                GridBagConstraints.NORTHWEST, // anchor <------------
+	                GridBagConstraints.NONE, // fill
+	                new Insets(210, // inset top
+	                430, // inset left
+	                00, // inset bottom
+	                0), // inset right
+	                0, // ipadx
+	                0)
+					);
+				
+				
+			}
+		});
+	    
 	    logsbtn.addActionListener(new ActionListener()
 		{
 	@Override
@@ -693,6 +837,57 @@ public class GM extends User{
                 0)
 				);
 		sp4.setViewportView(table4);
+		fpane2.revalidate();
+		fpane2.repaint();
+	    
+	    //frame6.add(ok);
+	}
+		});
+	    
+	   repsbtn.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+	    frame6.setVisible(false);
+		fpane2.removeAll();
+		otherhome();
+		sp5.setBorder(BorderFactory.createEmptyBorder());
+
+		fpane2.add(sp5,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.CENTER, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(22, // inset top
+                200, // inset left
+                100, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(viewrep,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTH, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                175, // inset left
+                80, // inset bottom
+                00), // inset right
+                0, // ipadx
+                0)
+				);
+		
+		sp5.setViewportView(table5);
 		fpane2.revalidate();
 		fpane2.repaint();
 	    
@@ -870,9 +1065,51 @@ public class GM extends User{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+	    frame6.setVisible(false);
+		fpane2.removeAll();
 		otherhome();
-		}
-});
+		sp5.setBorder(BorderFactory.createEmptyBorder());
+
+		fpane2.add(sp5,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.CENTER, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(22, // inset top
+                200, // inset left
+                100, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(viewrep,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTH, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                175, // inset left
+                80, // inset bottom
+                00), // inset right
+                0, // ipadx
+                0)
+				);
+		
+		sp5.setViewportView(table5);
+		fpane2.revalidate();
+		fpane2.repaint();
+	    
+	    //frame6.add(ok);
+	}
+		});
 		btn5.addActionListener(new ActionListener()
 		{
 	@Override
