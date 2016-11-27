@@ -26,13 +26,14 @@ import javax.swing.table.*;
 // table 3 and sp3 are leave requests
 // table 4 and sp4 are logistic requests
 public class GM extends User{
-	
-	private static int taskcount=0;
+	private static JComboBox<String> superv,request;
+	private static JTextArea area;
+	private static int taskcount=1;
 	private static JTable table,table2,table3,table4,table5;
-	private static JScrollPane sp,sp2,sp3,sp4,sp5;
+	private static JScrollPane scrollPane,sp,sp2,sp3,sp4,sp5;
 	private static JFrame frame4,frame6,frame7,frame8;
 	private static JPanel fpane2,pane1,pane2,fpane3,fpane4;
-	private static JButton ok3,viewrep,aclgbtn,rjlgbtn,aclvbtn,rjlvbtn,acusrbtn,rjusrbtn,viewbtn,viewbtn2,deletebtn ,btn1,btn2,btn3,btn4,btn5,btn6,btn7,ok2,cancel2,ok,cancel,repsbtn,reqsbtn,taskbtn,loutbtn,logsbtn,staffbtn;
+	private static JButton createtask,ok3,viewrep,aclgbtn,rjlgbtn,aclvbtn,rjlvbtn,acusrbtn,rjusrbtn,viewbtn,viewbtn2,deletebtn ,btn1,btn2,btn3,btn4,btn5,btn6,btn7,ok2,cancel2,ok,cancel,repsbtn,reqsbtn,taskbtn,loutbtn,logsbtn,staffbtn;
 	private static JLabel task1,task2,task3,task4,fms,logo,date,welcome,l1,l2,l3,l4,l5,l6,disphome,loggeduser;
 	private static ImageIcon imageIcon;
 	private static JTextField t1,t2,t3,t4;
@@ -43,26 +44,49 @@ public class GM extends User{
 	public static void createGUI()
 	{
 		
+		
+		area=new JTextArea(5,20);
+		area.setColumns(29);
+		area.setLineWrap (true);
+		area.setWrapStyleWord (false);
+		area.setFont(new Font("Serif", Font.PLAIN, 24));
+		scrollPane = new JScrollPane(area);
 		task1=new JLabel("Task id: " + taskcount);
 		task2=new JLabel("Task Name: ");
+		task3=new JLabel("Task Description: ");
+		task4=new JLabel("Task Deadline: ");
 		task1.setFont(new Font("Serif", Font.PLAIN, 34));
 		task2.setFont(new Font("Serif", Font.PLAIN, 34));
+		task3.setFont(new Font("Serif", Font.PLAIN ,34));
+		task4.setFont(new Font("Serif", Font.PLAIN ,34));
 		task1.setHorizontalAlignment(SwingConstants.LEFT);
 		task2.setHorizontalAlignment(SwingConstants.LEFT);
-
+		task3.setHorizontalAlignment(SwingConstants.LEFT);
+		task4.setHorizontalAlignment(SwingConstants.LEFT);
 		t2=new JTextField("");
+		t3=new JTextField("");
+		t4=new JTextField("");
         t2.setPreferredSize( new Dimension( 330, 35 ) );
-
+        t4.setPreferredSize( new Dimension( 305, 35 ) );
+        //t3.setPreferredSize( new Dimension( 520, 135 ) );
 		//List<String> =
 		viewbtn2=new JButton("View");
 	    viewbtn2.setPreferredSize(new Dimension(150,60));
 	    viewrep=new JButton("View");
 	    viewrep.setPreferredSize(new Dimension(150,60));
 		GridBagConstraints gbc = new GridBagConstraints();
-		JComboBox<String> request=new JComboBox<String>();
+		request=new JComboBox<String>();
+		superv=new JComboBox<String>();
 		request.addItem("Select option");
 		request.addItem("New Users");
 		request.addItem("Leave requests");
+		superv.addItem("Select Supervisor");
+		superv.addItem("Electricity");
+		superv.addItem("HVAC");
+		superv.addItem("AV");
+		superv.addItem("Security");
+		superv.addItem("Housekeeping");
+		
 		frame6=new JFrame("REQUESTS");
 		frame6.setVisible(false);
 		frame6.setSize(350,120);
@@ -482,59 +506,7 @@ public class GM extends User{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		otherhome();
-		sp.setBorder(BorderFactory.createEmptyBorder());
-
-		fpane2.add(sp,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.CENTER, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(22, // inset top
-                200, // inset left
-                100, // inset bottom
-                0), // inset right
-                0, // ipadx
-                0)
-				);
-		sp.setViewportView(table);
-		
-		fpane2.add(deletebtn,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.SOUTHEAST, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(0, // inset top
-                00, // inset left
-                20, // inset bottom
-                100), // inset right
-                0, // ipadx
-                0)
-				);
-		fpane2.add(viewbtn2,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.SOUTHEAST, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(0, // inset top
-                00, // inset left
-                80, // inset bottom
-                269), // inset right
-                0, // ipadx
-                0)
-				);
+		staffGUI();
 		
 		}
 });
@@ -724,56 +696,7 @@ public class GM extends User{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-			otherhome();
-			fpane2.add(task1,new GridBagConstraints(
-					0, // gridx
-	                0, // gridy
-	                1, // gridwidth
-	                1, // gridheight
-	                1, // weightx
-	                1, // weighty
-	                GridBagConstraints.NORTHWEST, // anchor <------------
-	                GridBagConstraints.NONE, // fill
-	                new Insets(130, // inset top
-	                240, // inset left
-	                000, // inset bottom
-	                0), // inset right
-	                0, // ipadx
-	                0)
-					);
-			fpane2.add(task2,new GridBagConstraints(
-					0, // gridx
-	                0, // gridy
-	                1, // gridwidth
-	                1, // gridheight
-	                1, // weightx
-	                1, // weighty
-	                GridBagConstraints.NORTHWEST, // anchor <------------
-	                GridBagConstraints.NONE, // fill
-	                new Insets(200, // inset top
-	                240, // inset left
-	                00, // inset bottom
-	                0), // inset right
-	                0, // ipadx
-	                0)
-					);
-			fpane2.add(t2,new GridBagConstraints(
-					0, // gridx
-	                0, // gridy
-	                1, // gridwidth
-	                1, // gridheight
-	                1, // weightx
-	                1, // weighty
-	                GridBagConstraints.NORTHWEST, // anchor <------------
-	                GridBagConstraints.NONE, // fill
-	                new Insets(210, // inset top
-	                430, // inset left
-	                00, // inset bottom
-	                0), // inset right
-	                0, // ipadx
-	                0)
-					);
-				
+			taskGUI();
 				
 			}
 		});
@@ -783,64 +706,7 @@ public class GM extends User{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-	    frame6.setVisible(false);
-		fpane2.removeAll();
-		otherhome();
-		sp4.setBorder(BorderFactory.createEmptyBorder());
-
-		fpane2.add(sp4,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.CENTER, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(22, // inset top
-                200, // inset left
-                100, // inset bottom
-                0), // inset right
-                0, // ipadx
-                0)
-				);
-		fpane2.add(rjlgbtn,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.SOUTHEAST, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(0, // inset top
-                00, // inset left
-                80, // inset bottom
-                100), // inset right
-                0, // ipadx
-                0)
-				);
-		fpane2.add(aclgbtn,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.SOUTHEAST, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(0, // inset top
-                00, // inset left
-                80, // inset bottom
-                300), // inset right
-                0, // ipadx
-                0)
-				);
-		sp4.setViewportView(table4);
-		fpane2.revalidate();
-		fpane2.repaint();
-	    
-	    //frame6.add(ok);
+	    logsGUI();
 	}
 		});
 	    
@@ -849,49 +715,8 @@ public class GM extends User{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-	    frame6.setVisible(false);
-		fpane2.removeAll();
-		otherhome();
-		sp5.setBorder(BorderFactory.createEmptyBorder());
-
-		fpane2.add(sp5,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.CENTER, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(22, // inset top
-                200, // inset left
-                100, // inset bottom
-                0), // inset right
-                0, // ipadx
-                0)
-				);
-		fpane2.add(viewrep,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.SOUTH, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(0, // inset top
-                175, // inset left
-                80, // inset bottom
-                00), // inset right
-                0, // ipadx
-                0)
-				);
-		
-		sp5.setViewportView(table5);
-		fpane2.revalidate();
-		fpane2.repaint();
+	    repsGUI();
 	    
-	    //frame6.add(ok);
 	}
 		});
 	    
@@ -908,6 +733,7 @@ public class GM extends User{
 		rjlvbtn=new JButton("Reject");
 		aclgbtn=new JButton("Approve");
 		rjlgbtn=new JButton("Reject");
+		createtask=new JButton("Create Task");
 		btn1.setPreferredSize(new Dimension(200, 60));
 		btn2.setPreferredSize(new Dimension(200, 60));
 		btn3.setPreferredSize(new Dimension(200, 60));
@@ -921,6 +747,20 @@ public class GM extends User{
 		rjlvbtn.setPreferredSize(new Dimension(200, 60));
 		aclgbtn.setPreferredSize(new Dimension(200, 60));
 		rjlgbtn.setPreferredSize(new Dimension(200, 60));
+		createtask.setPreferredSize(new Dimension(200, 60));
+		createtask.addActionListener(new ActionListener()
+		{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		JOptionPane.showMessageDialog(null, "New Task Created !");
+		taskcount++;
+		t2.setText(null);
+		t4.setText(null);
+		area.setText(null);
+		taskGUI();
+	}
+});
 		btn1.addActionListener(new ActionListener()
 				{
 			@Override
@@ -928,10 +768,6 @@ public class GM extends User{
 				// TODO Auto-generated method stub
 				createGMhome();
 				
-				/*frame4.getContentPane().removeAll();
-				frame4.add(btn1);
-				frame4.revalidate();
-				frame4.repaint();*/
 				}
 	});
 		btn2.addActionListener(new ActionListener()
@@ -939,59 +775,7 @@ public class GM extends User{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				otherhome();
-				sp.setBorder(BorderFactory.createEmptyBorder());
-
-				fpane2.add(sp,new GridBagConstraints(
-						0, // gridx
-		                0, // gridy
-		                1, // gridwidth
-		                1, // gridheight
-		                1, // weightx
-		                1, // weighty
-		                GridBagConstraints.CENTER, // anchor <------------
-		                GridBagConstraints.NONE, // fill
-		                new Insets(22, // inset top
-		                200, // inset left
-		                100, // inset bottom
-		                0), // inset right
-		                0, // ipadx
-		                0)
-						);
-				sp.setViewportView(table);
-				
-				fpane2.add(deletebtn,new GridBagConstraints(
-						0, // gridx
-		                0, // gridy
-		                1, // gridwidth
-		                1, // gridheight
-		                1, // weightx
-		                1, // weighty
-		                GridBagConstraints.SOUTHEAST, // anchor <------------
-		                GridBagConstraints.NONE, // fill
-		                new Insets(0, // inset top
-		                00, // inset left
-		                20, // inset bottom
-		                100), // inset right
-		                0, // ipadx
-		                0)
-						);
-				fpane2.add(viewbtn2,new GridBagConstraints(
-						0, // gridx
-		                0, // gridy
-		                1, // gridwidth
-		                1, // gridheight
-		                1, // weightx
-		                1, // weighty
-		                GridBagConstraints.SOUTHEAST, // anchor <------------
-		                GridBagConstraints.NONE, // fill
-		                new Insets(0, // inset top
-		                00, // inset left
-		                80, // inset bottom
-		                269), // inset right
-		                0, // ipadx
-		                0)
-						);
+				staffGUI();
 				
 				}
 		});
@@ -1000,64 +784,7 @@ public class GM extends User{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-			    frame6.setVisible(false);
-				fpane2.removeAll();
-				otherhome();
-				sp4.setBorder(BorderFactory.createEmptyBorder());
-
-				fpane2.add(sp4,new GridBagConstraints(
-						0, // gridx
-		                0, // gridy
-		                1, // gridwidth
-		                1, // gridheight
-		                1, // weightx
-		                1, // weighty
-		                GridBagConstraints.CENTER, // anchor <------------
-		                GridBagConstraints.NONE, // fill
-		                new Insets(22, // inset top
-		                200, // inset left
-		                100, // inset bottom
-		                0), // inset right
-		                0, // ipadx
-		                0)
-						);
-				fpane2.add(rjlgbtn,new GridBagConstraints(
-						0, // gridx
-		                0, // gridy
-		                1, // gridwidth
-		                1, // gridheight
-		                1, // weightx
-		                1, // weighty
-		                GridBagConstraints.SOUTHEAST, // anchor <------------
-		                GridBagConstraints.NONE, // fill
-		                new Insets(0, // inset top
-		                00, // inset left
-		                80, // inset bottom
-		                100), // inset right
-		                0, // ipadx
-		                0)
-						);
-				fpane2.add(aclgbtn,new GridBagConstraints(
-						0, // gridx
-		                0, // gridy
-		                1, // gridwidth
-		                1, // gridheight
-		                1, // weightx
-		                1, // weighty
-		                GridBagConstraints.SOUTHEAST, // anchor <------------
-		                GridBagConstraints.NONE, // fill
-		                new Insets(0, // inset top
-		                00, // inset left
-		                80, // inset bottom
-		                300), // inset right
-		                0, // ipadx
-		                0)
-						);
-				sp4.setViewportView(table4);
-				fpane2.revalidate();
-				fpane2.repaint();
-			    
-			    //frame6.add(ok);
+			    logsGUI();
 			}
 				});
 		btn4.addActionListener(new ActionListener()
@@ -1065,50 +792,8 @@ public class GM extends User{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-	    frame6.setVisible(false);
-		fpane2.removeAll();
-		otherhome();
-		sp5.setBorder(BorderFactory.createEmptyBorder());
-
-		fpane2.add(sp5,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.CENTER, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(22, // inset top
-                200, // inset left
-                100, // inset bottom
-                0), // inset right
-                0, // ipadx
-                0)
-				);
-		fpane2.add(viewrep,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.SOUTH, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(0, // inset top
-                175, // inset left
-                80, // inset bottom
-                00), // inset right
-                0, // ipadx
-                0)
-				);
-		
-		sp5.setViewportView(table5);
-		fpane2.revalidate();
-		fpane2.repaint();
-	    
-	    //frame6.add(ok);
-	}
+		repsGUI();
+	    }
 		});
 		btn5.addActionListener(new ActionListener()
 		{
@@ -1124,7 +809,7 @@ public class GM extends User{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		otherhome();
+		taskGUI();
 		}
 });
 		loutbtn.addActionListener(new ActionListener()
@@ -1718,6 +1403,317 @@ public class GM extends User{
 		fpane2.repaint();
 	}
 	
+	public static void logsGUI()
+	{
+		frame6.setVisible(false);
+		fpane2.removeAll();
+		otherhome();
+		sp4.setBorder(BorderFactory.createEmptyBorder());
+
+		fpane2.add(sp4,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.CENTER, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(22, // inset top
+                200, // inset left
+                100, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(rjlgbtn,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTHEAST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                00, // inset left
+                80, // inset bottom
+                100), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(aclgbtn,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTHEAST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                00, // inset left
+                80, // inset bottom
+                300), // inset right
+                0, // ipadx
+                0)
+				);
+		sp4.setViewportView(table4);
+		fpane2.revalidate();
+		fpane2.repaint();
+	}
+
+	public static void repsGUI()
+	{
+		frame6.setVisible(false);
+		fpane2.removeAll();
+		otherhome();
+		sp5.setBorder(BorderFactory.createEmptyBorder());
+
+		fpane2.add(sp5,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.CENTER, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(22, // inset top
+                200, // inset left
+                100, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(viewrep,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTH, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                175, // inset left
+                80, // inset bottom
+                00), // inset right
+                0, // ipadx
+                0)
+				);
+		
+		sp5.setViewportView(table5);
+		fpane2.revalidate();
+		fpane2.repaint();
+	}
+	
+	public static void staffGUI()
+	{
+		otherhome();
+		sp.setBorder(BorderFactory.createEmptyBorder());
+
+		fpane2.add(sp,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.CENTER, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(22, // inset top
+                200, // inset left
+                100, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		sp.setViewportView(table);
+		
+		fpane2.add(deletebtn,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTHEAST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                00, // inset left
+                20, // inset bottom
+                100), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(viewbtn2,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTHEAST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                00, // inset left
+                80, // inset bottom
+                269), // inset right
+                0, // ipadx
+                0)
+				);
+	}
+	
+	public static void taskGUI()
+	{
+		task1.setText("Task id: " + taskcount);
+		otherhome();
+		fpane2.add(task1,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTHWEST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(130, // inset top
+                240, // inset left
+                000, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(task2,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTHWEST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(200, // inset top
+                240, // inset left
+                00, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(t2,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTHWEST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(210, // inset top
+                430, // inset left
+                00, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(task3,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTHWEST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(260, // inset top
+                240, // inset left
+                00, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(scrollPane,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTHWEST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(320, // inset top
+                240, // inset left
+                00, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(task4,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTHWEST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(520, // inset top
+                240, // inset left
+                00, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(t4,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTHWEST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(530, // inset top
+                460, // inset left
+                00, // inset bottom
+                0), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(createtask,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTH, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                0, // inset left
+                10, // inset bottom
+                95), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(superv,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.NORTHEAST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(140, // inset top
+                0, // inset left
+                0, // inset bottom
+                95), // inset right
+                0, // ipadx
+                0)
+				);
+	}
 	public void approve_user()
 	{
 		
