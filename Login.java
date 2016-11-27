@@ -1,6 +1,4 @@
 package fms_project;
-import java.util.*;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -55,7 +53,7 @@ public class Login{
 				password=pswd.getText();
 				//System.out.println(password);
 				Home_page.frame1.setVisible(false);
-				//GM.createGUI();
+				GM.createGUI();
 				Supervisor.createGUI();
 			}
 			
