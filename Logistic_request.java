@@ -1,15 +1,17 @@
+
 import java.util.*;
 import java.lang.*;
 import java.io.*;
 
 public class Logistic_request{
 	String id;
-	ArrayList<Logistic> list_logistic= new ArrayList<Logistic>();
+	ArrayList<Logistic> list_logistic= null;
 	String task_id;
 	String department;
 
 	Logistic_request(String[] a){
 		id=a[0];
+        list_logistic=new ArrayList<Logistic>();
 		int i;
 		List<String> l = Arrays.<String>asList(a);
 
@@ -38,13 +40,12 @@ public class Logistic_request{
 
 	public void add_info(Main a){
         String csvfile=null;
-		BufferedWriter br = null;
+		PrintWriter br = null;
         String line = "";
         String cvsSplitBy = ",";
-        if(id.equals(a.electricty.supervisor.userid) || id.equals(a.av.supervisor.userid) || id.equals(a.security.supervisor.userid) || id.equals(a.hvac.supervisor.userid) || id.equals(a.housekeeping.supervisor.userid)){
-        	csvfile="GM_log_req.csv";
-        }
-        else if(department.equals("electricity")){
+        
+        
+        if(department.equals("electricity")){
         	csvfile="electricity_log_req.csv";
         }
         else if(department.equals("av")){
@@ -59,23 +60,33 @@ public class Logistic_request{
         else if(department.equals("hvac")){
             csvfile="hvac_log_req.csv";
         }
+        else{
+            csvfile="gm_log_req.csv";
+        }
+
         try {
 
-            br = new BufferedWriter(new FileWriter(csvfile));
-           	br.append(reason+","+date+","+start_date+","+range+","+end_date+","+user+","+recipient);
-           	br=null;
+            br =new PrintWriter(new BufferedWriter(new FileWriter(csvfile, true)));
+           	br.print(id+",");
+            int i;
+            for(i=0;i<list_logistic.size();i++){
+                br.print(list_logistic.get(i).equipment+","+list_logistic.get(i).quantity+",");
+            }
+            br.println(task_id+","+department);
+           	//br=null;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                br.close();
             }
         }
+        a.read_database();
 	}
+
+    public String toString(){
+        return (id+task_id+department);
+    }
 }

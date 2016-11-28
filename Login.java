@@ -1,7 +1,8 @@
-package fms_project;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -11,7 +12,9 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.*;
 import java.io.*;
+import java.util.*;
 
 public class Login{
 	static String username;
@@ -23,6 +26,8 @@ public class Login{
 	
 	public void createGUI()
 	{
+		final Main m1=new Main();
+		m1.read_database();
 		frame3=new JFrame("FMS LOGIN");
 		frame3.setVisible(true);
 		frame3.setSize(350,120);
@@ -38,8 +43,8 @@ public class Login{
 		
         fpane2.setLayout(new GridLayout(2,1));
         bpane2.setLayout(new FlowLayout());
-        JTextField usname;
-        JPasswordField pswd;
+        final JTextField usname;
+        final JPasswordField pswd;
         usname=new JTextField("");
         pswd=new JPasswordField();
         ok2.addActionListener(new ActionListener(){
@@ -47,14 +52,41 @@ public class Login{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				frame3.setVisible(false);
+				
 				username=usname.getText();
 				//System.out.println(username);
 				password=pswd.getText();
 				//System.out.println(password);
+				get_info(username,password);
+				final User check=check_info(m1);
 				Home_page.frame1.setVisible(false);
-				GM.createGUI();
-				Supervisor.createGUI();
+				
+				if(username.equals(""))
+				{
+					JOptionPane.showMessageDialog(null, "Username field blank");
+				}
+				else if(check!=null)
+				{
+					frame3.setVisible(false);
+					if(check.type.equals("GM"))
+					{
+						gm g2=(gm)check;
+						g2.createGUI();
+					}
+					else if(check.type.equals("Supervisor"))
+					{
+						Supervisor s2=(Supervisor)check;
+						s2.createGUI();
+					}
+					else if(check.type.equals("Staff"))
+					{
+						Staff st2=(Staff)check;
+						st2.createGUI();
+					}
+				}
+				
+				
+				
 			}
 			
 		});
@@ -81,18 +113,104 @@ public class Login{
         frame3.add(bpane2, BorderLayout.PAGE_END);
 	}
 	
-	public void assign_id()
-	{
-		
-	}
-	
-	public void get_info(){
-
+	public void get_info(String us, String pswod){
+		this.username=us;
+		this.password=pswod;
 	}
 
-	public void check_info(){
-
+	public User check_info(Main a){ //return 1 if it exists else returns 0 if it does not exist
+		int i;
+		int flag=0;
+		if(flag==0){
+			gm g= a.admin;
+			if(g.username.equals(username) && g.passwd.equals(password)){
+					flag=1;
+					return g;
+				}
+		}
+		if(flag==0){
+			for(i=0;i<((a.electricity).staff).size();i++){
+				Staff g=((a.electricity).staff).get(i);
+				if(g.username.equals(username) && g.passwd.equals(password)){
+					flag=1;
+					return g;
+				}
+			}
+			if(flag==0){
+				Supervisor g=(a.electricity).supervisor;
+				if(g.username.equals(username) && g.passwd.equals(password)){
+					flag=1;
+					return g;
+				}
+			}
+		}
+		if(flag==0){
+			for(i=0;i<((a.hvac).staff).size();i++){
+				Staff g=((a.hvac).staff).get(i);
+				if(g.username.equals(username) && g.passwd.equals(password)){
+					flag=1;
+					return g;
+				}
+			}
+			if(flag==0){
+				Supervisor g=(a.hvac).supervisor;
+				if(g.username.equals(username) && g.passwd.equals(password)){
+					flag=1;
+					return g;
+				}
+			}
+		}
+		if(flag==0){
+			for(i=0;i<((a.security).staff).size();i++){
+				Staff g=((a.security).staff).get(i);
+				if(g.username.equals(username) && g.passwd.equals(password)){
+					flag=1;
+					return g;
+				}
+			}
+			if(flag==0){
+				Supervisor g=(a.security).supervisor;
+				if(g.username.equals(username) && g.passwd.equals(password)){
+					flag=1;
+					return g;
+				}
+			}
+		}
+		if(flag==0){
+			for(i=0;i<((a.housekeeping).staff).size();i++){
+				Staff g=((a.housekeeping).staff).get(i);
+				if(g.username.equals(username) && g.passwd.equals(password)){
+					flag=1;
+					return g;
+				}
+			}
+			if(flag==0){
+				Supervisor g=(a.housekeeping).supervisor;
+				if(g.username.equals(username) && g.passwd.equals(password)){
+					flag=1;
+					return g;
+				}
+			}
+		}
+		if(flag==0){
+			for(i=0;i<((a.av).staff).size();i++){
+				Staff g=((a.av).staff).get(i);
+				if(g.username.equals(username) && g.passwd.equals(password)){
+					flag=1;
+					return g;
+				}
+			}
+			if(flag==0){
+				Supervisor g=(a.av).supervisor;
+				if(g.username.equals(username) && g.passwd.equals(password)){
+					flag=1;
+					return g;
+				}
+			}
+		}
+		return null;
 	}
+
 
 	//public void open_userscreen( User a){
 

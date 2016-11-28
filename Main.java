@@ -1,13 +1,15 @@
+
+
 import java.util.*;
 import java.lang.*;
 import java.io.*;
 
 public class Main{
-	department electricity;
-	department hvac;
-	department security;
-	department housekeeping;
-	department av;
+	department electricity=null;
+	department hvac=null;
+	department security=null;
+	department housekeeping=null;
+	department av=null;
 	gm admin;
 	//register reg= new register();
 	//login log= new log();
@@ -28,6 +30,7 @@ public class Main{
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(cvsSplitBy);
     			Supervisor g = new Supervisor(data);
+               
     			if(g.department.equals("electricity")){
     				electricity.supervisor = g; 
     			}
@@ -61,7 +64,7 @@ public class Main{
             }
         }
         try {
-        	csvfile=("GM.csv");
+        	csvfile=("gm.csv");
             br = new BufferedReader(new FileReader(csvfile));
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(cvsSplitBy);
@@ -85,7 +88,7 @@ public class Main{
         }
 
         try {
-        	csvfile=("GM_leave.csv");
+        	csvfile=("gm_leave.csv");
             br = new BufferedReader(new FileReader(csvfile));
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(cvsSplitBy);
@@ -110,7 +113,7 @@ public class Main{
         }
 
         try {
-        	csvfile=("GM_log_req.csv");
+        	csvfile=("gm_log_req.csv");
             br = new BufferedReader(new FileReader(csvfile));
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(cvsSplitBy);
@@ -159,23 +162,13 @@ public class Main{
             }
         }
 	} 
-    /*
-	public void print(){
-		System.out.println(admin.username+admin.name+admin.passwd+admin.type+admin.dob+admin.address);
-        Staff adm= new Staff();
-        adm=electricity.staff.get(0);
-        System.out.println(adm.username+adm.name+adm.passwd+adm.type+adm.dob+adm.address+adm.department);
-        System.out.println("sakjdfhlakshdf");
-	}
-    */
+    
+	
+    
 	//public void disp_homepage(){
 
 	//}
-    /*
-	public static void main(String[] args){
-		Main a= new Main();
-		a.read_database();
-		//a.print();
-	}
-    */
+    
+	
+    
 }

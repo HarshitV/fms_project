@@ -1,6 +1,7 @@
-import java.util.*;
+
 import java.lang.*;
 import java.io.*;
+import java.util.*;
 
 public class Logistic{
 	String equipment;
@@ -14,5 +15,13 @@ public class Logistic{
 	Logistic(){
 		
 	}
+
+	public void get_info(String a, int b){
+		equipment=a;
+		quantity=b;
+	}
 	
+	public String toString(){
+        return (equipment+quantity);
+    }
 }

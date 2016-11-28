@@ -37,12 +37,12 @@ public class Leave{
 	}
 
 	public void add_info(Main a){
-        BufferedWriter br = null;
+        PrintWriter br = null;
         String line = "";
         String cvsSplitBy = ",";
         String csvfile=null;
         if(recipient.equals(a.admin.username)){
-        	csvfile="GM_leave.csv";
+        	csvfile="gm_leave.csv";
         }
         else if(recipient.equals(a.electricity.supervisor.username)){
         	csvfile="electricity_leave.csv";
@@ -61,21 +61,22 @@ public class Leave{
         }
         try {
 
-            br = new BufferedWriter(new FileWriter(csvfile));
-           	br.append(reason+","+date+","+start_date+","+range+","+end_date+","+user+","+recipient);
-           	br=null;
+            br =new PrintWriter( new BufferedWriter(new FileWriter(csvfile, true)));
+           	br.println(reason+","+date+","+start_date+","+range+","+end_date+","+user+","+recipient);
+           	//br=null;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                br.close();
             }
         }
+        a.read_database();
 	}
+
+    public String toString(){
+        return (reason+date+start_date+range+end_date+user+recipient);
+    }
 }

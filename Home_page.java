@@ -1,5 +1,7 @@
-package fms_project;
 
+import java.lang.*;
+import java.io.*;
+import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.ActionEvent;
@@ -13,9 +15,10 @@ public class Home_page implements ActionListener{
 	Register rgr=new Register();
 	Home_page()
 	{
+		final Main m= new Main();
+		m.read_database();
 		frame1=new JFrame("FMS HOME");
 		frame1.setLayout(new GridLayout(5,1));
-		
 		frame1.setVisible(true);
 		frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		panel1=new JPanel(new FlowLayout());
@@ -48,13 +51,13 @@ public class Home_page implements ActionListener{
 		btnlogin.setFont(new Font("Arial", Font.PLAIN, 30));
 		panel3.add(btnregister);
 		panel2.add(btnlogin);
-		ImageIcon imageIcon = new ImageIcon("C:/Users/Harshit/workspace/fms_project/src/fms_project/logonew.png"); // load the image to a imageIcon
+		ImageIcon imageIcon = new ImageIcon("logonew.png"); // load the image to a imageIcon
 		Image image = imageIcon.getImage(); // transform it 
 		Image newimg = image.getScaledInstance(250, 120,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
 		imageIcon = new ImageIcon(newimg);  // transform it back
 		frame1.add(new JLabel(imageIcon));
 		JLabel label1 = new JLabel();
-		label1.setText("FACULTY MANAGEMENT SERVICES");
+		label1.setText("FACILITY MANAGEMENT SERVICES");
 		label1.setFont (label1.getFont ().deriveFont (40.0f));
 		label1.setHorizontalAlignment(SwingConstants.CENTER);
 		JLabel label2 = new JLabel();
