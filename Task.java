@@ -1,3 +1,4 @@
+package fms_project;
 
 import java.util.*;
 import java.lang.*;
@@ -94,9 +95,15 @@ public class Task{
             br.write(task_name+","+task_description+","+department+",");
             br.write(supervisor+","+status);
             int i;
-            for(i=0;i<staff.size();i++){
-                br.print(","+staff.get(i));
+            if(staff!=null)
+            {
+            	for(i=0;i<staff.size();i++){
+                    br.print(","+staff.get(i));
+                }
             }
+            
+            else
+            	br.print(",");
             br.write("\n");
            	//br=null;
         } catch (FileNotFoundException e) {

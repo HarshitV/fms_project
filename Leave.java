@@ -1,3 +1,4 @@
+package fms_project;
 import java.util.*;
 import java.lang.*;
 import java.io.*;
@@ -25,11 +26,11 @@ public class Leave{
 		
 	}
 
-	public void get_info(String a, String b, String c, String d, String e, String f, String g){
+	public void get_info(String a, String b, String c, int d, String e, String f, String g){
 		reason=a;
 		date=b;
 		start_date=c;
-		range=Integer.parseInt(d);
+		range=d;//Integer.parseInt(d);
 		end_date=e;
 		user=f;  //contains username
 		recipient=g;

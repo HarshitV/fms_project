@@ -1,7 +1,8 @@
-
+package fms_project;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -13,11 +14,6 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,17 +30,24 @@ import java.util.*;
 // table 3 and sp3 are leave requests
 // table 4 and sp4 are logistic requests
 public class Supervisor extends User{
+	ArrayList<String> deletedusers=new ArrayList<String>();
+	ArrayList<String> newusers=new ArrayList<String>();
+	ArrayList<String> newusers2=new ArrayList<String>();
+	
 	String department=null;
-	private static JComboBox<String> staffm,request,logdept;
+	private static JComboBox<String> staffm,staffm2,request,logdept,fwdtask;
 	private static JTextArea area,area2;
-	private static JTable table,table2,table3,table4,table5,table6;
-	private static JScrollPane scrollPane2,scrollPane,sp,sp2,sp3,sp4,sp5,sp6;
-	private static JFrame frame4,frame6,frame7,frame8,frame9,frame10;
-	private static JPanel fpane2,pane1,pane2,fpane3,fpane4,fpane5,fpane6;
-	private static JButton cancel2,submit,leaveapply,log2gm,ok4,viewbtn3,createtask,ok3,viewrep,aclgbtn,rjlgbtn,aclvbtn,rjlvbtn,acusrbtn,rjusrbtn,viewbtn,viewbtn2,deletebtn ,btn1,btn2,btn3,btn4,btn5,btn6,btn7,ok2,ok,cancel,repsbtn,reqsbtn,taskbtn,loutbtn,logsbtn,staffbtn;
+	private static JTable table,table2,table3,table4,table5,table6,table7;
+	private static JScrollPane scrollPane2,scrollPane,sp,sp2,sp3,sp4,sp5,sp6,sp7;
+	private static JFrame frame4,frame6,frame7,frame8,frame9,frame10,frame11;
+	private static JPanel fpane2,pane1,pane2,fpane3,fpane4,fpane5,fpane6,fpane7;
+	private static JButton cancel2,submit,ok6,leaveapply,inventory,log2gm,ok4,viewbtn3,createtask,ok3,viewrep,aclgbtn,rjlgbtn,aclvbtn,rjlvbtn,acusrbtn,rjusrbtn,viewbtn,viewbtn2,deletebtn ,btn1,btn2,btn3,btn4,btn5,btn6,btn7,ok2,ok,cancel,repsbtn,reqsbtn,taskbtn,loutbtn,logsbtn,staffbtn;
 	private static JLabel warning,lv1,lv2,lv3,lv4,lv5,task1,task2,task3,task4,fms,logo,date,welcome,l1,l2,l3,l4,l5,l6,disphome,loggeduser;
 	private static ImageIcon imageIcon;
 	private static JTextField t2,t4,lt1,lt2,lt3,lt4;
+	private String viewuser;
+	ArrayList<String> tasklist=new ArrayList<String>();
+	
 	//ArrayList<logistic_req> req_list=new ArrayList<logistic_req>();
 	//ArrayList<leave> leave_list=new ArrayList<leave>();
 	
@@ -67,14 +70,46 @@ public class Supervisor extends User{
 	{
 		Main m3=new Main();
 		m3.read_database();
+		ArrayList<Staff> allstaff=null;
+		ArrayList<Task> tasksl=null;
+		if(department.equals("electricity"))
+		{
+			allstaff=m3.electricity.staff;
+			tasksl=m3.electricity.task_list;
+		}
+		else if(department.equals("hvac"))
+		{
+			allstaff=m3.hvac.staff;
+			tasksl=m3.hvac.task_list;
+		}
+		else if(department.equals("av"))
+		{
+			allstaff=m3.av.staff;
+			tasksl=m3.av.task_list;
+		}
+		else if(department.equals("security"))
+		{
+			allstaff=m3.security.staff;
+			tasksl=m3.security.task_list;
+		}
+		else if(department.equals("housekeeping"))
+		{
+			allstaff=m3.housekeeping.staff;
+			tasksl=m3.housekeeping.task_list;
+		}
 		ArrayList<String> stafflist=new ArrayList<String>();
-		stafflist.add("Select staff member");
-		stafflist.add("a");
-		stafflist.add("b");
-		stafflist.add("c");
-		stafflist.add("d");
-		stafflist.add("e");
+		stafflist.add("Select staff member: ");
+		tasklist.add("Select task: ");
 		
+		for(int i=0;i<allstaff.size();i++)
+		{	
+			stafflist.add(allstaff.get(i).username.concat("-").concat(allstaff.get(i).status));
+		}
+		for(int i=0;i<tasksl.size();i++)
+		{	
+			tasklist.add(tasksl.get(i).task_name);
+		}
+		//System.out.println(allstaff);
 		area=new JTextArea(5,20);
 		area.setColumns(29);
 		area.setLineWrap (true);
@@ -117,7 +152,7 @@ public class Supervisor extends User{
 		lv4.setHorizontalAlignment(SwingConstants.LEFT);
 		lv5.setHorizontalAlignment(SwingConstants.LEFT);
 		lt1=new JTextField("DD/MM/YYYY");
-		lt2=new JTextField(" #no_of_days");
+		lt2=new JTextField("");
 		lt3=new JTextField("DD/MM/YYYY");
 		lt4=new JTextField("DD/MM/YYYY");
 		t2=new JTextField("");
@@ -138,16 +173,23 @@ public class Supervisor extends User{
 	    viewbtn3.setPreferredSize(new Dimension(120,40));
 	    log2gm=new JButton("Demand new");
 	    log2gm.setPreferredSize(new Dimension(120,40));
+	    inventory=new JButton("Inventory");
+	    inventory.setPreferredSize(new Dimension(120,40));
 	    viewrep=new JButton("View");
 	    viewrep.setPreferredSize(new Dimension(150,60));
 		GridBagConstraints gbc = new GridBagConstraints();
 		request=new JComboBox<String>();
 		staffm=new JComboBox<String>();
+		staffm2=new JComboBox<String>();
+		fwdtask=new JComboBox<String>();
 		logdept=new JComboBox<String>();
 		request.addItem("Select option");
 		request.addItem("New Users");
+		request.addItem("Leave Requests");
 		request.addItem("Request for leave");
 		staffm.setModel(new DefaultComboBoxModel(stafflist.toArray()));
+		fwdtask.setModel(new DefaultComboBoxModel(tasklist.toArray()));
+		staffm2.setModel(new DefaultComboBoxModel(stafflist.toArray()));
 		logdept.addItem("Select Department");
 		logdept.addItem("Electricity");
 		logdept.addItem("HVAC");
@@ -162,6 +204,7 @@ public class Supervisor extends User{
 		pane1=new JPanel();
 		pane2=new JPanel();
 		fpane6=new JPanel();
+		fpane7=new JPanel();
 		pane1.setLayout(new GridLayout(2,1));
 		pane2.setLayout(new GridLayout(1,2));
 		pane1.add(request);
@@ -173,11 +216,14 @@ public class Supervisor extends User{
 		ok4=new JButton("OK");
 		submit=new JButton("Submit");
 		submit.setPreferredSize(new Dimension(350,60));
+		ok6=new JButton("OK");
+		ok6.setPreferredSize(new Dimension(350,60));
+
 		pane2.add(ok);
 		pane2.add(cancel);
 		frame6.add(pane1);
 		//frame6.add(pane2);
-		frame7=new JFrame("");
+		frame7=new JFrame("User Data");
 		frame8=new JFrame("TASK REPORTS");
 		frame9=new JFrame("View Logistics");
 		//frame6.setVisible(false);
@@ -194,16 +240,17 @@ public class Supervisor extends User{
 		frame10.setSize(600,575);
 		frame10.setLocationRelativeTo(null);
 		frame10.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame11=new JFrame("Logistic Inventory");
+		frame11.setSize(600,575);
+		frame11.setLocationRelativeTo(null);
+		frame11.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fpane3=new JPanel();
-		fpane3.add(ok2,gbc);
-		frame7.add(fpane3);
+		fpane3.setLayout(new GridLayout(7,1));
 		fpane4=new JPanel();
 		fpane5=new JPanel();
-		fpane4.add(ok3,gbc);
 		fpane5.add(ok4,gbc);
 		warning=new JLabel("* You cannot request for more than 10 items at once");
-		
-		frame8.add(fpane4);	
+			
 		frame9.add(fpane5);
 		fpane2=new JPanel();
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss, dd MMM yyyy ");
@@ -266,12 +313,10 @@ public class Supervisor extends User{
 			public Class<?> getColumnClass(int column) {
 				switch (column) {
 				case 0:
-					return Boolean.class;
+					return String.class;
 				case 1:
 					return String.class;
 				case 2:
-					return String.class;
-				case 3:
 					return String.class;
 				default: 
 					return String.class;
@@ -339,6 +384,26 @@ public class Supervisor extends User{
 				}
 			}
 		};
+		final DefaultTableModel model7 = new DefaultTableModel() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public Class<?> getColumnClass(int column) {
+				switch (column) {
+				case 0:
+					return Integer.class;
+				case 1:
+					return String.class;
+				case 2:
+					return Integer.class;
+				default: 
+					return String.class;
+				}
+			}
+		};
 		
 		sp=new JScrollPane(); 
 		sp2=new JScrollPane();
@@ -346,24 +411,28 @@ public class Supervisor extends User{
 		sp4=new JScrollPane();
 		sp5=new JScrollPane();
 		sp6=new JScrollPane();
+		sp7=new JScrollPane();
 		sp.setPreferredSize(new Dimension(500, 320));
 		sp2.setPreferredSize(new Dimension(500,320));
 		sp3.setPreferredSize(new Dimension(500,320));
 		sp4.setPreferredSize(new Dimension(500,320));
 		sp5.setPreferredSize(new Dimension(500,320));
 		sp6.setPreferredSize(new Dimension(500,320));
+		sp7.setPreferredSize(new Dimension(500,320));
 		table2 =new JTable();
 		table = new JTable();
 		table3=new JTable();
 		table4=new JTable();
 		table5=new JTable();
 		table6=new JTable();
+		table7=new JTable();
 		table.setRowHeight(30);
 		table2.setRowHeight(30);
 		table3.setRowHeight(30);
 		table4.setRowHeight(30);
 		table5.setRowHeight(30);
 		table6.setRowHeight(30);
+		table7.setRowHeight(30);
 		//table.setColumnWidth(20);
 		//sp.setViewportView(table);
 		table.setModel(model);
@@ -372,6 +441,7 @@ public class Supervisor extends User{
 		table4.setModel(model4);
 		table5.setModel(model5);
 		table6.setModel(model6);
+		table7.setModel(model7);
 		/*table.setEnabled(false);
 		table2.setEnabled(false);
 		table3.setEnabled(false);*/
@@ -381,7 +451,6 @@ public class Supervisor extends User{
 		model2.addColumn("Select");
 		model2.addColumn("User Name");
 		
-		model3.addColumn("Select");
 		model3.addColumn("User Name");
 		model3.addColumn("Start Date");
 		model3.addColumn("End Date");
@@ -399,6 +468,10 @@ public class Supervisor extends User{
 		model6.addColumn("S No.");
 		model6.addColumn("Items");
 		model6.addColumn("Quantity");
+		
+		model7.addColumn("S No.");
+		model7.addColumn("Items");
+		model7.addColumn("Quantity");
 		
 ////////////////////////////////////////////
 		ArrayList<Staff> staffl=null;
@@ -472,15 +545,15 @@ public class Supervisor extends User{
 		for (int i = 0; i <leaves.size(); i++) {
 			Leave y=leaves.get(i);
 			model3.addRow(new Object[0]);
-			model3.setValueAt(false, i, 0);
-			model3.setValueAt(y.user, i, 1);
-			model3.setValueAt(y.start_date, i, 2);
-			model3.setValueAt(y.end_date, i, 3);
+			model3.setValueAt(y.user, i, 0);
+			model3.setValueAt(y.start_date, i, 1);
+			model3.setValueAt(y.end_date, i, 2);
 			}
 		for (int i = 0; i < 10; i++) {
 			model6.addRow(new Object[0]);
 			
 			}
+		
 		for (int i = 0; i <logsr.size(); i++) {
 			Logistic_request l=logsr.get(i);
 			model4.addRow(new Object[0]);
@@ -488,13 +561,15 @@ public class Supervisor extends User{
 			model4.setValueAt(l.id, i, 1);
 			ArrayList<Logistic> l1=l.list_logistic;
 			String str=null;
+			String str2="";
 			for(int j=0;j<l1.size();j++)
 			{
 				Logistic lgs=l1.get(j);
-				str=lgs.equipment + "(" + lgs.quantity + ")\n";
+				str=lgs.equipment + "(" + lgs.quantity + ")  ";
+				str2=str2.concat(str);
 			}
 			
-			model4.setValueAt(str, i, 2);
+			model4.setValueAt(str2, i, 2);
 			model4.setValueAt(l.task_id, i, 3);
 		
 		}
@@ -510,11 +585,50 @@ public class Supervisor extends User{
 	
 	submit.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(null, "Logistic request sent to gm for approval");
+			for (int i = 0; i < 10; i++) {
+				model6.addRow(new Object[0]);		
+				}
+			String sel=logdept.getSelectedItem().toString();
+			JOptionPane.showMessageDialog(null, "Logistic request sent to GM for approval");
 			frame10.setVisible(false);	
+			Logistic_request lreq=new Logistic_request();
+			ArrayList<Logistic> arr = new ArrayList<Logistic>();
+			for(int i=0;i<table6.getRowCount();i++)
+			{
+				Logistic lgs=new Logistic();
+				if(model6.getValueAt(i, 1)!=null)
+				{
+				lgs.get_info(model6.getValueAt(i, 1).toString(),Integer.parseInt(model6.getValueAt(i, 2).toString()));
+				arr.add(lgs);
+				}
+			}
+			System.out.println(arr);
+			lreq.get_info(userid, arr,"0", sel);
+			//lreq.task_id
+			/*while(model6.getRowCount() > 0)
+			{
+			    model6.removeRow(0);
+			}*/
+			send_log_req(m3,lreq);
 			
 		}
 	});
+	ok6.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			
+			
+			frame11.setVisible(false);	
+			
+			
+			//lreq.task_id
+			/*while(model6.getRowCount() > 0)
+			{
+			    model6.removeRow(0);
+			}*/
+			
+		}
+	});
+	
 	cancel2.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			frame10.setVisible(false);	
@@ -542,12 +656,89 @@ public class Supervisor extends User{
 		viewbtn.setPreferredSize(new Dimension(200, 200));
 		viewbtn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				for (int i = 0; i < table.getRowCount(); i++) {
+					Boolean chked = Boolean.valueOf(table.getValueAt(i, 0)
+							.toString());
+					
+					//String dataCol1 = table.getValueAt(i, 1).toString();
+					if (chked) {
+						viewuser=table.getValueAt(i, 1).toString();
+						break;
+					
+					}
+				}
+				User u1=view_user(m3, viewuser);
+				
+				JLabel l1=new JLabel("Username: " + u1.username + "\n");
+				JLabel l2=new JLabel("Name: " + u1.name + "\n");
+				JLabel l3=new JLabel("User ID: " + u1.userid + "\n");
+				JLabel l4=new JLabel("Designation: " + u1.type + "\n");
+				JLabel l5=new JLabel("DOB: " + u1.dob + "\n");
+				JLabel l6=new JLabel("Address: " + u1.address + "\n");
+				
+				fpane3.removeAll();
+				
+				
+				fpane3.add(l1);
+				fpane3.add(l2);
+				fpane3.add(l3);
+				fpane3.add(l4);
+				fpane3.add(l5);
+				fpane3.add(l6);
+				fpane3.add(ok2);
+				fpane3.revalidate();
+				fpane3.repaint();
+				frame7.add(fpane3);
+				
+				
 				frame7.setVisible(true);	
 			}
 		});
 		viewbtn3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame9.setVisible(true);	
+			}
+		});
+		inventory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<Logistic> mod=new ArrayList<Logistic>();
+				if(department.equals("electricity"))
+				{
+					mod=m3.electricity.logistic_list;
+				}
+				else if(department.equals("hvac"))
+				{
+					mod=m3.hvac.logistic_list;
+				}
+				else if(department.equals("av"))
+				{
+					mod=m3.av.logistic_list;
+				}
+				else if(department.equals("security"))
+				{
+					mod=m3.security.logistic_list;
+				}
+				else if(department.equals("housekeeping"))
+				{
+					mod=m3.housekeeping.logistic_list;
+				}
+				for (int i = 0; i <mod.size(); i++) {
+					Logistic lgst=mod.get(i);
+					model7.addRow(new Object[0]);	
+					model7.setValueAt(i+1, i, 0);
+					model7.setValueAt(lgst.equipment,i,1);
+					model7.setValueAt(lgst.quantity, i, 2);				
+					}
+				sp7.setBorder(BorderFactory.createEmptyBorder());
+				fpane7.add(sp7, gbc);
+				sp7.setViewportView(table7);
+				fpane7.add(ok6,gbc);
+				
+				frame11.add(fpane7);
+				frame11.setVisible(true);
+	
+
 			}
 		});
 		log2gm.addActionListener(new ActionListener() {
@@ -596,7 +787,17 @@ public class Supervisor extends User{
 		
 		viewrep.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				frame8.setVisible(true);
+
+				fpane4.add(ok3,gbc);
+				for (int i = 0; i < table5.getRowCount(); i++) {
+					Boolean chked = Boolean.valueOf(table5.getValueAt(i, 0)
+							.toString());
+					
+					//String dataCol1 = table.getValueAt(i, 1).toString();
+					if (chked) {
+						generate_report(model5.getValueAt(i, 2).toString());
+	
+					}}
 				
 			}
 		}
@@ -615,13 +816,14 @@ public class Supervisor extends User{
 		deletebtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-
+				deletedusers.clear();
 				for (int i = 0; i < table.getRowCount(); i++) {
 					Boolean chked = Boolean.valueOf(table.getValueAt(i, 0)
 							.toString());
 					
 					//String dataCol1 = table.getValueAt(i, 1).toString();
 					if (chked) {
+						deletedusers.add(table.getModel().getValueAt(i, 1).toString());
 						model.removeRow(i);
 						int l=table.getRowCount();
 						l--;
@@ -630,6 +832,11 @@ public class Supervisor extends User{
 	
 					}
 				}
+				for(int i=0;i<deletedusers.size();i++)
+				{
+					delete_user(m3,deletedusers.get(i));
+				}
+				//System.out.println(deletedusers);
 			}
 
 		});
@@ -731,7 +938,67 @@ public class Supervisor extends User{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		model.setRowCount(0);
+
+		ArrayList<Staff> staffl=null;
+		ArrayList<Staff> newuser=null;
+		ArrayList<Leave> leaves=null;
+		ArrayList<Logistic_request> logsr=null;
+		ArrayList<Task> tasks=null;
+		ArrayList<Logistic> log=null;
+		if(department.equals("electricity"))
+		{
+			staffl=m3.electricity.staff;
+			newuser=m3.electricity.new_staff;
+			leaves=m3.electricity.leave_list;
+			logsr=m3.electricity.req_list;
+			tasks=m3.electricity.task_list;
+			log=m3.electricity.logistic_list;
+		}
+		else if(department.equals("hvac"))
+		{
+			staffl=m3.hvac.staff;
+			newuser=m3.hvac.new_staff;
+			leaves=m3.hvac.leave_list;
+			logsr=m3.hvac.req_list;
+			tasks=m3.hvac.task_list;
+			log=m3.hvac.logistic_list;
+		}
+		else if(department.equals("av"))
+		{
+			staffl=m3.av.staff;
+			newuser=m3.av.new_staff;
+			leaves=m3.av.leave_list;
+			logsr=m3.av.req_list;
+			tasks=m3.av.task_list;
+			log=m3.av.logistic_list;
+		}
+		else if(department.equals("security"))
+		{
+			staffl=m3.security.staff;
+			newuser=m3.security.new_staff;
+			leaves=m3.security.leave_list;
+			logsr=m3.security.req_list;
+			tasks=m3.security.task_list;
+			log=m3.security.logistic_list;
+		}
+		else if(department.equals("housekeeping"))
+		{
+			staffl=m3.housekeeping.staff;
+			newuser=m3.housekeeping.new_staff;
+			leaves=m3.housekeeping.leave_list;
+			logsr=m3.housekeeping.req_list;
+			tasks=m3.housekeeping.task_list;
+			log=m3.housekeeping.logistic_list;
+		}
+		for (int i = 0; i <staffl.size(); i++) {
+			Staff y=staffl.get(i);
+			model.addRow(new Object[0]);
+			model.setValueAt(false, i, 0);
+			model.setValueAt(y.username, i, 1);
+		}
 		staffGUI();
+		
 		
 		}
 });
@@ -817,6 +1084,33 @@ public class Supervisor extends User{
 				fpane2.repaint();
 			}
 		else if(request.getSelectedIndex()==2)
+		{
+			frame6.setVisible(false);
+			fpane2.removeAll();
+			otherhome();
+			sp3.setBorder(BorderFactory.createEmptyBorder());
+
+			fpane2.add(sp3,new GridBagConstraints(
+					0, // gridx
+	                0, // gridy
+	                1, // gridwidth
+	                1, // gridheight
+	                1, // weightx
+	                1, // weighty
+	                GridBagConstraints.CENTER, // anchor <------------
+	                GridBagConstraints.NONE, // fill
+	                new Insets(22, // inset top
+	                200, // inset left
+	                100, // inset bottom
+	                0), // inset right
+	                0, // ipadx
+	                0)
+					);
+			sp3.setViewportView(table3);
+			fpane2.revalidate();
+			fpane2.repaint();
+		}
+		else if(request.getSelectedIndex()==3)
 		{
 				frame6.setVisible(false);
 				fpane2.removeAll();
@@ -917,7 +1211,7 @@ public class Supervisor extends User{
 		rjlvbtn=new JButton("Reject");
 		aclgbtn=new JButton("Approve");
 		rjlgbtn=new JButton("Reject");
-		createtask=new JButton("Create Task");
+		createtask=new JButton("Assign to staff");
 		btn1.setPreferredSize(new Dimension(200, 60));
 		btn2.setPreferredSize(new Dimension(200, 60));
 		btn3.setPreferredSize(new Dimension(200, 60));
@@ -938,12 +1232,43 @@ public class Supervisor extends User{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		JOptionPane.showMessageDialog(null, "New Task Created !");
-		Task.taskcount++;
-		t2.setText(null);
-		t4.setText("DD/MM/YYYY");
-		area.setText(null);
+		JOptionPane.showMessageDialog(null, "Task Assigned !");
+		
+		
 		taskGUI();
+		String x = staffm.getSelectedItem().toString();
+		String y = staffm2.getSelectedItem().toString();
+		String[] p1 = x.split("-");
+		String[] p2 = y.split("-");
+		String a1=p1[0];
+		String b1=p2[0];
+		String c1=fwdtask.getSelectedItem().toString();
+		
+		ArrayList<String> array=new ArrayList<String>();
+		array.clear();
+		if(staffm.getSelectedIndex()==0 && staffm2.getSelectedIndex()==0)
+		{
+			JOptionPane.showMessageDialog(null, "No staff selected");
+		}
+		else if(staffm.getSelectedIndex()==0)
+		{
+			array.add(b1);
+			Task.taskcount++;
+			assign_task(m3,c1,array);
+		}
+		else if(staffm2.getSelectedIndex()==0)
+		{
+			array.add(a1);
+			Task.taskcount++;
+			assign_task(m3,c1,array);
+		}
+		else
+		{
+			array.add(a1);
+			array.add(b1);
+			Task.taskcount++;
+			assign_task(m3,c1,array);
+		}
 	}
 });
 		leaveapply.addActionListener(new ActionListener()
@@ -953,11 +1278,12 @@ public class Supervisor extends User{
 		// TODO Auto-generated method stub
 		JOptionPane.showMessageDialog(null, "Leave sent for approval !");
 		lt1.setText("DD/MM/YYYY");
-		lt2.setText("no_of_days");
 		lt3.setText("DD/MM/YYYY");
 		lt4.setText("DD/MM/YYYY");
-		area2.setText(null);
 		creategmhome();
+		Leave lvv=new Leave();
+		lvv.get_info(area2.getText(), lt1.getText(), lt3.getText(), Integer.parseInt(lt2.getText()), lt4.getText(),username, m3.admin.username);
+		send_leave(m3,lvv);
 	}
 });
 		btn1.addActionListener(new ActionListener()
@@ -974,6 +1300,65 @@ public class Supervisor extends User{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				table.removeAll();
+				model.setRowCount(0);
+				ArrayList<Staff> staffl=null;
+				ArrayList<Staff> newuser=null;
+				ArrayList<Leave> leaves=null;
+				ArrayList<Logistic_request> logsr=null;
+				ArrayList<Task> tasks=null;
+				ArrayList<Logistic> log=null;
+				if(department.equals("electricity"))
+				{
+					staffl=m3.electricity.staff;
+					newuser=m3.electricity.new_staff;
+					leaves=m3.electricity.leave_list;
+					logsr=m3.electricity.req_list;
+					tasks=m3.electricity.task_list;
+					log=m3.electricity.logistic_list;
+				}
+				else if(department.equals("hvac"))
+				{
+					staffl=m3.hvac.staff;
+					newuser=m3.hvac.new_staff;
+					leaves=m3.hvac.leave_list;
+					logsr=m3.hvac.req_list;
+					tasks=m3.hvac.task_list;
+					log=m3.hvac.logistic_list;
+				}
+				else if(department.equals("av"))
+				{
+					staffl=m3.av.staff;
+					newuser=m3.av.new_staff;
+					leaves=m3.av.leave_list;
+					logsr=m3.av.req_list;
+					tasks=m3.av.task_list;
+					log=m3.av.logistic_list;
+				}
+				else if(department.equals("security"))
+				{
+					staffl=m3.security.staff;
+					newuser=m3.security.new_staff;
+					leaves=m3.security.leave_list;
+					logsr=m3.security.req_list;
+					tasks=m3.security.task_list;
+					log=m3.security.logistic_list;
+				}
+				else if(department.equals("housekeeping"))
+				{
+					staffl=m3.housekeeping.staff;
+					newuser=m3.housekeeping.new_staff;
+					leaves=m3.housekeeping.leave_list;
+					logsr=m3.housekeeping.req_list;
+					tasks=m3.housekeeping.task_list;
+					log=m3.housekeeping.logistic_list;
+				}
+				for (int i = 0; i <staffl.size(); i++) {
+					Staff y=staffl.get(i);
+					model.addRow(new Object[0]);
+					model.setValueAt(false, i, 0);
+					model.setValueAt(y.username, i, 1);
+				}
 				staffGUI();
 				
 				}
@@ -1036,18 +1421,26 @@ public class Supervisor extends User{
 			public void actionPerformed(ActionEvent e) {
 
 
+				newusers.clear();
+
 				for (int i = 0; i < table2.getRowCount(); i++) {
 					Boolean chked = Boolean.valueOf(table2.getValueAt(i, 0)
 							.toString());
 					
 					//String dataCol1 = table.getValueAt(i, 1).toString();
 					if (chked) {
+						newusers.add(table2.getValueAt(i, 1).toString());
 						model2.removeRow(i);
 						int l=table2.getRowCount();
 						l--;
 						i=0;
 					
 					}
+				}
+				//System.out.println(newusers);
+				for(int i=0;i<newusers.size();i++)
+				{
+					approve_user(m3,newusers.get(i));
 				}
 			}
 
@@ -1056,62 +1449,32 @@ public class Supervisor extends User{
 			public void actionPerformed(ActionEvent e) {
 
 
+				newusers2.clear();
 				for (int i = 0; i < table2.getRowCount(); i++) {
 					Boolean chked = Boolean.valueOf(table2.getValueAt(i, 0)
 							.toString());
 					
 					//String dataCol1 = table.getValueAt(i, 1).toString();
 					if (chked) {
+						newusers2.add(table2.getValueAt(i, 1).toString());
 						model2.removeRow(i);
 						int l=table2.getRowCount();
 						l--;
 						i=0;
 					
 					}
+					
 				}
+				//System.out.println(newusers2);
+				for(int i=0;i<newusers2.size();i++)
+				{
+					reject_user(m3,newusers2.get(i));
+				}
+
 			}
 			
 		});
-		aclvbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-
-				for (int i = 0; i < table3.getRowCount(); i++) {
-					Boolean chked = Boolean.valueOf(table3.getValueAt(i, 0)
-							.toString());
-					
-					//String dataCol1 = table.getValueAt(i, 1).toString();
-					if (chked) {
-						model3.removeRow(i);
-						int l=table3.getRowCount();
-						l--;
-						i=0;
-					
-					}
-				}
-			}
-
-		});
-		rjlvbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-
-				for (int i = 0; i < table3.getRowCount(); i++) {
-					Boolean chked = Boolean.valueOf(table3.getValueAt(i, 0)
-							.toString());
-					
-					//String dataCol1 = table.getValueAt(i, 1).toString();
-					if (chked) {
-						model3.removeRow(i);
-						int l=table3.getRowCount();
-						l--;
-						i=0;
-					
-					}
-				}
-			}
-			
-		});
+		
 		aclgbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -1122,8 +1485,11 @@ public class Supervisor extends User{
 					
 					//String dataCol1 = table.getValueAt(i, 1).toString();
 					if (chked) {
-						model4.removeRow(i);
+						
 						int l=table4.getRowCount();
+						String retid=model4.getValueAt(i, 3).toString();
+						accept(m3,retid);
+						model4.removeRow(i);
 						l--;
 						i=0;
 					
@@ -1142,8 +1508,11 @@ public class Supervisor extends User{
 					
 					//String dataCol1 = table.getValueAt(i, 1).toString();
 					if (chked) {
-						model4.removeRow(i);
+						
 						int l=table4.getRowCount();
+						String retid=model4.getValueAt(i, 3).toString();
+						reject(m3,retid);
+						model4.removeRow(i);
 						l--;
 						i=0;
 					
@@ -1669,7 +2038,7 @@ public class Supervisor extends User{
                 new Insets(0, // inset top
                 00, // inset left
                 30, // inset bottom
-                300), // inset right
+                360), // inset right
                 0, // ipadx
                 0)
 				);
@@ -1685,7 +2054,23 @@ public class Supervisor extends User{
                 new Insets(0, // inset top
                 00, // inset left
                 30, // inset bottom
-                180), // inset right
+                240), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(inventory,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.SOUTHEAST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(0, // inset top
+                00, // inset left
+                30, // inset bottom
+                128), // inset right
                 0, // ipadx
                 0)
 				);
@@ -1741,6 +2126,8 @@ public class Supervisor extends User{
 	
 	public static void staffGUI()
 	{
+		fpane2.removeAll();
+		
 		otherhome();
 		sp.setBorder(BorderFactory.createEmptyBorder());
 
@@ -1794,28 +2181,14 @@ public class Supervisor extends User{
                 0, // ipadx
                 0)
 				);
+		fpane2.revalidate();
+		fpane2.repaint();
 	}
 	
-	public static void taskGUI()
+	public void taskGUI()
 	{
-		task1.setText("Task id: " + Task.taskcount);
 		otherhome();
-		fpane2.add(task1,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.NORTHWEST, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(130, // inset top
-                240, // inset left
-                000, // inset bottom
-                0), // inset right
-                0, // ipadx
-                0)
-				);
+		
 		fpane2.add(task2,new GridBagConstraints(
 				0, // gridx
                 0, // gridy
@@ -1825,14 +2198,14 @@ public class Supervisor extends User{
                 1, // weighty
                 GridBagConstraints.NORTHWEST, // anchor <------------
                 GridBagConstraints.NONE, // fill
-                new Insets(200, // inset top
+                new Insets(120, // inset top
                 240, // inset left
                 00, // inset bottom
                 0), // inset right
                 0, // ipadx
                 0)
 				);
-		fpane2.add(t2,new GridBagConstraints(
+		fpane2.add(fwdtask,new GridBagConstraints(
 				0, // gridx
                 0, // gridy
                 1, // gridwidth
@@ -1841,77 +2214,14 @@ public class Supervisor extends User{
                 1, // weighty
                 GridBagConstraints.NORTHWEST, // anchor <------------
                 GridBagConstraints.NONE, // fill
-                new Insets(210, // inset top
-                430, // inset left
+                new Insets(120, // inset top
+                420, // inset left
                 00, // inset bottom
                 0), // inset right
                 0, // ipadx
                 0)
 				);
-		fpane2.add(task3,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.NORTHWEST, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(260, // inset top
-                240, // inset left
-                00, // inset bottom
-                0), // inset right
-                0, // ipadx
-                0)
-				);
-		fpane2.add(scrollPane,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.NORTHWEST, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(320, // inset top
-                240, // inset left
-                00, // inset bottom
-                0), // inset right
-                0, // ipadx
-                0)
-				);
-		fpane2.add(task4,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.NORTHWEST, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(520, // inset top
-                240, // inset left
-                00, // inset bottom
-                0), // inset right
-                0, // ipadx
-                0)
-				);
-		fpane2.add(t4,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.NORTHWEST, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(530, // inset top
-                460, // inset left
-                00, // inset bottom
-                0), // inset right
-                0, // ipadx
-                0)
-				);
+		
 		fpane2.add(createtask,new GridBagConstraints(
 				0, // gridx
                 0, // gridy
@@ -1935,12 +2245,28 @@ public class Supervisor extends User{
                 1, // gridheight
                 1, // weightx
                 1, // weighty
-                GridBagConstraints.NORTHEAST, // anchor <------------
+                GridBagConstraints.EAST, // anchor <------------
                 GridBagConstraints.NONE, // fill
                 new Insets(140, // inset top
                 0, // inset left
                 0, // inset bottom
-                95), // inset right
+                200), // inset right
+                0, // ipadx
+                0)
+				);
+		fpane2.add(staffm2,new GridBagConstraints(
+				0, // gridx
+                0, // gridy
+                1, // gridwidth
+                1, // gridheight
+                1, // weightx
+                1, // weighty
+                GridBagConstraints.EAST, // anchor <------------
+                GridBagConstraints.NONE, // fill
+                new Insets(140, // inset top
+                0, // inset left
+                0, // inset bottom
+                35), // inset right
                 0, // ipadx
                 0)
 				);
@@ -2131,7 +2457,62 @@ public class Supervisor extends User{
 	}
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	public void approve_user(Main a, Staff m){
+	public void approve_user(Main a, String q){
+
+		//////////////////////////////////
+
+		Staff m=null;
+		int flag=0;
+		if(flag==0){
+			for(int i=0;i<((a.electricity).new_staff).size();i++){
+				Staff g=((a.electricity).new_staff).get(i);
+				
+				if(g.username.equals(q) ){
+					m=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.hvac).new_staff).size();i++){
+				Staff g=((a.hvac).new_staff).get(i);
+				if(g.username.equals(q) ){
+					m=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.security).new_staff).size();i++){
+				Staff g=((a.security).new_staff).get(i);
+				if(g.username.equals(q) ){
+					m=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.housekeeping).new_staff).size();i++){
+
+				Staff g=((a.housekeeping).new_staff).get(i);
+				
+				if(g.username.equals(q) ){
+					m=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.av).new_staff).size();i++){
+				Staff g=((a.av).new_staff).get(i);
+				if(g.username.equals(q) ){
+					m=g;
+					flag=1;
+				}
+			}
+		}
+
+		/////////////////////
 		String csvfile=null;
         PrintWriter br=null;
         ArrayList<Staff> z=null;
@@ -2186,7 +2567,62 @@ public class Supervisor extends User{
             a.read_database();      
 	}
 
-	public void reject_user(Main a, Staff m){
+	public void reject_user(Main a, String q){
+
+		//////////////////////////////////
+
+		Staff m=null;
+		int flag=0;
+		if(flag==0){
+			for(int i=0;i<((a.electricity).new_staff).size();i++){
+				Staff g=((a.electricity).new_staff).get(i);
+				
+				if(g.username.equals(q) ){
+					m=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.hvac).new_staff).size();i++){
+				Staff g=((a.hvac).new_staff).get(i);
+				if(g.username.equals(q) ){
+					m=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.security).new_staff).size();i++){
+				Staff g=((a.security).new_staff).get(i);
+				if(g.username.equals(q) ){
+					m=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.housekeeping).new_staff).size();i++){
+
+				Staff g=((a.housekeeping).new_staff).get(i);
+				
+				if(g.username.equals(q) ){
+					m=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.av).new_staff).size();i++){
+				Staff g=((a.av).new_staff).get(i);
+				if(g.username.equals(q) ){
+					m=g;
+					flag=1;
+				}
+			}
+		}
+
+		/////////////////////
 		String csvfile=null;
         PrintWriter br=null;
         ArrayList<Staff> z=null;
@@ -2239,12 +2675,120 @@ public class Supervisor extends User{
             a.read_database();
 	}
 
-	public void view_user(){
+	public User view_user(Main a, String q){
+		User v=null;
+		int flag=0;
+		if(flag==0){
+			for(int i=0;i<((a.electricity).staff).size();i++){
+				Staff g=((a.electricity).staff).get(i);
+				
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+			
+		}
+		if(flag==0){
+			for(int i=0;i<((a.hvac).staff).size();i++){
+				Staff g=((a.hvac).staff).get(i);
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+			
+		}
+		if(flag==0){
+			for(int i=0;i<((a.security).staff).size();i++){
+				Staff g=((a.security).staff).get(i);
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+			
+		}
+		if(flag==0){
+			for(int i=0;i<((a.housekeeping).staff).size();i++){
 
+				Staff g=((a.housekeeping).staff).get(i);
+				
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+			
+		}
+		if(flag==0){
+			for(int i=0;i<((a.av).staff).size();i++){
+				Staff g=((a.av).staff).get(i);
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+			
+		}
+		return v;
 	}
 
-	public void delete_user(Main a, Staff m){
-            
+	public void delete_user(Main a, String q){
+            //////////////////////////////////
+
+		Staff m=null;
+		int flag=0;
+		if(flag==0){
+			for(int i=0;i<((a.electricity).staff).size();i++){
+				Staff g=((a.electricity).staff).get(i);
+				
+				if(g.username.equals(q) ){
+					m=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.hvac).staff).size();i++){
+				Staff g=((a.hvac).staff).get(i);
+				if(g.username.equals(q) ){
+					m=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.security).staff).size();i++){
+				Staff g=((a.security).staff).get(i);
+				if(g.username.equals(q) ){
+					m=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.housekeeping).staff).size();i++){
+
+				Staff g=((a.housekeeping).staff).get(i);
+				
+				if(g.username.equals(q) ){
+					m=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.av).staff).size();i++){
+				Staff g=((a.av).staff).get(i);
+				if(g.username.equals(q) ){
+					m=g;
+					flag=1;
+				}
+			}
+		}
+
+		/////////////////////
             ArrayList<Staff> z=null;
             String csvfile=null;
             if(m.department.equals("electricity")){
@@ -2292,107 +2836,222 @@ public class Supervisor extends User{
             a.read_database();
 	}
 
-	public void assign_task(Main a, Task b, ArrayList<String> s){
+	public void assign_task(Main a, String q, ArrayList<String> s){
+		 //////////////////////////////////
+
+		Task b=null;
+		int flag=0;
+		if(flag==0){
+			for(int i=0;i<((a.electricity).task_list).size();i++){
+				Task g=((a.electricity).task_list).get(i);
+				
+				if(g.task_name.equals(q) ){
+					b=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.hvac).task_list).size();i++){
+				Task g=((a.hvac).task_list).get(i);
+				
+				if(g.task_name.equals(q) ){
+					b=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.av).task_list).size();i++){
+				Task g=((a.av).task_list).get(i);
+				
+				if(g.task_name.equals(q) ){
+					b=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.housekeeping).task_list).size();i++){
+				Task g=((a.housekeeping).task_list).get(i);
+				
+				if(g.task_name.equals(q) ){
+					b=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.security).task_list).size();i++){
+				Task g=((a.security).task_list).get(i);
+				
+				if(g.task_name.equals(q) ){
+					b=g;
+					flag=1;
+				}
+			}
+		}
+
+		/////////////////////
 		ArrayList<Task> u=null;
-        ArrayList<Staff> o=null;
-        String csvfile=null;
-        String wcsvfile=null;
-        PrintWriter br=null;
-        department d= null;
-        if(b.department.equals("electricity")){
-            u=a.electricity.task_list;
-            d=a.electricity;
-            o=a.electricity.staff;
-            csvfile="electricity_task.csv";
-            wcsvfile="electricity.csv";
-        }
-        else if(b.department.equals("hvac")){
-            u=a.hvac.task_list;
-            csvfile="hvac_task.csv";
-            d=a.hvac;
-            o=a.hvac.staff;
-            wcsvfile="hvac.csv";
-        }
-        else if(b.department.equals("av")){
-            u=a.av.task_list;
-            csvfile="av_task.csv";
-            d=a.av;
-            o=a.av.staff;
-            wcsvfile="av.csv";
-        }
-        else if(b.department.equals("housekeeping")){
-            u=a.housekeeping.task_list;
-            csvfile="housekeeping_task.csv";
-            d=a.housekeeping;
-            o=a.housekeeping.staff;
-            wcsvfile="housekeeping.csv";
-        }
-        else if(b.department.equals("security")){
-            u=a.security.task_list;
-            csvfile="security_task.csv";
-            d=a.security;
-            o=a.security.staff;
-            wcsvfile="security.csv";
-        }
-        
-        u.remove(b);
-        
-        b.staff=s;
-        u.add(b);
-        
-        try{
-            int j;
-            
-            br =new PrintWriter(new BufferedWriter(new FileWriter(csvfile)));
-            for(j=0;j<u.size();j++){
-                Task h=u.get(j);
-                
-                br.write(h.task_id+","+h.deadline[0]+","+h.deadline[1]+","+h.deadline[2]+","+h.task_name+","+h.task_description+","+h.department+","+h.supervisor+","+h.status);
-                int i;
-                for(i=0;i<h.staff.size();i++){
-                    br.write(","+h.staff.get(i));
-                }
-                br.write("\n");
-            }
-        }catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }finally {
-            if (br != null) {
-                br.close();
-            }
-        }
-        int i,j;
-        for(i=0;i<s.size();i++){
-            for(j=0;j<o.size();j++){
-                Staff y= o.get(j);
-                if(y.username.equals(s.get(i))){
-                    y.status="Busy";
-                    break;
-                }
-            }
-        }
-        try {
-            br =new PrintWriter(new BufferedWriter(new FileWriter(wcsvfile)));
-            for(j=0;j<o.size();j++){
-                Staff y= o.get(j);
-                br.write(y.username+","+y.name+","+y.passwd+","+y.userid+","+y.type+","+y.dob+","+y.address+","+y.department+","+y.status+"\n");
-            }
-            //br=null;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) {
-                br.close();
-            }
-        }
-        a.read_database();
+       ArrayList<Staff> o=null;
+       String csvfile=null;
+       String wcsvfile=null;
+       PrintWriter br=null;
+       department d= null;
+       if(b.department.equals("electricity")){
+           u=a.electricity.task_list;
+           d=a.electricity;
+           o=a.electricity.staff;
+           csvfile="electricity_task.csv";
+           wcsvfile="electricity.csv";
+       }
+       else if(b.department.equals("hvac")){
+           u=a.hvac.task_list;
+           csvfile="hvac_task.csv";
+           d=a.hvac;
+           o=a.hvac.staff;
+           wcsvfile="hvac.csv";
+       }
+       else if(b.department.equals("av")){
+           u=a.av.task_list;
+           csvfile="av_task.csv";
+           d=a.av;
+           o=a.av.staff;
+           wcsvfile="av.csv";
+       }
+       else if(b.department.equals("housekeeping")){
+           u=a.housekeeping.task_list;
+           csvfile="housekeeping_task.csv";
+           d=a.housekeeping;
+           o=a.housekeeping.staff;
+           wcsvfile="housekeeping.csv";
+       }
+       else if(b.department.equals("security")){
+           u=a.security.task_list;
+           csvfile="security_task.csv";
+           d=a.security;
+           o=a.security.staff;
+           wcsvfile="security.csv";
+       }
+       
+       u.remove(b);
+       
+       b.staff=s;
+       u.add(b);
+       
+       try{
+           int j;
+           
+           br =new PrintWriter(new BufferedWriter(new FileWriter(csvfile)));
+           for(j=0;j<u.size();j++){
+               Task h=u.get(j);
+               
+               br.write(h.task_id+","+h.deadline[0]+","+h.deadline[1]+","+h.deadline[2]+","+h.task_name+","+h.task_description+","+h.department+","+h.supervisor+","+h.status);
+               int i;
+               for(i=0;i<h.staff.size();i++){
+                   br.write(","+h.staff.get(i));
+               }
+               br.write("\n");
+           }
+       }catch (FileNotFoundException e) {
+           e.printStackTrace();
+       }catch (IOException e) {
+           e.printStackTrace();
+       }finally {
+           if (br != null) {
+               br.close();
+           }
+       }
+       int i,j;
+       for(i=0;i<s.size();i++){
+           for(j=0;j<o.size();j++){
+               Staff y= o.get(j);
+               if(y.username.equals(s.get(i))){
+                   y.status="Busy";
+                   break;
+               }
+           }
+       }
+       try {
+           br =new PrintWriter(new BufferedWriter(new FileWriter(wcsvfile)));
+           for(j=0;j<o.size();j++){
+               Staff y= o.get(j);
+               br.write(y.username+","+y.name+","+y.passwd+","+y.userid+","+y.type+","+y.dob+","+y.address+","+y.department+","+y.status+"\n");
+           }
+           //br=null;
+       } catch (FileNotFoundException e) {
+           e.printStackTrace();
+       } catch (IOException e) {
+           e.printStackTrace();
+       } finally {
+           if (br != null) {
+               br.close();
+           }
+       }
+       a.read_database();
 	}
 	
-	public void accept(Main a, Logistic_request v){
+	public void accept(Main a, String q){
+		/////////////////////////////////////////////
+
+
+		Logistic_request v=null;
+		int flag=0;
+		if(flag==0){
+			for(int i=0;i<((a.electricity).req_list).size();i++){
+				Logistic_request g=((a.electricity).req_list).get(i);
+				
+				if(g.task_id.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.security).req_list).size();i++){
+				Logistic_request g=((a.security).req_list).get(i);
+				
+				if(g.task_id.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.av).req_list).size();i++){
+				Logistic_request g=((a.av).req_list).get(i);
+				
+				if(g.task_id.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.hvac).req_list).size();i++){
+				Logistic_request g=((a.hvac).req_list).get(i);
+				
+				if(g.task_id.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.housekeeping).req_list).size();i++){
+				Logistic_request g=((a.housekeeping).req_list).get(i);
+				
+				if(g.task_id.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+
+
+
+		/////////////////////////
 		ArrayList<Logistic_request> z= null;
         ArrayList<Logistic> t=null;
         ArrayList<Logistic> u= null;
@@ -2480,7 +3139,64 @@ public class Supervisor extends User{
         a.read_database();
 	}
 
-	public void reject(Main a, Logistic_request v){
+	public void reject(Main a, String q){
+			//////////////////////////////
+
+		Logistic_request v=null;
+		int flag=0;
+		if(flag==0){
+			for(int i=0;i<((a.electricity).req_list).size();i++){
+				Logistic_request g=((a.electricity).req_list).get(i);
+				
+				if(g.task_id.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.security).req_list).size();i++){
+				Logistic_request g=((a.security).req_list).get(i);
+				
+				if(g.task_id.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.av).req_list).size();i++){
+				Logistic_request g=((a.av).req_list).get(i);
+				
+				if(g.task_id.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.hvac).req_list).size();i++){
+				Logistic_request g=((a.hvac).req_list).get(i);
+				
+				if(g.task_id.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.housekeeping).req_list).size();i++){
+				Logistic_request g=((a.housekeeping).req_list).get(i);
+				
+				if(g.task_id.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+
+		////////////////
+
 		ArrayList<Logistic_request> z= null;
         String csvfile=null;
         PrintWriter br=null;
@@ -2529,11 +3245,24 @@ public class Supervisor extends User{
         }
         a.read_database();
 	}
-
+	public void send_log_req(Main a, Logistic_request m){
+		m.add_info(a);
+	}
 	public void send_leave(Main a, Leave b){
 		b.add_info(a);
 	}
-
+	public void generate_report(String b){
+        
+        PrintWriter br=null;
+        try {
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(new File(b+".txt"));
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+	
 	public String toString(){
 		return (username+name+passwd+userid+type+dob+address+department);
 	}

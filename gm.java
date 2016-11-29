@@ -1,4 +1,4 @@
-
+package fms_project;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -39,6 +39,9 @@ public class gm extends User{
 	ArrayList<Logistic_request> req_list= new ArrayList<Logistic_request>();
 	ArrayList<Leave> leave_list= new ArrayList<Leave>();
 	ArrayList<Supervisor> new_Supervisor= new ArrayList<Supervisor>();
+	ArrayList<String> deletedusers=new ArrayList<String>();
+	ArrayList<String> newusers=new ArrayList<String>();
+	ArrayList<String> newusers2=new ArrayList<String>();
 
 	gm(String[] a){
 		username=a[0];
@@ -61,12 +64,14 @@ public class gm extends User{
 	private static JLabel task1,task2,task3,task4,fms,logo,date,welcome,l1,l2,l3,l4,l5,l6,disphome,loggeduser;
 	private static ImageIcon imageIcon;
 	private static JTextField t2,t4;
+	private String viewuser;
 	//ArrayList<logistic_req> req_list=new ArrayList<logistic_req>();
 	//ArrayList<leave> leave_list=new ArrayList<leave>();
 	
 	
 	public void createGUI()
 	{
+		
 		Main m1=new Main();
 		m1.read_database();
 		
@@ -105,12 +110,13 @@ public class gm extends User{
 		request.addItem("Select option");
 		request.addItem("New Users");
 		request.addItem("Leave requests");
+		
 		superv.addItem("Select Supervisor");
-		superv.addItem("Electricity");
-		superv.addItem("HVAC");
-		superv.addItem("AV");
-		superv.addItem("Security");
-		superv.addItem("Housekeeping");
+		superv.addItem("electricity");
+		superv.addItem("hvac");
+		superv.addItem("av");
+		superv.addItem("security");
+		superv.addItem("housekeeping");
 		
 		frame6=new JFrame("REQUESTS");
 		frame6.setVisible(false);
@@ -131,7 +137,7 @@ public class gm extends User{
 		pane2.add(cancel);
 		frame6.add(pane1);
 		//frame6.add(pane2);
-		frame7=new JFrame("");
+		frame7=new JFrame("User Data");
 		frame8=new JFrame("TASK REPORTS");
 		//frame6.setVisible(false);
 		frame7.setSize(300,200);
@@ -141,11 +147,8 @@ public class gm extends User{
 		frame8.setLocationRelativeTo(null);
 		frame8.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fpane3=new JPanel();
-		fpane3.add(ok2,gbc);
-		frame7.add(fpane3);
+		fpane3.setLayout(new GridLayout(7,1));
 		fpane4=new JPanel();
-		fpane4.add(ok3,gbc);
-		frame8.add(fpane4);
 		
 		fpane2=new JPanel();
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss, dd MMM yyyy ");
@@ -429,6 +432,8 @@ public class gm extends User{
 		 s_staff=m1.security.new_staff;
 		 hk_staff=m1.housekeeping.new_staff;
 		// Data Row
+		 model2.setNumRows(0);
+
 		ArrayList<Supervisor> superlist=m1.admin.new_Supervisor;
 		for (int i = 0; i <superlist.size(); i++) {
 			Supervisor y=superlist.get(i);
@@ -483,7 +488,7 @@ public class gm extends User{
 			model2.setValueAt(y.department, i+count, 2);
 			model2.setValueAt(y.type, i+count, 3);
 		}
-
+		//model2.setRowCount(0);
 //////////////////////////////////new user table end /////////////////////////////////////////////////////////		
 		
 //////////////////////////////////leave request table /////////////////////////////////////////////////////////		
@@ -499,11 +504,11 @@ public class gm extends User{
 			
 			Leave l1=lv.get(i);
 			model3.addRow(new Object[0]);
-			model3.setValueAt(l1.user, i, 1);
-			model3.setValueAt(l1.date, i, 2);
-			model3.setValueAt(l1.range, i, 3);
-			model3.setValueAt(l1.start_date, i, 4);
-			model3.setValueAt(l1.end_date, i, 5);			
+			model3.setValueAt(l1.user, i, 0);
+			model3.setValueAt(l1.date, i, 1);
+			model3.setValueAt(l1.range, i, 2);
+			model3.setValueAt(l1.start_date, i, 3);
+			model3.setValueAt(l1.end_date, i, 4);			
 			model3.setValueAt(l1.reason, i, 5);
 
 		}
@@ -520,13 +525,15 @@ public class gm extends User{
 		model4.setValueAt(l.id, i, 1);
 		ArrayList<Logistic> l1=l.list_logistic;
 		String str=null;
+		String str2="";
 		for(int j=0;j<l1.size();j++)
 		{
 			Logistic lgs=l1.get(j);
-			str=lgs.equipment + "(" + lgs.quantity + ")\n";
+			str=lgs.equipment + "(" + lgs.quantity + "), ";
+			str2=str2.concat(str);
 		}
 		
-		model4.setValueAt(str, i, 2);
+		model4.setValueAt(str2, i, 2);
 		model4.setValueAt(l.department, i, 3);
 	
 	}
@@ -560,7 +567,6 @@ public class gm extends User{
 	// Data Row
 	count=0;
 	for (int i = 0; i <e_task.size(); i++) {
-		model2.addRow(new Object[0]);
 		Task y=e_task.get(i);
 		model5.addRow(new Object[0]);
 		model5.setValueAt(false, i+count, 0);
@@ -571,7 +577,6 @@ public class gm extends User{
 	}
 	count+=e_task.size();
 	for (int i = 0; i <hv_task.size(); i++) {
-		model2.addRow(new Object[0]);
 		Task y=hv_task.get(i);
 		model5.addRow(new Object[0]);
 		model5.setValueAt(false, i+count, 0);
@@ -582,7 +587,6 @@ public class gm extends User{
 	}
 	count+=hv_task.size();
 	for (int i = 0; i <a_task.size(); i++) {
-		model2.addRow(new Object[0]);
 		Task y=a_task.get(i);
 		model5.addRow(new Object[0]);
 		model5.setValueAt(false, i+count, 0);
@@ -593,7 +597,6 @@ public class gm extends User{
 	}
 	count+=a_task.size();
 	for (int i = 0; i <s_task.size(); i++) {
-		model2.addRow(new Object[0]);
 		Task y=s_task.get(i);
 		model5.addRow(new Object[0]);
 		model5.setValueAt(false, i+count, 0);
@@ -604,7 +607,6 @@ public class gm extends User{
 	}
 	count+=s_task.size();
 	for (int i = 0; i <hk_task.size(); i++) {
-		model2.addRow(new Object[0]);
 		Task y=hk_task.get(i);
 		model5.addRow(new Object[0]);
 		model5.setValueAt(false, i+count, 0);
@@ -628,12 +630,57 @@ public class gm extends User{
 		viewbtn.setPreferredSize(new Dimension(200, 200));
 		viewbtn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < table.getRowCount(); i++) {
+					Boolean chked = Boolean.valueOf(table.getValueAt(i, 0)
+							.toString());
+					
+					//String dataCol1 = table.getValueAt(i, 1).toString();
+					if (chked) {
+						viewuser=table.getValueAt(i, 1).toString();
+						break;
+					
+					}
+				}
+				User u1=view_user(m1, viewuser);
+				
+				JLabel l1=new JLabel("Username: " + u1.username + "\n");
+				JLabel l2=new JLabel("Name: " + u1.name + "\n");
+				JLabel l3=new JLabel("User ID: " + u1.userid + "\n");
+				JLabel l4=new JLabel("Designation: " + u1.type + "\n");
+				JLabel l5=new JLabel("DOB: " + u1.dob + "\n");
+				JLabel l6=new JLabel("Address: " + u1.address + "\n");
+				
+				fpane3.removeAll();
+				
+				
+				fpane3.add(l1);
+				fpane3.add(l2);
+				fpane3.add(l3);
+				fpane3.add(l4);
+				fpane3.add(l5);
+				fpane3.add(l6);
+				fpane3.add(ok2);
+				fpane3.revalidate();
+				fpane3.repaint();
+				frame7.add(fpane3);
+				
+				
 				frame7.setVisible(true);	
 			}
 		});
 		viewrep.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				frame8.setVisible(true);
+				fpane4.add(ok3,gbc);
+				for (int i = 0; i < table5.getRowCount(); i++) {
+					Boolean chked = Boolean.valueOf(table5.getValueAt(i, 0)
+							.toString());
+					
+					//String dataCol1 = table.getValueAt(i, 1).toString();
+					if (chked) {
+						generate_report(model5.getValueAt(i, 2).toString());
+	
+					}}
+				
 				
 			}
 		}
@@ -651,14 +698,14 @@ public class gm extends User{
 		    deletebtn.setToolTipText("Delete user");
 		deletebtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-
+				deletedusers.clear();
 				for (int i = 0; i < table.getRowCount(); i++) {
 					Boolean chked = Boolean.valueOf(table.getValueAt(i, 0)
 							.toString());
 					
 					//String dataCol1 = table.getValueAt(i, 1).toString();
 					if (chked) {
+						deletedusers.add(table.getModel().getValueAt(i, 1).toString());
 						model.removeRow(i);
 						int l=table.getRowCount();
 						l--;
@@ -667,6 +714,11 @@ public class gm extends User{
 	
 					}
 				}
+				for(int i=0;i<deletedusers.size();i++)
+				{
+					delete_user(m1,deletedusers.get(i));
+				}
+				//System.out.println(deletedusers);
 			}
 
 		});
@@ -979,6 +1031,40 @@ public class gm extends User{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		Task tsk=new Task();
+		tsk.task_id=Integer.toString(Task.taskcount);
+		tsk.task_name=t2.getText();
+		tsk.task_description=area.getText();
+		String dead=t4.getText();
+		String[] parts = dead.split("/");
+		System.out.println(parts[0]);
+		System.out.println(parts[1]);
+		System.out.println(parts[2]);
+		tsk.deadline[0]=Integer.parseInt(parts[0]);
+		tsk.deadline[1]=Integer.parseInt(parts[1]);
+		tsk.deadline[2]=Integer.parseInt(parts[2]);
+		tsk.department=superv.getSelectedItem().toString();
+		if(tsk.department.equals("electricity"))
+		{
+			tsk.supervisor=m1.electricity.supervisor.username;
+		}
+		if(tsk.department.equals("hvac"))
+		{
+			tsk.supervisor=m1.hvac.supervisor.username;
+		}
+		if(tsk.department.equals("av"))
+		{
+			tsk.supervisor=m1.av.supervisor.username;
+		}
+		if(tsk.department.equals("security"))
+		{
+			tsk.supervisor=m1.security.supervisor.username;
+		}
+		if(tsk.department.equals("housekeeping"))
+		{
+			tsk.supervisor=m1.housekeeping.supervisor.username;
+		}
+		assign_task(m1,tsk);
 		JOptionPane.showMessageDialog(null, "New Task Created !");
 		Task.taskcount++;
 		t2.setText(null);
@@ -1062,6 +1148,7 @@ public class gm extends User{
 		acusrbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				newusers.clear();
 
 				for (int i = 0; i < table2.getRowCount(); i++) {
 					Boolean chked = Boolean.valueOf(table2.getValueAt(i, 0)
@@ -1069,33 +1156,49 @@ public class gm extends User{
 					
 					//String dataCol1 = table.getValueAt(i, 1).toString();
 					if (chked) {
+						newusers.add(table2.getValueAt(i, 1).toString());
 						model2.removeRow(i);
-						int l=table2.getRowCount();
+						/*int l=table2.getRowCount();
 						l--;
-						i=0;
+						i=0;*/
 					
 					}
 				}
+				System.out.println(newusers);
+				//System.out.println(newusers);
+				for(int i=0;i<newusers.size();i++)
+				{
+					approve_user(m1,newusers.get(i));
+				}
+				
 			}
 
 		});
 		rjusrbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-
+				newusers2.clear();
 				for (int i = 0; i < table2.getRowCount(); i++) {
 					Boolean chked = Boolean.valueOf(table2.getValueAt(i, 0)
 							.toString());
 					
 					//String dataCol1 = table.getValueAt(i, 1).toString();
 					if (chked) {
+						newusers2.add(table2.getValueAt(i, 1).toString());
 						model2.removeRow(i);
 						int l=table2.getRowCount();
 						l--;
 						i=0;
 					
 					}
+					
 				}
+				System.out.println(newusers2);
+				for(int i=0;i<newusers2.size();i++)
+				{
+					reject_user(m1,newusers2.get(i));
+				}
+				
 			}
 			
 		});
@@ -1109,6 +1212,8 @@ public class gm extends User{
 					
 					//String dataCol1 = table.getValueAt(i, 1).toString();
 					if (chked) {
+						String idget=model4.getValueAt(i, 1).toString();
+						accept(m1,idget);
 						model4.removeRow(i);
 						int l=table4.getRowCount();
 						l--;
@@ -1129,6 +1234,8 @@ public class gm extends User{
 					
 					//String dataCol1 = table.getValueAt(i, 1).toString();
 					if (chked) {
+						String idget=model4.getValueAt(i, 1).toString();
+						reject(m1,idget);
 						model4.removeRow(i);
 						int l=table4.getRowCount();
 						l--;
@@ -1751,8 +1858,10 @@ public class gm extends User{
 				);
 	}
 	
-	public static void taskGUI()
+	public void taskGUI()
 	{
+		Task tsk=new Task();
+		
 		task1.setText("Task id: " + Task.taskcount);
 		otherhome();
 		fpane2.add(task1,new GridBagConstraints(
@@ -1803,6 +1912,7 @@ public class gm extends User{
                 0, // ipadx
                 0)
 				);
+		
 		fpane2.add(task3,new GridBagConstraints(
 				0, // gridx
                 0, // gridy
@@ -1899,15 +2009,87 @@ public class gm extends User{
                 0, // ipadx
                 0)
 				);
+		
+		
 	}
 	
-	
+		
 	///////////////////////////////////////////////////////////////////////////////////
 	
 	
 	
-	
-	public void approve_user(Main a, User b){
+	public void approve_user(Main a, String q){
+
+		/////////////////////////////////////////////////////
+
+
+		User b=null;
+		int flag=0;
+		if(flag==0){
+			for(int i=0;i<((a.electricity).new_staff).size();i++){
+				Staff g=((a.electricity).new_staff).get(i);
+				
+				if(g.username.equals(q) ){
+					b=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.hvac).new_staff).size();i++){
+				Staff g=((a.hvac).new_staff).get(i);
+				if(g.username.equals(q) ){
+					b=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.security).new_staff).size();i++){
+				Staff g=((a.security).new_staff).get(i);
+				if(g.username.equals(q) ){
+					b=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.housekeeping).new_staff).size();i++){
+
+				Staff g=((a.housekeeping).new_staff).get(i);
+				
+				if(g.username.equals(q) ){
+					b=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.av).new_staff).size();i++){
+				Staff g=((a.av).new_staff).get(i);
+				if(g.username.equals(q) ){
+					b=g;
+					flag=1;
+				}
+			}
+		}
+
+		if(flag==0){
+			for(int i=0;i<((a.admin).new_Supervisor).size();i++){
+				Supervisor g=((a.admin).new_Supervisor).get(i);
+				if(g.username.equals(q) ){
+					b=g;
+					flag=1;
+				}
+			}
+		}
+
+
+
+
+
+
+		///////////////////////////////////////////////////////////
         String csvfile=null;
         PrintWriter br=null;
         if(b.type.equals("Supervisor")){
@@ -1915,6 +2097,7 @@ public class gm extends User{
             Supervisor m= (Supervisor)b;
             csvfile="new_Supervisor.csv";
             wcsvfile="Supervisor.csv";
+            new_Supervisor.remove(m);
             try {
                 br = new PrintWriter(new BufferedWriter(new FileWriter(wcsvfile,true)));
                 br.write(m.username+","+m.name+","+m.passwd+","+m.userid+","+m.type+","+m.dob+","+m.address+","+m.department+"\n");
@@ -1931,7 +2114,7 @@ public class gm extends User{
 
             try {
                 int j;
-                new_Supervisor.remove(m);
+                
                 br = new PrintWriter(new BufferedWriter(new FileWriter(csvfile)));
                 for(j=0;j<new_Supervisor.size();j++){
                     br.write(new_Supervisor.get(j).username+","+new_Supervisor.get(j).name+","+new_Supervisor.get(j).passwd+","+new_Supervisor.get(j).userid+","+new_Supervisor.get(j).type+","+new_Supervisor.get(j).dob+","+new_Supervisor.get(j).address+","+new_Supervisor.get(j).department+"\n");
@@ -2020,16 +2203,87 @@ public class gm extends User{
         }        
 	}
 
-	public void reject_user(Main a, User b){
+	public void reject_user(Main a, String q){
+		/////////////////////////////////////////////////////
+
+
+		User b=null;
+		int flag=0;
+		if(flag==0){
+			for(int i=0;i<((a.electricity).new_staff).size();i++){
+				Staff g=((a.electricity).new_staff).get(i);
+				
+				if(g.username.equals(q) ){
+					b=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.hvac).new_staff).size();i++){
+				Staff g=((a.hvac).new_staff).get(i);
+				if(g.username.equals(q) ){
+					b=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.security).new_staff).size();i++){
+				Staff g=((a.security).new_staff).get(i);
+				if(g.username.equals(q) ){
+					b=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.housekeeping).new_staff).size();i++){
+
+				Staff g=((a.housekeeping).new_staff).get(i);
+				
+				if(g.username.equals(q) ){
+					b=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.av).new_staff).size();i++){
+				Staff g=((a.av).new_staff).get(i);
+				if(g.username.equals(q) ){
+					b=g;
+					flag=1;
+				}
+			}
+		}
+
+		if(flag==0){
+			for(int i=0;i<((a.admin).new_Supervisor).size();i++){
+				Supervisor g=((a.admin).new_Supervisor).get(i);
+				if(g.username.equals(q) ){
+					b=g;
+					flag=1;
+				}
+			}
+		}
+
+
+
+
+
+
+		///////////////////////////////////////////////////////////
+
         String csvfile=null;
         PrintWriter br=null;
         if(b.type.equals("Supervisor")){
             String wcsvfile=null;
             csvfile="new_Supervisor.csv";
             Supervisor m= (Supervisor)b;
+            new_Supervisor.remove(m);
             try {
                 int j;
-                new_Supervisor.remove(m);
                 br = new PrintWriter(new BufferedWriter(new FileWriter(csvfile)));
                 for(j=0;j<new_Supervisor.size();j++){
                     br.write(new_Supervisor.get(j).username+","+new_Supervisor.get(j).name+","+new_Supervisor.get(j).passwd+","+new_Supervisor.get(j).userid+","+new_Supervisor.get(j).type+","+new_Supervisor.get(j).dob+","+new_Supervisor.get(j).address+","+new_Supervisor.get(j).department+"\n");
@@ -2100,11 +2354,187 @@ public class gm extends User{
         }
     }
 
-	public void view_user(Main a, User v){
+	public User view_user(Main a, String q){
+		User v=null;
+		int flag=0;
+		if(flag==0){
+			for(int i=0;i<((a.electricity).staff).size();i++){
+				Staff g=((a.electricity).staff).get(i);
+				
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+			if(flag==0 && (a.electricity).supervisor!=null){
+				Supervisor g=(a.electricity).supervisor;
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.hvac).staff).size();i++){
+				Staff g=((a.hvac).staff).get(i);
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+			if(flag==0 && (a.hvac).supervisor!=null){
+				Supervisor g=(a.hvac).supervisor;
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.security).staff).size();i++){
+				Staff g=((a.security).staff).get(i);
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+			if(flag==0 &&(a.security).supervisor!=null){
+				Supervisor g=(a.security).supervisor;
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.housekeeping).staff).size();i++){
 
+				Staff g=((a.housekeeping).staff).get(i);
+				
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+			if(flag==0 && (a.housekeeping).supervisor!=null){
+				Supervisor g=(a.housekeeping).supervisor;
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.av).staff).size();i++){
+				Staff g=((a.av).staff).get(i);
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+			if(flag==0 && (a.av).supervisor!=null){
+				Supervisor g=(a.av).supervisor;
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+		return v;
 	}
 
-	public void delete_user(Main a, User v){
+	public void delete_user(Main a, String q){
+		///////////////////////////////////////////////////////////////////
+		User v=null;
+		int flag=0;
+		if(flag==0){
+			for(int i=0;i<((a.electricity).staff).size();i++){
+				Staff g=((a.electricity).staff).get(i);
+				
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+			if(flag==0 && (a.electricity).supervisor!=null){
+				Supervisor g=(a.electricity).supervisor;
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.hvac).staff).size();i++){
+				Staff g=((a.hvac).staff).get(i);
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+			if(flag==0 && (a.hvac).supervisor!=null){
+				Supervisor g=(a.hvac).supervisor;
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.security).staff).size();i++){
+				Staff g=((a.security).staff).get(i);
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+			if(flag==0 &&(a.security).supervisor!=null){
+				Supervisor g=(a.security).supervisor;
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.housekeeping).staff).size();i++){
+
+				Staff g=((a.housekeeping).staff).get(i);
+				
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+			if(flag==0 && (a.housekeeping).supervisor!=null){
+				Supervisor g=(a.housekeeping).supervisor;
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+		if(flag==0){
+			for(int i=0;i<((a.av).staff).size();i++){
+				Staff g=((a.av).staff).get(i);
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+			if(flag==0 && (a.av).supervisor!=null){
+				Supervisor g=(a.av).supervisor;
+				if(g.username.equals(q) ){
+					v=g;
+					flag=1;
+				}
+			}
+		}
+
+
+
+
+		////////////////////////////////////////////////////////////////////
         if(v.type.equals("Supervisor")){
             Supervisor m=(Supervisor)v;
             ArrayList<Supervisor> s= new ArrayList<Supervisor>();
@@ -2217,7 +2647,23 @@ public class gm extends User{
         m.add_info(a);
 	}
 
-	public void accept(Main a, Logistic_request v){
+	public void accept(Main a, String q){
+		//////////////////////////////////////////////////////////////////
+
+		Logistic_request v=null;
+		for(int i=0;i<((a.admin).req_list).size();i++){
+			Logistic_request g=((a.admin).req_list).get(i);
+			if(g.id.equals(q) ){
+				v=g;
+		
+			}
+		}
+		
+
+
+
+		/////////////////////////////////////////////////////////////////////
+		
         ArrayList<Logistic_request> z= req_list;
         ArrayList<Logistic> t=null;
         ArrayList<Logistic> u=null;
@@ -2295,7 +2741,19 @@ public class gm extends User{
         a.read_database();
 	}
 
-	public void reject(Main a, Logistic_request v){
+	public void reject(Main a, String q){
+		////////////////////////////////
+
+		Logistic_request v=null;
+		for(int i=0;i<((a.admin).req_list).size();i++){
+			Logistic_request g=((a.admin).req_list).get(i);
+			if(g.id.equals(q) ){
+				v=g;
+							}
+		}
+
+		//////////
+
 		ArrayList<Logistic_request> z= req_list;
         String csvfile="gm_log_req.csv";
         PrintWriter br=null;
@@ -2329,6 +2787,16 @@ public class gm extends User{
         System.out.println(username+name+passwd+userid+type+dob+address);
     }
 
+    public void generate_report(String b){
+        PrintWriter br=null;
+        try {
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(new File(b+".txt"));
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
     public void view_report(String b){
         PrintWriter br=null;
         try {

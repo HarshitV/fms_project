@@ -1,3 +1,5 @@
+package fms_project;
+
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -59,7 +61,7 @@ public class Login{
 				//System.out.println(password);
 				get_info(username,password);
 				final User check=check_info(m1);
-				Home_page.frame1.setVisible(false);
+				
 				
 				if(username.equals(""))
 				{
@@ -83,6 +85,12 @@ public class Login{
 						Staff st2=(Staff)check;
 						st2.createGUI();
 					}
+					Home_page.frame1.setVisible(false);
+					frame3.setVisible(false);
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Invalid details");
 				}
 				
 				

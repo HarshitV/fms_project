@@ -1,7 +1,4 @@
-
-import java.lang.*;
-import java.io.*;
-import java.util.*;
+package fms_project;
 
 public class Logistic{
 	String equipment;
