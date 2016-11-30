@@ -157,10 +157,10 @@ public class Staff extends User{
 		lv3.setHorizontalAlignment(SwingConstants.LEFT);
 		lv4.setHorizontalAlignment(SwingConstants.LEFT);
 		lv5.setHorizontalAlignment(SwingConstants.LEFT);
-		lt1=new JTextField("DD/MM/YYYY");
-		lt2=new JTextField("");
-		lt3=new JTextField("DD/MM/YYYY");
-		lt4=new JTextField("DD/MM/YYYY");
+		lt1=new JTextField();
+		lt2=new JTextField();
+		lt3=new JTextField();
+		lt4=new JTextField();
 		t1=new JTextField("");
 		t2=new JTextField("");		
 		t4=new JTextField("");
@@ -473,7 +473,7 @@ public class Staff extends User{
 			//System.out.println(namelist);
 			
 				//System.out.println(t2.task_id + " " + t2.task_name+ " " + t2.status);
-			model7.addRow(new Object[0]);
+		
 			if(namelist.indexOf(username)!=-1)
 			{	
 				hui.add(t2);
@@ -728,11 +728,7 @@ public class Staff extends User{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		lt1.setText("DD/MM/YYYY");
-		lt2.setText("no_of_days");
-		lt3.setText("DD/MM/YYYY");
-		lt4.setText("DD/MM/YYYY");
-		area2.setText(null);
+		
 		fpane2.removeAll();
 		otherhome();
 		leavechoice();	
@@ -824,11 +820,7 @@ public class Staff extends User{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		JOptionPane.showMessageDialog(null, "Leave sent for approval !");
-		lt1.setText("DD/MM/YYYY");
-		//lt2.setText("no_of_days");
-		lt3.setText("DD/MM/YYYY");
-		lt4.setText("DD/MM/YYYY");
-		//area2.setText(null);
+		
 		creategmhome();
 		Leave lvv=new Leave();
 		lvv.get_info(area2.getText(), lt1.getText(), lt3.getText(), Integer.parseInt(lt2.getText()), lt4.getText(),username, dep.supervisor.username);
@@ -1870,22 +1862,6 @@ public class Staff extends User{
                 0, // inset left
                 10, // inset bottom
                 100), // inset right
-                0, // ipadx
-                0)
-				);
-		fpane2.add(sendleaveto,new GridBagConstraints(
-				0, // gridx
-                0, // gridy
-                1, // gridwidth
-                1, // gridheight
-                1, // weightx
-                1, // weighty
-                GridBagConstraints.NORTH, // anchor <------------
-                GridBagConstraints.NONE, // fill
-                new Insets(528, // inset top
-                545, // inset left
-                0, // inset bottom
-                0), // inset right
                 0, // ipadx
                 0)
 				);

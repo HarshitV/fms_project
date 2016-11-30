@@ -33,13 +33,65 @@ public class Task{
 		ArrayList<String> al = new ArrayList<String>(l);
 		for(i=9;i<al.size();i++){
 			staff.add(al.get(i));
-		}	
+		}
 	}
 
 	Task(){
 
 	}
-
+	
+	public static int read_id(){
+		BufferedReader br=null;
+		int r=0;
+		try {
+			br= new BufferedReader(new FileReader("index.csv"));
+			br.readLine();
+            String w=br.readLine();
+            r=Integer.parseInt(w);
+        } 
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } 
+        catch (IOException e) {
+            e.printStackTrace();
+        } 
+        finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+		return r;
+	}
+	
+	public static void write_int(){
+		PrintWriter br=null;
+		BufferedReader cr=null; 
+		try {
+			cr= new BufferedReader(new FileReader("index.csv"));
+			String q=cr.readLine();
+			cr.close();
+			br= new PrintWriter(new BufferedWriter(new FileWriter("index.csv")));
+			br.println(q);
+			br.println(taskcount);
+        } 
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } 
+        catch (IOException e) {
+            e.printStackTrace();
+        } 
+        finally {
+            if (br != null) {
+               br.close();
+            }
+        }
+		
+	}
+	
 	public void get_info(String v, int[] b, String c, String d, String e, String f, String g, ArrayList<String> h, Main a){
 		task_id=v;
 		deadline=b;
@@ -69,6 +121,7 @@ public class Task{
 	}
 
 	public void add_info(Main a){
+		
         String csvfile=null;
 		PrintWriter br = null;
         String line = "";

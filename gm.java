@@ -81,6 +81,7 @@ public class gm extends User{
 		area.setWrapStyleWord (false);
 		area.setFont(new Font("Serif", Font.PLAIN, 24));
 		scrollPane = new JScrollPane(area);
+		Task.taskcount=Task.read_id();
 		task1=new JLabel("Task id: " + Task.taskcount);
 		task2=new JLabel("Task Name: ");
 		task3=new JLabel("Task Description: ");
@@ -333,44 +334,29 @@ public class gm extends User{
 		// Data Row
 		Supervisor s1=null;
 		s1=m1.electricity.supervisor;
-		int count=0;
+		ArrayList<Supervisor> sur=new ArrayList<Supervisor>();
 		if(s1!=null){
-			model.addRow(new Object[0]);
-			model.setValueAt(false, 0+count, 0);
-			model.setValueAt(s1.username, 0+count, 1);
-			model.setValueAt(s1.department, 0+count, 2);
-			model.setValueAt(s1.type, 0+count, 3);
-			count++;
+			sur.add(s1);
 		}
 		s1=m1.hvac.supervisor;
 		if(s1!=null){
-			model.addRow(new Object[0]);
-			model.setValueAt(false, 0+count, 0);
-			model.setValueAt(s1.username, 0+count, 1);
-			model.setValueAt(s1.department, 0+count, 2);
-			model.setValueAt(s1.type, 0+count, 3);
-			count++;
+			sur.add(s1);
 		}
 		s1=m1.av.supervisor;
 		if(s1!=null){
-			model.addRow(new Object[0]);
-			model.setValueAt(false, 0+count, 0);
-			model.setValueAt(s1.username, 0+count, 1);
-			model.setValueAt(s1.department, 0+count, 2);
-			model.setValueAt(s1.type, 0+count, 3);
-			count++;
+			sur.add(s1);
 		}
 		s1=m1.security.supervisor;
 		if(s1!=null){
-			model.addRow(new Object[0]);
-			model.setValueAt(false, 0+count, 0);
-			model.setValueAt(s1.username, 0+count, 1);
-			model.setValueAt(s1.department, 0+count, 2);
-			model.setValueAt(s1.type, 0+count, 3);
-			count++;
+			sur.add(s1);
 		}
 		s1=m1.housekeeping.supervisor;
 		if(s1!=null){
+			sur.add(s1);
+		}
+		int count=0;
+		for (int i = 0; i <sur.size(); i++){
+			s1=sur.get(i);
 			model.addRow(new Object[0]);
 			model.setValueAt(false, 0+count, 0);
 			model.setValueAt(s1.username, 0+count, 1);
@@ -378,6 +364,7 @@ public class gm extends User{
 			model.setValueAt(s1.type, 0+count, 3);
 			count++;
 		}
+		
 		for (int i = 0; i <e_staff.size(); i++) {
 			model.addRow(new Object[0]);
 			Staff y=e_staff.get(i);
@@ -541,19 +528,6 @@ public class gm extends User{
 ////////////////////////////////////////////logistic table end////////////////////////////////////////////////////////////	
 	
 //////////////////////////////////////////// task report /////////////////////////////////////////////////////////////
-	
-	
-	for (int i = 0; i <= 10; i++) {
-		model5.addRow(new Object[0]);
-		model5.setValueAt(false, i, 0);
-		model5.setValueAt("Task"+ (i+1), i, 1);
-		model5.setValueAt("Task"+ (i+1), i, 2);
-		model5.setValueAt("Task"+ (i+1), i, 3);
-		model5.setValueAt("Task"+ (i+1), i, 4);
-		
-	
-	}
-	
 	
 	
 	
@@ -820,8 +794,9 @@ public class gm extends User{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		staffGUI();
 		
+		staffGUI();
+
 		}
 });
 	  
@@ -1032,6 +1007,7 @@ public class gm extends User{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Task tsk=new Task();
+		Task.taskcount=Task.read_id();
 		tsk.task_id=Integer.toString(Task.taskcount);
 		tsk.task_name=t2.getText();
 		tsk.task_description=area.getText();
@@ -1066,7 +1042,9 @@ public class gm extends User{
 		}
 		assign_task(m1,tsk);
 		JOptionPane.showMessageDialog(null, "New Task Created !");
+		Task.taskcount=Task.read_id();
 		Task.taskcount++;
+		Task.write_int();
 		t2.setText(null);
 		t4.setText(null);
 		area.setText(null);
@@ -1158,9 +1136,9 @@ public class gm extends User{
 					if (chked) {
 						newusers.add(table2.getValueAt(i, 1).toString());
 						model2.removeRow(i);
-						/*int l=table2.getRowCount();
+						int l=table2.getRowCount();
 						l--;
-						i=0;*/
+						i=0;
 					
 					}
 				}
@@ -1235,6 +1213,7 @@ public class gm extends User{
 					//String dataCol1 = table.getValueAt(i, 1).toString();
 					if (chked) {
 						String idget=model4.getValueAt(i, 1).toString();
+						System.out.println(idget);
 						reject(m1,idget);
 						model4.removeRow(i);
 						int l=table4.getRowCount();
@@ -1861,7 +1840,7 @@ public class gm extends User{
 	public void taskGUI()
 	{
 		Task tsk=new Task();
-		
+		Task.taskcount=Task.read_id();
 		task1.setText("Task id: " + Task.taskcount);
 		otherhome();
 		fpane2.add(task1,new GridBagConstraints(
@@ -2097,7 +2076,7 @@ public class gm extends User{
             Supervisor m= (Supervisor)b;
             csvfile="new_Supervisor.csv";
             wcsvfile="Supervisor.csv";
-            new_Supervisor.remove(m);
+            a.admin.new_Supervisor.remove(m);
             try {
                 br = new PrintWriter(new BufferedWriter(new FileWriter(wcsvfile,true)));
                 br.write(m.username+","+m.name+","+m.passwd+","+m.userid+","+m.type+","+m.dob+","+m.address+","+m.department+"\n");
@@ -2116,8 +2095,8 @@ public class gm extends User{
                 int j;
                 
                 br = new PrintWriter(new BufferedWriter(new FileWriter(csvfile)));
-                for(j=0;j<new_Supervisor.size();j++){
-                    br.write(new_Supervisor.get(j).username+","+new_Supervisor.get(j).name+","+new_Supervisor.get(j).passwd+","+new_Supervisor.get(j).userid+","+new_Supervisor.get(j).type+","+new_Supervisor.get(j).dob+","+new_Supervisor.get(j).address+","+new_Supervisor.get(j).department+"\n");
+                for(j=0;j< a.admin.new_Supervisor.size();j++){
+                    br.write( a.admin.new_Supervisor.get(j).username+","+ a.admin.new_Supervisor.get(j).name+","+ a.admin.new_Supervisor.get(j).passwd+","+ a.admin.new_Supervisor.get(j).userid+","+ a.admin.new_Supervisor.get(j).type+","+ a.admin.new_Supervisor.get(j).dob+","+ a.admin.new_Supervisor.get(j).address+","+ a.admin.new_Supervisor.get(j).department+"\n");
                 }
                 //br=null;
             } catch (FileNotFoundException e) {
@@ -2281,12 +2260,12 @@ public class gm extends User{
             String wcsvfile=null;
             csvfile="new_Supervisor.csv";
             Supervisor m= (Supervisor)b;
-            new_Supervisor.remove(m);
+            a.admin.new_Supervisor.remove(m);
             try {
                 int j;
                 br = new PrintWriter(new BufferedWriter(new FileWriter(csvfile)));
-                for(j=0;j<new_Supervisor.size();j++){
-                    br.write(new_Supervisor.get(j).username+","+new_Supervisor.get(j).name+","+new_Supervisor.get(j).passwd+","+new_Supervisor.get(j).userid+","+new_Supervisor.get(j).type+","+new_Supervisor.get(j).dob+","+new_Supervisor.get(j).address+","+new_Supervisor.get(j).department+"\n");
+                for(j=0;j< a.admin.new_Supervisor.size();j++){
+                    br.write( a.admin.new_Supervisor.get(j).username+","+ a.admin.new_Supervisor.get(j).name+","+ a.admin.new_Supervisor.get(j).passwd+","+ a.admin.new_Supervisor.get(j).userid+","+ a.admin.new_Supervisor.get(j).type+","+ a.admin.new_Supervisor.get(j).dob+","+ a.admin.new_Supervisor.get(j).address+","+ a.admin.new_Supervisor.get(j).department+"\n");
                 }
                 //br=null;
             } catch (FileNotFoundException e) {
@@ -2664,29 +2643,29 @@ public class gm extends User{
 
 		/////////////////////////////////////////////////////////////////////
 		
-        ArrayList<Logistic_request> z= req_list;
+        ArrayList<Logistic_request> z= a.admin.req_list;
         ArrayList<Logistic> t=null;
         ArrayList<Logistic> u=null;
         String csvfile="gm_log_req.csv";
         String wcsvfile=null;
         PrintWriter br=null;
-        if(v.department.equals("electricity")){
+        if(v.department.equals("Electricity")){
             u=a.electricity.logistic_list;
             wcsvfile="electricity_log.csv";
         }
-        else if(v.department.equals("av")){
+        else if(v.department.equals("AV")){
             wcsvfile="av_log.csv";
             u=a.av.logistic_list;
         }
-        else if(v.department.equals("hvac")){
+        else if(v.department.equals("HVAC")){
             wcsvfile="hvac_log.csv";
             u=a.hvac.logistic_list;
         }
-        else if(v.department.equals("security")){
+        else if(v.department.equals("Security")){
             wcsvfile="security_log.csv";
             u=a.security.logistic_list;
         }
-        else if(v.department.equals("housekeeping")){
+        else if(v.department.equals("Housekeeping")){
             wcsvfile="housekeeping_log.csv";
             u=a.housekeeping.logistic_list;
         }
@@ -2754,7 +2733,7 @@ public class gm extends User{
 
 		//////////
 
-		ArrayList<Logistic_request> z= req_list;
+		ArrayList<Logistic_request> z= a.admin.req_list;
         String csvfile="gm_log_req.csv";
         PrintWriter br=null;
         z.remove(v);

@@ -60,14 +60,23 @@ public class Login{
 				password=pswd.getText();
 				//System.out.println(password);
 				get_info(username,password);
-				final User check=check_info(m1);
+				
 				
 				
 				if(username.equals(""))
 				{
 					JOptionPane.showMessageDialog(null, "Username field blank");
 				}
-				else if(check!=null)
+
+				else
+				{
+					User check=check_info(m1);
+					
+				if(check==null)
+				{
+					
+				}
+				if(check!=null)
 				{
 					frame3.setVisible(false);
 					if(check.type.equals("GM"))
@@ -93,6 +102,7 @@ public class Login{
 					JOptionPane.showMessageDialog(null, "Invalid details");
 				}
 				
+				}
 				
 				
 			}

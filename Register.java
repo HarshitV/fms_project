@@ -8,11 +8,6 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -40,10 +35,66 @@ public class Register {
 	public void generate_id()
 	{
 		idcount++;
+		write_int();
+	}
+	
+	public int read_id(){
+		BufferedReader br=null;
+		int r=0;
+		try {
+			br= new BufferedReader(new FileReader("index.csv"));
+            String w=br.readLine();
+            r=Integer.parseInt(w);
+        } 
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } 
+        catch (IOException e) {
+            e.printStackTrace();
+        } 
+        finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+		return r;
+	}
+	
+	public void write_int(){
+		PrintWriter br=null;
+		BufferedReader cr=null;
+		try {
+			cr= new BufferedReader(new FileReader("index.csv"));
+			String z=cr.readLine();
+			z=cr.readLine();
+			cr.close();
+			br= new PrintWriter(new BufferedWriter(new FileWriter("index.csv")));
+			br.println(idcount);
+			br.println(z);
+			
+			
+        } 
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } 
+        catch (IOException e) {
+            e.printStackTrace();
+        } 
+        finally {
+            if (br != null) {
+               br.close();
+            }
+        }
+		
 	}
 	
 	public void createGUI()
 	{
+				idcount=read_id();
 				Main m1=new Main();
 				m1.read_database();
 		//frame1.setVisible(false);

@@ -1253,20 +1253,20 @@ public class Supervisor extends User{
 		else if(staffm.getSelectedIndex()==0)
 		{
 			array.add(b1);
-			Task.taskcount++;
+			
 			assign_task(m3,c1,array);
 		}
 		else if(staffm2.getSelectedIndex()==0)
 		{
 			array.add(a1);
-			Task.taskcount++;
+			
 			assign_task(m3,c1,array);
 		}
 		else
 		{
 			array.add(a1);
 			array.add(b1);
-			Task.taskcount++;
+			
 			assign_task(m3,c1,array);
 		}
 	}
@@ -1277,9 +1277,7 @@ public class Supervisor extends User{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		JOptionPane.showMessageDialog(null, "Leave sent for approval !");
-		lt1.setText("DD/MM/YYYY");
-		lt3.setText("DD/MM/YYYY");
-		lt4.setText("DD/MM/YYYY");
+		
 		creategmhome();
 		Leave lvv=new Leave();
 		lvv.get_info(area2.getText(), lt1.getText(), lt3.getText(), Integer.parseInt(lt2.getText()), lt4.getText(),username, m3.admin.username);
@@ -2205,6 +2203,8 @@ public class Supervisor extends User{
                 0, // ipadx
                 0)
 				);
+		fwdtask.setFont(new Font("Courier", Font.ITALIC, 20));
+
 		fpane2.add(fwdtask,new GridBagConstraints(
 				0, // gridx
                 0, // gridy
@@ -2214,7 +2214,7 @@ public class Supervisor extends User{
                 1, // weighty
                 GridBagConstraints.NORTHWEST, // anchor <------------
                 GridBagConstraints.NONE, // fill
-                new Insets(120, // inset top
+                new Insets(134, // inset top
                 420, // inset left
                 00, // inset bottom
                 0), // inset right
@@ -2238,6 +2238,7 @@ public class Supervisor extends User{
                 0, // ipadx
                 0)
 				);
+		staffm.setFont(new Font("Courier", Font.ITALIC, 20));
 		fpane2.add(staffm,new GridBagConstraints(
 				0, // gridx
                 0, // gridy
@@ -2245,15 +2246,16 @@ public class Supervisor extends User{
                 1, // gridheight
                 1, // weightx
                 1, // weighty
-                GridBagConstraints.EAST, // anchor <------------
+                GridBagConstraints.CENTER, // anchor <------------
                 GridBagConstraints.NONE, // fill
-                new Insets(140, // inset top
-                0, // inset left
-                0, // inset bottom
-                200), // inset right
+                new Insets(0, // inset top
+                250, // inset left
+                80, // inset bottom
+                0), // inset right
                 0, // ipadx
                 0)
 				);
+		staffm2.setFont(new Font("Courier", Font.ITALIC, 20));
 		fpane2.add(staffm2,new GridBagConstraints(
 				0, // gridx
                 0, // gridy
@@ -2261,15 +2263,16 @@ public class Supervisor extends User{
                 1, // gridheight
                 1, // weightx
                 1, // weighty
-                GridBagConstraints.EAST, // anchor <------------
+                GridBagConstraints.CENTER, // anchor <------------
                 GridBagConstraints.NONE, // fill
-                new Insets(140, // inset top
-                0, // inset left
+                new Insets(240, // inset top
+                250, // inset left
                 0, // inset bottom
-                35), // inset right
+                0), // inset right
                 0, // ipadx
                 0)
 				);
+		
 	}
 	
 	public static void leavechoice()
